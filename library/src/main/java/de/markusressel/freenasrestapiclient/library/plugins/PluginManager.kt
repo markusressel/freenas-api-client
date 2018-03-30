@@ -1,0 +1,38 @@
+package de.markusressel.freenasrestapiclient.library.plugins
+
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.result.Result
+import de.markusressel.freenasrestapiclient.library.RequestManager
+import io.reactivex.Single
+
+/**
+ * Created by Markus on 09.02.2018.
+ */
+class PluginManager(private val requestManager: RequestManager) : PluginApi {
+
+    override fun getPlugins(limit: Int, offset: Int): Single<List<PluginModel>> {
+        val params = requestManager
+                .createLimitOffsetParams(limit, offset)
+        return requestManager
+                .doRequest("/plugins/plugins/", params, Method.GET, PluginModel.Deserializer())
+    }
+
+    override fun startPlugin(pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+        return requestManager
+                .doRequest("/plugins/plugins/$pluginId/start/", Method.POST)
+    }
+
+    override fun stopPlugin(pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+        return requestManager
+                .doRequest("/plugins/plugins/$pluginId/stop/", Method.POST)
+    }
+
+    override fun deletePlugin(
+            pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+        return requestManager
+                .doRequest("/plugins/plugins/$pluginId/", Method.DELETE)
+    }
+
+}
