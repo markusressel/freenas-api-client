@@ -11,8 +11,7 @@ import io.reactivex.Single
 /**
  * Created by Markus on 08.02.2018.
  */
-class RequestManager(hostname: String = "localhost", apiResource: String = "api",
-                     apiVersion: String = "1.0", var basicAuthConfig: BasicAuthConfig? = null) {
+class RequestManager(hostname: String = "localhost", apiResource: String = "api", apiVersion: String = "1.0", var basicAuthConfig: BasicAuthConfig? = null) {
 
     var hostname: String = hostname
         set(value) {
@@ -39,6 +38,9 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
         updateBaseUrl()
     }
 
+    /**
+     * Adds loggers to Fuel requests
+     */
     private fun addLogger() {
         fuelManager
                 .addResponseInterceptor { next: (Request, Response) -> Response ->
@@ -52,20 +54,28 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
                 }
     }
 
+    /**
+     * Updates the base URL in Fuel client according to configuration parameters
+     */
     private fun updateBaseUrl() {
         fuelManager
                 .basePath = "https://$hostname/$apiResource/v$apiVersion"
     }
 
-    private fun createRequest(url: String, method: Method): Request {
-        return createRequest(url, emptyList(), method)
-    }
-
-    private fun createRequest(url: String, urlParameters: List<Pair<String, Any?>>,
-                              method: Method): Request {
+    /**
+     * Creates an (authenticated) request
+     *
+     * @param url the url
+     * @param urlParameters query parameters
+     * @param method the request type (f.ex. GET)
+     */
+    private fun createRequest(url: String, urlParameters: List<Pair<String, Any?>> = emptyList(), method: Method): Request {
         return getAuthenticatedRequest(fuelManager.request(method, url, urlParameters))
     }
 
+    /**
+     * Applies basic authentication parameters to a request
+     */
     private fun getAuthenticatedRequest(request: Request): Request {
         basicAuthConfig
                 ?.let {
@@ -76,9 +86,14 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
         return request
     }
 
-    fun doRequest(url: String,
-                  method: Method): Single<Pair<Response, Result<ByteArray, FuelError>>> {
-        return createRequest(url, method)
+    /**
+     * Do a generic request
+     *
+     * @param url the URL
+     * @param method the request type (f.ex. GET)
+     */
+    fun doRequest(url: String, method: Method): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+        return createRequest(url = url, method = method)
                 .rx_response()
                 .map {
                     it
@@ -94,55 +109,82 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
                 }
     }
 
-    fun <T : Any> doRequest(url: String, method: Method,
-                            deserializer: ResponseDeserializable<T>): Single<T> {
-        return createRequest(url, method)
+    /**
+     * Do a simple request that expects a json response body
+     *
+     * @param url the URL
+     * @param method the request type (f.ex. GET)
+     * @param deserializer a deserializer for the response json body
+     */
+    fun <T : Any> doRequest(url: String, method: Method, deserializer: ResponseDeserializable<T>): Single<T> {
+        return createRequest(url = url, method = method)
                 .rx_object(deserializer)
                 .map {
-                    it.component1()
-                            ?: throw it.component2()
-                                    ?: throw Exception()
+                    it.component1() ?: throw it.component2() ?: throw Exception()
                 }
     }
 
-    fun <T : Any> doRequest(url: String, urlParameters: List<Pair<String, Any?>>, method: Method,
-                            deserializer: ResponseDeserializable<T>): Single<T> {
-        return createRequest(url, urlParameters, method)
+    /**
+     * Do a request with query parameters that expects a json response body
+     *
+     * @param url the URL
+     * @param urlParameters url query parameters
+     * @param method the request type (f.ex. GET)
+     * @param deserializer a deserializer for the <b>response</b> json body
+     */
+    fun <T : Any> doRequest(url: String, urlParameters: List<Pair<String, Any?>>, method: Method, deserializer: ResponseDeserializable<T>): Single<T> {
+        return createRequest(url = url, urlParameters = urlParameters, method = method)
                 .rx_object(deserializer)
                 .map {
-                    it.component1()
-                            ?: throw it.component2()
-                                    ?: throw Exception()
+                    it.component1() ?: throw it.component2() ?: throw Exception()
                 }
     }
 
-    fun <T : Any> doJsonRequest(url: String, method: Method, jsonData: Any,
-                                deserializer: ResponseDeserializable<T>): Single<T> {
+    /**
+     * Do a request with a json body that expects a json response body
+     *
+     * @param url the URL
+     * @param method the request type (f.ex. GET)
+     * @param jsonData an Object that will be serialized to json
+     * @param deserializer a deserializer for the <b>response</b> json body
+     */
+    fun <T : Any> doJsonRequest(url: String, method: Method, jsonData: Any, deserializer: ResponseDeserializable<T>): Single<T> {
         val json = Gson()
                 .toJson(jsonData)
 
-        return createRequest(url, method)
+        return createRequest(url = url, method = method)
                 .body(json)
                 .header(HEADER_CONTENT_TYPE_JSON)
                 .rx_object(deserializer)
                 .map {
-                    it.component1()
-                            ?: throw it.component2()
-                                    ?: throw Exception()
+                    it.component1() ?: throw it.component2() ?: throw Exception()
                 }
     }
 
-    fun doJsonRequest(url: String, method: Method,
-                      jsonData: Any): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+    /**
+     * Do a request with a json body
+     *
+     * @param url the URL
+     * @param method the request type (f.ex. GET)
+     * @param jsonData an Object that will be serialized to json
+     */
+    fun doJsonRequest(url: String, method: Method, jsonData: Any): Single<Pair<Response, Result<ByteArray, FuelError>>> {
         val json = Gson()
                 .toJson(jsonData)
 
-        return createRequest(url, method)
+        return createRequest(url = url, method = method)
                 .body(json)
                 .header(HEADER_CONTENT_TYPE_JSON)
                 .rx_response()
     }
 
+    /**
+     * Creates a list of parameters that are commonly used for GET requests that return lists
+     *
+     * @param limit the maximum amount of entries to request
+     * @param offset an offset for the requested items
+     * @return "limit" and "offset" parameter, ready to be passed to a "doRequest" method
+     */
     fun createLimitOffsetParams(limit: Int, offset: Int): List<Pair<String, Any?>> {
         return listOf("limit" to limit, "offset" to offset)
     }
