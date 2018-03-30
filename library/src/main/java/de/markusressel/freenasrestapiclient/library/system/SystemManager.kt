@@ -17,12 +17,12 @@ import io.reactivex.Single
 class SystemManager(private val requestManager: RequestManager,
                     alertApi: AlertApi = AlertHandler(requestManager),
                     updateApi: UpdateApi = UpdateHandler(requestManager)) : AlertApi by alertApi,
-    UpdateApi by updateApi, SystemApi {
+        UpdateApi by updateApi, SystemApi {
 
     override fun getSoftwareVersion(): Single<SoftwareVersionModel> {
         return requestManager
                 .doRequest("/system/version/", Method.GET,
-                           SoftwareVersionModel.SingleDeserializer())
+                        SoftwareVersionModel.SingleDeserializer())
     }
 
     override fun rebootSystem(): Single<Pair<Response, Result<ByteArray, FuelError>>> {
