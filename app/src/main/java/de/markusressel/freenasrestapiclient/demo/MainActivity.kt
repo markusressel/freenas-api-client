@@ -26,6 +26,7 @@ import de.markusressel.freenasrestapiclient.library.FreeNasWebApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : LifecycleActivityBase() {
 
@@ -51,8 +52,13 @@ class MainActivity : LifecycleActivityBase() {
                     // here are your users!
                     val users = it
 
+                    val usersText = users.joinToString("\n") { toString() }
+
+                    textView.text = usersText
                     showToastLong("Success!")
                 }, onError = {
+                    textView.text = "Error: ${it.javaClass.simpleName}: ${it.message}"
+
                     showToastLong("Error")
                 })
     }
