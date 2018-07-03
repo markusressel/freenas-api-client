@@ -23,6 +23,8 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,20 +36,17 @@ class MountpointHandler(private val requestManager: RequestManager) : Mountpoint
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/jails/mountpoints/", params, Method.GET,
-                        MountpointModel.ListDeserializer())
+                .doRequest("/jails/mountpoints/", params, Method.GET, listDeserializer())
     }
 
     override fun createMountpoint(data: MountpointModel): Single<MountpointModel> {
         return requestManager
-                .doJsonRequest("/jails/mountpoints/", Method.POST, data,
-                        MountpointModel.SingleDeserializer())
+                .doJsonRequest("/jails/mountpoints/", Method.POST, data, singleDeserializer())
     }
 
     override fun updateMountpoint(data: MountpointModel): Single<MountpointModel> {
         return requestManager
-                .doJsonRequest("/jails/mountpoints/${data.id}/", Method.PUT, data,
-                        MountpointModel.SingleDeserializer())
+                .doJsonRequest("/jails/mountpoints/${data.id}/", Method.PUT, data, singleDeserializer())
     }
 
     override fun deleteMountpoint(

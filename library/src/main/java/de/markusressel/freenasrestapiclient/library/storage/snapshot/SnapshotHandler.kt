@@ -24,6 +24,8 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.jsonObject
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -35,16 +37,14 @@ class SnapshotHandler(private val requestManager: RequestManager) : SnapshotApi 
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/storage/snapshot/", params, Method.GET,
-                        SnapshotModel.ListDeserializer())
+                .doRequest("/storage/snapshot/", params, Method.GET, listDeserializer())
     }
 
     override fun createSnapshot(dataset: String, name: String,
                                 recursive: Boolean): Single<SnapshotModel> {
         val data = jsonObject("dataset" to dataset, "name" to name, "recursive" to recursive)
         return requestManager
-                .doJsonRequest("/storage/snapshot/", Method.POST, data,
-                        SnapshotModel.SingleDeserializer())
+                .doJsonRequest("/storage/snapshot/", Method.POST, data, singleDeserializer())
     }
 
     override fun deleteSnapshot(

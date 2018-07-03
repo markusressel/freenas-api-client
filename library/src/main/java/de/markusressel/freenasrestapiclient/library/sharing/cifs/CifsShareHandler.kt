@@ -23,6 +23,8 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,19 +36,17 @@ class CifsShareHandler(private val requestManager: RequestManager) : CifsApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/sharing/cifs/", params, Method.GET, CifsShareModel.ListDeserializer())
+                .doRequest("/sharing/cifs/", params, Method.GET, listDeserializer())
     }
 
     override fun createCifsShare(data: CifsShareModel): Single<CifsShareModel> {
         return requestManager
-                .doJsonRequest("/sharing/cifs/", Method.POST, data,
-                        CifsShareModel.SingleDeserializer())
+                .doJsonRequest("/sharing/cifs/", Method.POST, data, singleDeserializer())
     }
 
     override fun updateCifsShare(data: CifsShareModel): Single<CifsShareModel> {
         return requestManager
-                .doJsonRequest("/sharing/cifs/${data.id}/", Method.PUT, data,
-                        CifsShareModel.SingleDeserializer())
+                .doJsonRequest("/sharing/cifs/${data.id}/", Method.PUT, data, singleDeserializer())
     }
 
     override fun deleteCifsShare(

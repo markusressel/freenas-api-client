@@ -24,6 +24,8 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import de.markusressel.freenasrestapiclient.library.jails.mountpoint.MountpointModel
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -35,24 +37,21 @@ class TemplateHandler(private val requestManager: RequestManager) : TemplateApi 
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/jails/templates/", params, Method.GET,
-                        TemplateModel.ListDeserializer())
+                .doRequest("/jails/templates/", params, Method.GET, listDeserializer())
     }
 
     override fun createTemplate(jt_arch: String, jt_instances: Long, jt_name: String, jt_os: String,
                                 jt_url: String): Single<TemplateModel> {
         val data = TemplateModel(0, jt_arch, jt_instances, jt_name, jt_os, jt_url)
         return requestManager
-                .doJsonRequest("/jails/templates/", Method.POST, data,
-                        TemplateModel.SingleDeserializer())
+                .doJsonRequest("/jails/templates/", Method.POST, data, singleDeserializer())
     }
 
     override fun updateTemplate(id: Long, jt_arch: String, jt_instances: Long, jt_name: String,
                                 jt_os: String, jt_url: String): Single<MountpointModel> {
         val data = TemplateModel(id, jt_arch, jt_instances, jt_name, jt_os, jt_url)
         return requestManager
-                .doJsonRequest("/jails/templates/$id/", Method.PUT, data,
-                        MountpointModel.SingleDeserializer())
+                .doJsonRequest("/jails/templates/$id/", Method.PUT, data, singleDeserializer())
     }
 
     override fun deleteTemplate(

@@ -23,6 +23,8 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,19 +36,17 @@ class AfpShareHandler(private val requestManager: RequestManager) : AfpApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/sharing/afp/", params, Method.GET, AfpShareModel.ListDeserializer())
+                .doRequest("/sharing/afp/", params, Method.GET, listDeserializer())
     }
 
     override fun createAfpShare(data: AfpShareModel): Single<AfpShareModel> {
         return requestManager
-                .doJsonRequest("/sharing/afp/", Method.POST, data,
-                        AfpShareModel.SingleDeserializer())
+                .doJsonRequest("/sharing/afp/", Method.POST, data, singleDeserializer())
     }
 
     override fun updateAfpShare(data: AfpShareModel): Single<AfpShareModel> {
         return requestManager
-                .doJsonRequest("/sharing/afp/${data.id}/", Method.PUT, data,
-                        AfpShareModel.SingleDeserializer())
+                .doJsonRequest("/sharing/afp/${data.id}/", Method.PUT, data, singleDeserializer())
     }
 
     override fun deleteAfpShare(

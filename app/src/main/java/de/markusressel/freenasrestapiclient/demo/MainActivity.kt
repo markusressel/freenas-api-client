@@ -42,6 +42,23 @@ class MainActivity : LifecycleActivityBase() {
         loadUsers()
     }
 
+    private fun setupFreenasRestClient() {
+        // create client
+        freeNasWebApiClient = FreeNasWebApiClient()
+
+        // set connection properties
+        freeNasWebApiClient
+                .setHostname("freenas.mydomain.de")
+        // set basic auth (your freenas root user)
+        freeNasWebApiClient
+                .setBasicAuthConfig(BasicAuthConfig(username = "root", password = "password"))
+
+        // OPTIONAL: set a custom api resource root path (if necessary)
+        freeNasWebApiClient
+                .setApiResource("frittenbudeapi")
+
+    }
+
     private fun loadUsers() {
         freeNasWebApiClient
                 .getUsers()
@@ -61,22 +78,5 @@ class MainActivity : LifecycleActivityBase() {
 
                     showToastLong("Error")
                 })
-    }
-
-    private fun setupFreenasRestClient() {
-        // create client
-        freeNasWebApiClient = FreeNasWebApiClient()
-
-        // set connection properties
-        freeNasWebApiClient
-                .setHostname("freenas.mydomain.de")
-        // set basic auth (your freenas root user)
-        freeNasWebApiClient
-                .setBasicAuthConfig(BasicAuthConfig(username = "root", password = "password"))
-
-        // OPTIONAL: set a custom api resource root path (if necessary)
-        freeNasWebApiClient
-                .setApiResource("frittenbudeapi")
-
     }
 }

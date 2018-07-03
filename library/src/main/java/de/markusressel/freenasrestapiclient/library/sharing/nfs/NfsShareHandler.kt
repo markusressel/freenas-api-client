@@ -23,6 +23,8 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,19 +36,17 @@ class NfsShareHandler(private val requestManager: RequestManager) : NfsApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/sharing/nfs/", params, Method.GET, NfsShareModel.ListDeserializer())
+                .doRequest("/sharing/nfs/", params, Method.GET, listDeserializer())
     }
 
     override fun createNfsShare(data: NfsShareModel): Single<NfsShareModel> {
         return requestManager
-                .doJsonRequest("/sharing/nfs/", Method.POST, data,
-                        NfsShareModel.SingleDeserializer())
+                .doJsonRequest("/sharing/nfs/", Method.POST, data, singleDeserializer())
     }
 
     override fun updateNfsShare(data: NfsShareModel): Single<NfsShareModel> {
         return requestManager
-                .doJsonRequest("/sharing/nfs/${data.id}/", Method.PUT, data,
-                        NfsShareModel.SingleDeserializer())
+                .doJsonRequest("/sharing/nfs/${data.id}/", Method.PUT, data, singleDeserializer())
     }
 
     override fun deleteNfsShare(

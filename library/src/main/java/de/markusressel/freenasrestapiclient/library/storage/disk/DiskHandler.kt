@@ -20,6 +20,8 @@ package de.markusressel.freenasrestapiclient.library.storage.disk
 
 import com.github.kittinunf.fuel.core.Method
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -31,13 +33,12 @@ class DiskHandler(private val requestManager: RequestManager) : DiskApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/storage/disk/", params, Method.GET, DiskModel.ListDeserializer())
+                .doRequest("/storage/disk/", params, Method.GET, listDeserializer())
     }
 
     override fun updateDisk(data: DiskModel): Single<DiskModel> {
         return requestManager
-                .doJsonRequest("/storage/disk/${data.disk_identifier}", Method.PUT, data,
-                        DiskModel.SingleDeserializer())
+                .doJsonRequest("/storage/disk/${data.disk_identifier}", Method.PUT, data, singleDeserializer())
     }
 
 }

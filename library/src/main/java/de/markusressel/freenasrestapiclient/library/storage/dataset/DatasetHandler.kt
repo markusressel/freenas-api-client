@@ -23,6 +23,8 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,21 +36,19 @@ class DatasetHandler(private val requestManager: RequestManager) : DatasetApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/storage/dataset/", params, Method.GET, DatasetModel.ListDeserializer())
+                .doRequest("/storage/dataset/", params, Method.GET, listDeserializer())
     }
 
     override fun getDatasets(volumeId: Long, limit: Int, offset: Int): Single<List<DatasetModel>> {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/storage/volume/$volumeId/datasets/", params, Method.GET,
-                        DatasetModel.ListDeserializer())
+                .doRequest("/storage/volume/$volumeId/datasets/", params, Method.GET, listDeserializer())
     }
 
     override fun createDataset(volumeId: Long, data: DatasetModel): Single<DatasetModel> {
         return requestManager
-                .doJsonRequest("/storage/volume/$volumeId/datasets/", Method.POST, data,
-                        DatasetModel.SingleDeserializer())
+                .doJsonRequest("/storage/volume/$volumeId/datasets/", Method.POST, data, singleDeserializer())
     }
 
     override fun deleteDataset(volumeId: Long,

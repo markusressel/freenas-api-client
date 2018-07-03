@@ -23,6 +23,8 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
+import de.markusressel.freenasrestapiclient.library.listDeserializer
+import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,12 +36,12 @@ class JailHandler(private val requestManager: RequestManager) : JailApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/jails/jails/", params, Method.GET, JailModel.ListDeserializer())
+                .doRequest("/jails/jails/", params, Method.GET, listDeserializer())
     }
 
     override fun createJail(data: JailModel): Single<JailModel> {
         return requestManager
-                .doJsonRequest("/jails/jails/", Method.POST, data, JailModel.SingleDeserializer())
+                .doJsonRequest("/jails/jails/", Method.POST, data, singleDeserializer())
     }
 
     override fun startJail(jailId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {

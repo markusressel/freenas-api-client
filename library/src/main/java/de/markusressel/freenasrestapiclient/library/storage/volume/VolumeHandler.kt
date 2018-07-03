@@ -24,6 +24,7 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import de.markusressel.freenasrestapiclient.library.jails.jail.VolumeApi
+import de.markusressel.freenasrestapiclient.library.listDeserializer
 import io.reactivex.Single
 
 /**
@@ -35,10 +36,8 @@ class VolumeHandler(private val requestManager: RequestManager) : VolumeApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
 
-        val test: List<Pair<String, String>> = listOf("foo" to "foo", "bar" to "bar")
-
         return requestManager
-                .doRequest("/storage/volume/", params, Method.GET, VolumeModel.ListDeserializer())
+                .doRequest("/storage/volume/", params, Method.GET, listDeserializer())
     }
 
     override fun createVolume(
