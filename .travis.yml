@@ -9,6 +9,8 @@ install:
 
 script:
   - ./gradlew clean testDebug lintDebug --stacktrace
+  - ./gradlew check
+  - ./gradlew codeCoverageReport
 
 #branches:
 #  except:
