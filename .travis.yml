@@ -10,7 +10,6 @@ install:
 script:
   - ./gradlew clean testDebug lintDebug --stacktrace
   - ./gradlew check
-  - ./gradlew codeCoverageReport
 
 #branches:
 #  except:
@@ -33,4 +32,5 @@ cache:
     - $HOME/.android/build-cache
     
 after_success:
+  - ./gradlew jacocoTestReport
   - bash <(curl -s https://codecov.io/bash)
