@@ -23,8 +23,6 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
-import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -36,18 +34,18 @@ class TaskHandler(private val requestManager: RequestManager) : TaskApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/storage/task/", params, Method.GET, listDeserializer())
+                .doRequest("/storage/task/", params, Method.GET, TaskModel.ListDeserializer())
     }
 
     override fun createTask(data: TaskModel): Single<TaskModel> {
         return requestManager
-                .doJsonRequest("/storage/task/", Method.POST, data, singleDeserializer())
+                .doJsonRequest("/storage/task/", Method.POST, data, TaskModel.SingleDeserializer())
     }
 
     override fun updateTask(data: TaskModel): Single<TaskModel> {
         return requestManager
                 .doJsonRequest("/storage/task/${data.id}/", Method.PUT, data,
-                        singleDeserializer())
+                        TaskModel.SingleDeserializer())
     }
 
     override fun deleteTask(taskId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {

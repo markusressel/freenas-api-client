@@ -23,8 +23,6 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
-import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -36,19 +34,19 @@ class SMARTTaskHandler(private val requestManager: RequestManager) : SMARTTaskAp
                 .createLimitOffsetParams(limit, offset)
         return requestManager
                 .doRequest("/tasks/smarttest/", params, Method.GET,
-                        listDeserializer())
+                        SMARTTaskModel.ListDeserializer())
     }
 
     override fun createSMARTTask(data: SMARTTaskModel): Single<SMARTTaskModel> {
         return requestManager
                 .doJsonRequest("/tasks/smarttest/", Method.POST, data,
-                        singleDeserializer())
+                        SMARTTaskModel.SingleDeserializer())
     }
 
     override fun updateSMARTTask(data: SMARTTaskModel): Single<SMARTTaskModel> {
         return requestManager
                 .doJsonRequest("/tasks/smarttest/${data.id}/", Method.PUT, data,
-                        singleDeserializer())
+                        SMARTTaskModel.SingleDeserializer())
     }
 
     override fun deleteSMARTTask(

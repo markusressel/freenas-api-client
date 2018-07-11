@@ -21,8 +21,6 @@ package de.markusressel.freenasrestapiclient.library.services.service
 import com.github.kittinunf.fuel.core.Method
 import com.github.salomonbrys.kotson.jsonObject
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
-import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -34,14 +32,16 @@ class ServiceHandler(private val requestManager: RequestManager) : ServiceApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/services/services/", params, Method.GET, listDeserializer())
+                .doRequest("/services/services/", params, Method.GET,
+                        ServiceModel.ListDeserializer())
     }
 
     override fun updateService(serviceId: Int, srv_service: String,
                                srv_enable: Boolean): Single<ServiceModel> {
         val data = jsonObject("srv_service" to srv_service, "srv_enable" to srv_enable)
         return requestManager
-                .doJsonRequest("/services/services/$serviceId/", Method.PUT, data, singleDeserializer())
+                .doJsonRequest("/services/services/$serviceId/", Method.PUT, data,
+                        ServiceModel.SingleDeserializer())
     }
 
 }

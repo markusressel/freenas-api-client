@@ -23,8 +23,6 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
-import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -36,17 +34,19 @@ class ScrubHandler(private val requestManager: RequestManager) : ScrubApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/storage/scrub/", params, Method.GET, listDeserializer())
+                .doRequest("/storage/scrub/", params, Method.GET, ScrubModel.ListDeserializer())
     }
 
     override fun createScrub(data: ScrubModel): Single<ScrubModel> {
         return requestManager
-                .doJsonRequest("/storage/scrub/", Method.POST, data, singleDeserializer())
+                .doJsonRequest("/storage/scrub/", Method.POST, data,
+                        ScrubModel.SingleDeserializer())
     }
 
     override fun updateScrub(data: ScrubModel): Single<ScrubModel> {
         return requestManager
-                .doJsonRequest("/storage/scrub/${data.id}/", Method.PUT, data, singleDeserializer())
+                .doJsonRequest("/storage/scrub/${data.id}/", Method.PUT, data,
+                        ScrubModel.SingleDeserializer())
     }
 
     override fun deleteScrub(

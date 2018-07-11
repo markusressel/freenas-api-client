@@ -20,7 +20,6 @@ package de.markusressel.freenasrestapiclient.library.jails.configuration
 
 import com.github.kittinunf.fuel.core.Method
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -30,13 +29,15 @@ class ConfigurationHandler(private val requestManager: RequestManager) : Configu
 
     override fun getJailsConfiguration(): Single<JailConfigurationModel> {
         return requestManager
-                .doRequest("/jails/configuration/", Method.GET, singleDeserializer())
+                .doRequest("/jails/configuration/", Method.GET,
+                        JailConfigurationModel.SingleDeserializer())
     }
 
     override fun setJailsConfiguration(
             data: JailConfigurationModel): Single<JailConfigurationModel> {
         return requestManager
-                .doJsonRequest("/jails/configuration/", Method.PUT, data, singleDeserializer())
+                .doJsonRequest("/jails/configuration/", Method.PUT, data,
+                        JailConfigurationModel.SingleDeserializer())
     }
 
 }

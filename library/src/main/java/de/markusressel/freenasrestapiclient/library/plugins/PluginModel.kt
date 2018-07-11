@@ -18,6 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.library.plugins
 
+import com.github.kittinunf.fuel.core.ResponseDeserializable
+import com.github.salomonbrys.kotson.fromJson
+import com.google.gson.Gson
+
 /**
  * Created by Markus on 06.02.2018.
  */
@@ -33,4 +37,17 @@ class PluginModel(
         val plugin_pbiname: String,
         val plugin_port: Int,
         val plugin_version: String
-)
+) {
+
+    class Deserializer : ResponseDeserializable<List<PluginModel>> {
+        override fun deserialize(content: String): List<PluginModel>? {
+            if (content.isEmpty()) {
+                return emptyList()
+            }
+
+            return Gson().fromJson(content)
+        }
+
+    }
+
+}

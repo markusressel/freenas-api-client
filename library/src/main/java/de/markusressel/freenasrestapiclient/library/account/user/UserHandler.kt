@@ -25,8 +25,6 @@ import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.jsonArray
 import com.github.salomonbrys.kotson.jsonObject
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
-import de.markusressel.freenasrestapiclient.library.singleDeserializer
 import io.reactivex.Single
 
 /**
@@ -38,17 +36,18 @@ class UserHandler(private val requestManager: RequestManager) : UserApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/account/users/", params, Method.GET, listDeserializer())
+                .doRequest("/account/users/", params, Method.GET, UserModel.ListDeserializer())
     }
 
     override fun createUser(data: UserModel): Single<UserModel> {
         return requestManager
-                .doJsonRequest("/account/users/", Method.POST, data, singleDeserializer())
+                .doJsonRequest("/account/users/", Method.POST, data, UserModel.SingleDeserializer())
     }
 
     override fun updateUser(data: UserModel): Single<UserModel> {
         return requestManager
-                .doJsonRequest("/account/users/${data.id}/", Method.PUT, data, singleDeserializer())
+                .doJsonRequest("/account/users/${data.id}/", Method.PUT, data,
+                        UserModel.SingleDeserializer())
     }
 
     override fun deleteUser(user: UserModel): Single<Pair<Response, Result<ByteArray, FuelError>>> {

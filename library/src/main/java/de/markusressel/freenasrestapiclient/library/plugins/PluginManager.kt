@@ -23,7 +23,6 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
 import io.reactivex.Single
 
 /**
@@ -35,7 +34,7 @@ class PluginManager(private val requestManager: RequestManager) : PluginApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/plugins/plugins/", params, Method.GET, listDeserializer())
+                .doRequest("/plugins/plugins/", params, Method.GET, PluginModel.Deserializer())
     }
 
     override fun startPlugin(pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {

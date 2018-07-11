@@ -23,7 +23,6 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
 import io.reactivex.Single
 
 /**
@@ -35,7 +34,7 @@ class AlertHandler(private val requestManager: RequestManager) : AlertApi {
         val params = requestManager
                 .createLimitOffsetParams(limit, offset)
         return requestManager
-                .doRequest("/system/alert/", params, Method.GET, listDeserializer())
+                .doRequest("/system/alert/", params, Method.GET, AlertModel.ListDeserializer())
     }
 
     override fun dismissSystemAlert(

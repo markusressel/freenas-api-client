@@ -23,7 +23,6 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
-import de.markusressel.freenasrestapiclient.library.listDeserializer
 import io.reactivex.Single
 
 /**
@@ -36,7 +35,7 @@ class UpdateHandler(private val requestManager: RequestManager) : UpdateApi {
                 .createLimitOffsetParams(limit, offset)
         return requestManager
                 .doRequest("/system/update/check/", params, Method.GET,
-                        listDeserializer())
+                        UpdateModel.ListDeserializer())
     }
 
     override fun applyPendingUpdates(): Single<Pair<Response, Result<ByteArray, FuelError>>> {
