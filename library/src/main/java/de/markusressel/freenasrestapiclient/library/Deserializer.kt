@@ -26,6 +26,7 @@ import java.lang.reflect.Type
 /**
  * Extension function to create a single element deserializer for the given type
  */
+@JvmSuppressWildcards(suppress = true)
 inline fun <reified T : Any> singleDeserializer(): ResponseDeserializable<T> {
     return SingleDeserializer(gsonTypeToken<T>())
 }
@@ -33,6 +34,7 @@ inline fun <reified T : Any> singleDeserializer(): ResponseDeserializable<T> {
 /**
  * Extension function to create a list deserializer for the given type
  */
+@JvmSuppressWildcards(suppress = true)
 inline fun <reified T : Any> listDeserializer(): ResponseDeserializable<List<T>> {
     return ListDeserializer(gsonTypeToken<List<T>>())
 }
@@ -40,6 +42,7 @@ inline fun <reified T : Any> listDeserializer(): ResponseDeserializable<List<T>>
 /**
  * Generic single element deserializer
  */
+@JvmSuppressWildcards(suppress = true)
 class SingleDeserializer<T : Any>(val type: Type) : ResponseDeserializable<T> {
     override fun deserialize(content: String): T? {
         return Gson()
@@ -50,6 +53,7 @@ class SingleDeserializer<T : Any>(val type: Type) : ResponseDeserializable<T> {
 /**
  * Generic list deserializer
  */
+@JvmSuppressWildcards(suppress = true)
 class ListDeserializer<T : Any>(val type: Type) : ResponseDeserializable<List<T>> {
     override fun deserialize(content: String): List<T>? {
         if (content.isEmpty()) {
