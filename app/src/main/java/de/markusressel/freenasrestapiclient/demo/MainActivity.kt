@@ -18,9 +18,11 @@
 
 package de.markusressel.freenasrestapiclient.demo
 
-import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
+import de.markusressel.commons.android.material.toast
 import de.markusressel.freenasrestapiclient.library.BasicAuthConfig
 import de.markusressel.freenasrestapiclient.library.FreeNasWebApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -72,11 +74,11 @@ class MainActivity : LifecycleActivityBase() {
                     val usersText = users.joinToString("\n") { toString() }
 
                     textView.text = usersText
-                    showToastLong("Success!")
+                    toast("Success!")
                 }, onError = {
                     textView.text = "Error: ${it.javaClass.simpleName}: ${it.message}"
 
-                    showToastLong("Error")
+                    toast("Error", duration = Toast.LENGTH_LONG)
                 })
     }
 }

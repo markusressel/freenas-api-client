@@ -2,7 +2,6 @@
 
 buildscript {
     ext.kotlin_version = '1.3.11'
-    ext.gradle_plugin_version = '3.2.1'
 
     ext {
         gradle_plugin_version = '3.2.1'
@@ -30,6 +29,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_plugin_version"
@@ -47,18 +47,13 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap"}
     }
 }
 
-//subprojects {
-//    test.useTestNG()
-//}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-}
-
-configurations.all() {
 }
 
 compileKotlin {
