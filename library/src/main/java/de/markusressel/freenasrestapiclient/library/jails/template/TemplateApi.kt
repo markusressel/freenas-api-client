@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.jails.template
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import de.markusressel.freenasrestapiclient.library.jails.mountpoint.MountpointModel
 import io.reactivex.Single
@@ -47,5 +45,5 @@ interface TemplateApi {
     /**
      * Delete a template
      */
-    fun deleteTemplate(templateId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteTemplate(templateId: Long): Single<Pair<Response, ByteArray>>
 }

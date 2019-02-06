@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.tasks.smart
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -48,6 +46,6 @@ interface SMARTTaskApi {
     /**
      * Delete an existing S.M.A.R.T. task
      */
-    fun deleteSMARTTask(data: SMARTTaskModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteSMARTTask(data: SMARTTaskModel): Single<Pair<Response, ByteArray>>
 
 }

@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.sharing.nfs
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager.Companion.DEFAULT_LIMIT
 import de.markusressel.freenasrestapiclient.library.RequestManager.Companion.DEFAULT_OFFSET
 import io.reactivex.Single
@@ -49,6 +47,6 @@ interface NfsApi {
     /**
      * Delete an existing NFS share
      */
-    fun deleteNfsShare(data: NfsShareModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteNfsShare(data: NfsShareModel): Single<Pair<Response, ByteArray>>
 
 }

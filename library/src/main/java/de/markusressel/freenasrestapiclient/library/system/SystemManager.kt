@@ -18,10 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.library.system
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import de.markusressel.freenasrestapiclient.library.system.alert.AlertApi
 import de.markusressel.freenasrestapiclient.library.system.alert.AlertHandler
@@ -38,19 +36,15 @@ class SystemManager(private val requestManager: RequestManager,
         UpdateApi by updateApi, SystemApi {
 
     override fun getSoftwareVersion(): Single<SoftwareVersionModel> {
-        return requestManager
-                .doRequest("/system/version/", Method.GET,
-                        SoftwareVersionModel.SingleDeserializer())
+        return requestManager.doRequest("/system/version/", Method.GET, SoftwareVersionModel.SingleDeserializer())
     }
 
-    override fun rebootSystem(): Single<Pair<Response, Result<ByteArray, FuelError>>> {
-        return requestManager
-                .doRequest("/system/reboot/", Method.POST)
+    override fun rebootSystem(): Single<Pair<Response, ByteArray>> {
+        return requestManager.doRequest("/system/reboot/", Method.POST)
     }
 
-    override fun shutdownSystem(): Single<Pair<Response, Result<ByteArray, FuelError>>> {
-        return requestManager
-                .doRequest("/system/shutdown/", Method.POST)
+    override fun shutdownSystem(): Single<Pair<Response, ByteArray>> {
+        return requestManager.doRequest("/system/shutdown/", Method.POST)
     }
 
 }

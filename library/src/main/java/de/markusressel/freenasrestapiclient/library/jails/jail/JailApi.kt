@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.jails.jail
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -39,20 +37,20 @@ interface JailApi {
     /**
      * Start a jail
      */
-    fun startJail(jailId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun startJail(jailId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Stop a jail
      */
-    fun stopJail(jailId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun stopJail(jailId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Restart a jail
      */
-    fun restartJail(jailId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun restartJail(jailId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Delete a jail
      */
-    fun deleteJail(jailId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteJail(jailId: Long): Single<Pair<Response, ByteArray>>
 }

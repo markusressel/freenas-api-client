@@ -32,24 +32,16 @@ import io.reactivex.Single
 class VolumeHandler(private val requestManager: RequestManager) : VolumeApi {
 
     override fun getVolumes(limit: Int, offset: Int): Single<List<VolumeModel>> {
-        val params = requestManager
-                .createLimitOffsetParams(limit, offset)
-
-        val test: List<Pair<String, String>> = listOf("foo" to "foo", "bar" to "bar")
-
-        return requestManager
-                .doRequest("/storage/volume/", params, Method.GET, VolumeModel.ListDeserializer())
+        val params = requestManager.createLimitOffsetParams(limit, offset)
+        return requestManager.doRequest("/storage/volume/", params, Method.GET, VolumeModel.ListDeserializer())
     }
 
-    override fun createVolume(
-            volumeName: String): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+    override fun createVolume(volumeName: String): Single<Pair<Response, Result<ByteArray, FuelError>>> {
         throw NotImplementedError()
     }
 
-    override fun deleteVolume(
-            volumeId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>> {
-        return requestManager
-                .doRequest("/storage/volume/$volumeId/start/", Method.DELETE)
+    override fun deleteVolume(volumeId: Long): Single<Pair<Response, ByteArray>> {
+        return requestManager.doRequest("/storage/volume/$volumeId/start/", Method.DELETE)
     }
 
 }

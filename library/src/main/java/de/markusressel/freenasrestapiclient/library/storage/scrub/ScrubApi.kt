@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.storage.scrub
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -48,6 +46,6 @@ interface ScrubApi {
     /**
      * Delete an existing scrub
      */
-    fun deleteScrub(data: ScrubModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteScrub(data: ScrubModel): Single<Pair<Response, ByteArray>>
 
 }

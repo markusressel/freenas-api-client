@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.storage.dataset
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -46,6 +44,6 @@ interface DatasetApi {
      * Delete dataset of a volume
      */
     fun deleteDataset(volumeId: Long,
-                      datasetName: String): Single<Pair<Response, Result<ByteArray, FuelError>>>
+                      datasetName: String): Single<Pair<Response, ByteArray>>
 
 }

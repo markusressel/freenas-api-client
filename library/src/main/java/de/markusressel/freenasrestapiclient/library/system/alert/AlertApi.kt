@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.system.alert
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -34,6 +32,6 @@ interface AlertApi {
     /**
      * Dismiss a system alert
      */
-    fun dismissSystemAlert(alert: AlertModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun dismissSystemAlert(alert: AlertModel): Single<Pair<Response, ByteArray>>
 
 }

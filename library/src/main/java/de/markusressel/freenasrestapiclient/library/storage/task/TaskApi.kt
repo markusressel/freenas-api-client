@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.storage.task
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -48,5 +46,5 @@ interface TaskApi {
     /**
      * Delete an existing task
      */
-    fun deleteTask(taskId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteTask(taskId: Long): Single<Pair<Response, ByteArray>>
 }

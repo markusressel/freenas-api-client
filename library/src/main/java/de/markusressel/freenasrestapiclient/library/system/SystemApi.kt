@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.system
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.system.alert.AlertApi
 import de.markusressel.freenasrestapiclient.library.system.update.UpdateApi
 import io.reactivex.Single
@@ -40,13 +38,13 @@ interface SystemApi : AlertApi, UpdateApi {
      *
      * Reboot the system
      */
-    fun rebootSystem(): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun rebootSystem(): Single<Pair<Response, ByteArray>>
 
     /**
      * !!!DANGER ZONE!!!
      *
      * Shutdown the system
      */
-    fun shutdownSystem(): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun shutdownSystem(): Single<Pair<Response, ByteArray>>
 
 }

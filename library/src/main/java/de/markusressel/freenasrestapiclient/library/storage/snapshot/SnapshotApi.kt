@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.storage.snapshot
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -44,17 +42,17 @@ interface SnapshotApi {
     /**
      * Delete a snapshot
      */
-    fun deleteSnapshot(snapshotId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteSnapshot(snapshotId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Delete a snapshot
      */
     fun cloneSnapshot(snapshotId: Long,
-                      cloneName: String): Single<Pair<Response, Result<ByteArray, FuelError>>>
+                      cloneName: String): Single<Pair<Response, ByteArray>>
 
     /**
      * Rollback a snapshot
      */
     fun rollbackSnapshot(snapshotId: Long,
-                         force: Boolean): Single<Pair<Response, Result<ByteArray, FuelError>>>
+                         force: Boolean): Single<Pair<Response, ByteArray>>
 }

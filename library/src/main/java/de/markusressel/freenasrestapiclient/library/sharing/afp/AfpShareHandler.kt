@@ -18,10 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.library.sharing.afp
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -31,27 +29,19 @@ import io.reactivex.Single
 class AfpShareHandler(private val requestManager: RequestManager) : AfpApi {
 
     override fun getAfpShares(limit: Int, offset: Int): Single<List<AfpShareModel>> {
-        val params = requestManager
-                .createLimitOffsetParams(limit, offset)
-        return requestManager
-                .doRequest("/sharing/afp/", params, Method.GET, AfpShareModel.ListDeserializer())
+        val params = requestManager.createLimitOffsetParams(limit, offset)
+        return requestManager.doRequest("/sharing/afp/", params, Method.GET, AfpShareModel.ListDeserializer())
     }
 
     override fun createAfpShare(data: AfpShareModel): Single<AfpShareModel> {
-        return requestManager
-                .doJsonRequest("/sharing/afp/", Method.POST, data,
-                        AfpShareModel.SingleDeserializer())
+        return requestManager.doJsonRequest("/sharing/afp/", Method.POST, data, AfpShareModel.SingleDeserializer())
     }
 
     override fun updateAfpShare(data: AfpShareModel): Single<AfpShareModel> {
-        return requestManager
-                .doJsonRequest("/sharing/afp/${data.id}/", Method.PUT, data,
-                        AfpShareModel.SingleDeserializer())
+        return requestManager.doJsonRequest("/sharing/afp/${data.id}/", Method.PUT, data, AfpShareModel.SingleDeserializer())
     }
 
-    override fun deleteAfpShare(
-            data: AfpShareModel): Single<Pair<Response, Result<ByteArray, FuelError>>> {
-        return requestManager
-                .doRequest("/sharing/afp/${data.id}/", Method.DELETE)
+    override fun deleteAfpShare(data: AfpShareModel): Single<Pair<Response, ByteArray>> {
+        return requestManager.doRequest("/sharing/afp/${data.id}/", Method.DELETE)
     }
 }

@@ -18,10 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.library.system.alert
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -31,16 +29,12 @@ import io.reactivex.Single
 class AlertHandler(private val requestManager: RequestManager) : AlertApi {
 
     override fun getSystemAlerts(limit: Int, offset: Int): Single<List<AlertModel>> {
-        val params = requestManager
-                .createLimitOffsetParams(limit, offset)
-        return requestManager
-                .doRequest("/system/alert/", params, Method.GET, AlertModel.ListDeserializer())
+        val params = requestManager.createLimitOffsetParams(limit, offset)
+        return requestManager.doRequest("/system/alert/", params, Method.GET, AlertModel.ListDeserializer())
     }
 
-    override fun dismissSystemAlert(
-            alert: AlertModel): Single<Pair<Response, Result<ByteArray, FuelError>>> {
-        return requestManager
-                .doRequest("/system/alert/${alert.id}/dismiss/", Method.GET)
+    override fun dismissSystemAlert(alert: AlertModel): Single<Pair<Response, ByteArray>> {
+        return requestManager.doRequest("/system/alert/${alert.id}/dismiss/", Method.GET)
     }
 
 }

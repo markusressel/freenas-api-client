@@ -28,16 +28,12 @@ import io.reactivex.Single
 class ConfigurationHandler(private val requestManager: RequestManager) : ConfigurationApi {
 
     override fun getJailsConfiguration(): Single<JailConfigurationModel> {
-        return requestManager
-                .doRequest("/jails/configuration/", Method.GET,
-                        JailConfigurationModel.SingleDeserializer())
+        return requestManager.doRequest("/jails/configuration/", Method.GET, JailConfigurationModel.SingleDeserializer())
     }
 
     override fun setJailsConfiguration(
             data: JailConfigurationModel): Single<JailConfigurationModel> {
-        return requestManager
-                .doJsonRequest("/jails/configuration/", Method.PUT, data,
-                        JailConfigurationModel.SingleDeserializer())
+        return requestManager.doJsonRequest("/jails/configuration/", Method.PUT, data, JailConfigurationModel.SingleDeserializer())
     }
 
 }

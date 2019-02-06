@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.plugins
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager.Companion.DEFAULT_LIMIT
 import de.markusressel.freenasrestapiclient.library.RequestManager.Companion.DEFAULT_OFFSET
 import io.reactivex.Single
@@ -35,15 +33,15 @@ interface PluginApi {
     /**
      * Start a plugin
      */
-    fun startPlugin(pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun startPlugin(pluginId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Stop a plugin
      */
-    fun stopPlugin(pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun stopPlugin(pluginId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Delete a plugin
      */
-    fun deletePlugin(pluginId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deletePlugin(pluginId: Long): Single<Pair<Response, ByteArray>>
 }

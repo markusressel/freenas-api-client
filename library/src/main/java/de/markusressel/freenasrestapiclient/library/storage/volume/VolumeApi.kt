@@ -40,6 +40,6 @@ interface VolumeApi {
     /**
      * Delete a Volume
      */
-    fun deleteVolume(volumeId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteVolume(volumeId: Long): Single<Pair<Response, ByteArray>>
 
 }

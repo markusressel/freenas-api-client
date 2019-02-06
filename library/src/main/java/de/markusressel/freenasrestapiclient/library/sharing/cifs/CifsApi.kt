@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.sharing.cifs
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager.Companion.DEFAULT_LIMIT
 import de.markusressel.freenasrestapiclient.library.RequestManager.Companion.DEFAULT_OFFSET
 import io.reactivex.Single
@@ -49,6 +47,6 @@ interface CifsApi {
     /**
      * Delete an existing CIFS share
      */
-    fun deleteCifsShare(data: CifsShareModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteCifsShare(data: CifsShareModel): Single<Pair<Response, ByteArray>>
 
 }

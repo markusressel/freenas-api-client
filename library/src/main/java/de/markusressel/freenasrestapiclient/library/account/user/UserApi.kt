@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.account.user
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -45,22 +43,22 @@ interface UserApi {
     /**
      * Delete a user
      */
-    fun deleteUser(user: UserModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteUser(user: UserModel): Single<Pair<Response, ByteArray>>
 
     /**
      * Set a password for a user
      */
     fun setUserPassword(userId: Long,
-                        newPassword: String): Single<Pair<Response, Result<ByteArray, FuelError>>>
+                        newPassword: String): Single<Pair<Response, ByteArray>>
 
     /**
      * Get user auxiliary groups
      */
-    fun getGroups(userId: Long): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun getGroups(userId: Long): Single<Pair<Response, ByteArray>>
 
     /**
      * Get user auxiliary groups
      */
     fun setGroups(userId: Long,
-                  vararg group: String): Single<Pair<Response, Result<ByteArray, FuelError>>>
+                  vararg group: String): Single<Pair<Response, ByteArray>>
 }

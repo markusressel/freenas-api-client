@@ -18,9 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.library.account.group
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.library.RequestManager
 import io.reactivex.Single
 
@@ -44,5 +42,5 @@ interface GroupApi {
     /**
      * Delete a group
      */
-    fun deleteGroup(group: GroupModel): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun deleteGroup(group: GroupModel): Single<Pair<Response, ByteArray>>
 }
