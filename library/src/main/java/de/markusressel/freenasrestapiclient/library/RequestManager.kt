@@ -29,15 +29,9 @@ import io.reactivex.Single
 /**
  * Created by Markus on 08.02.2018.
  */
-class RequestManager(hostname: String = "localhost", apiResource: String = "api", apiVersion: String = "1.0", var basicAuthConfig: BasicAuthConfig? = null) {
+class RequestManager(baseUrl: String = "localhost/api", apiVersion: String = "1.0", var basicAuthConfig: BasicAuthConfig? = null) {
 
-    var hostname: String = hostname
-        set(value) {
-            field = value
-            updateBaseUrl()
-        }
-
-    var apiResource: String = apiResource
+    var baseUrl: String = baseUrl
         set(value) {
             field = value
             updateBaseUrl()
@@ -60,24 +54,20 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
      * Adds loggers to Fuel requests
      */
     private fun addLogger() {
-        fuelManager
-                .addResponseInterceptor { next: (Request, Response) -> Response ->
-                    { req: Request, res: Response ->
-                        Log
-                                .v("Fuel-Request", req.toString())
-                        Log
-                                .v("Fuel-Response", res.toString())
-                        next(req, res)
-                    }
-                }
+        fuelManager.addResponseInterceptor { next: (Request, Response) -> Response ->
+            { req: Request, res: Response ->
+                Log.v("Fuel-Request", req.toString())
+                Log.v("Fuel-Response", res.toString())
+                next(req, res)
+            }
+        }
     }
 
     /**
      * Updates the base URL in Fuel client according to configuration parameters
      */
     private fun updateBaseUrl() {
-        fuelManager
-                .basePath = "https://$hostname/$apiResource/v$apiVersion"
+        fuelManager.basePath = "$baseUrl/v$apiVersion"
     }
 
     /**
@@ -120,11 +110,9 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
      * @param deserializer a deserializer for the response json body
      */
     fun <T : Any> doRequest(url: String, method: Method, deserializer: Deserializable<T>): Single<T> {
-        return createRequest(url = url, method = method)
-                .rxObject(deserializer)
-                .map {
-                    it.component1() ?: throw it.component2() ?: throw Exception()
-                }
+        return createRequest(url = url, method = method).rxObject(deserializer).map {
+            it.component1() ?: throw it.component2() ?: throw Exception()
+        }
     }
 
     /**
@@ -136,11 +124,9 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
      * @param deserializer a deserializer for the <b>response</b> json body
      */
     fun <T : Any> doRequest(url: String, urlParameters: List<Pair<String, Any?>>, method: Method, deserializer: Deserializable<T>): Single<T> {
-        return createRequest(url = url, urlParameters = urlParameters, method = method)
-                .rxObject(deserializer)
-                .map {
-                    it.component1() ?: throw it.component2() ?: throw Exception()
-                }
+        return createRequest(url = url, urlParameters = urlParameters, method = method).rxObject(deserializer).map {
+            it.component1() ?: throw it.component2() ?: throw Exception()
+        }
     }
 
     /**
@@ -152,8 +138,7 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
      * @param deserializer a deserializer for the <b>response</b> json body
      */
     fun <T : Any> doJsonRequest(url: String, method: Method, jsonData: Any, deserializer: Deserializable<T>): Single<T> {
-        val json = Gson()
-                .toJson(jsonData)
+        val json = Gson().toJson(jsonData)
 
         return createRequest(url = url, method = method)
                 .body(json)
@@ -172,8 +157,7 @@ class RequestManager(hostname: String = "localhost", apiResource: String = "api"
      * @param jsonData an Object that will be serialized to json
      */
     fun doJsonRequest(url: String, method: Method, jsonData: Any): Single<Pair<Response, ByteArray>> {
-        val json = Gson()
-                .toJson(jsonData)
+        val json = Gson().toJson(jsonData)
 
         return createRequest(url = url, method = method)
                 .body(json)

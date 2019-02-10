@@ -45,8 +45,7 @@ inline fun <reified T : Any> listDeserializer(): ResponseDeserializable<List<T>>
 @JvmSuppressWildcards(suppress = true)
 class SingleDeserializer<T : Any>(val type: Type) : ResponseDeserializable<T> {
     override fun deserialize(content: String): T? {
-        return Gson()
-                .fromJson(content, type)
+        return Gson().fromJson(content, type)
     }
 }
 
@@ -60,7 +59,6 @@ class ListDeserializer<T : Any>(val type: Type) : ResponseDeserializable<List<T>
             return emptyList()
         }
 
-        return Gson()
-                .fromJson(content, type)
+        return Gson().fromJson(content, type)
     }
 }

@@ -49,16 +49,9 @@ class MainActivity : LifecycleActivityBase() {
         freeNasWebApiClient = FreeNasWebApiClient()
 
         // set connection properties
-        freeNasWebApiClient
-                .setHostname("freenas.mydomain.de")
+        freeNasWebApiClient.setBaseUrl("https://freenas.mydomain.de/api")
         // set basic auth (your freenas root user)
-        freeNasWebApiClient
-                .setBasicAuthConfig(BasicAuthConfig(username = "root", password = "password"))
-
-        // OPTIONAL: set a custom api resource root path (if necessary)
-        freeNasWebApiClient
-                .setApiResource("frittenbudeapi")
-
+        freeNasWebApiClient.setBasicAuthConfig(BasicAuthConfig(username = "root", password = "password"))
     }
 
     private fun loadUsers() {
