@@ -18,6 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.jails.configuration
 
+import io.reactivex.Single
+
 interface ConfigurationApi {
     /**
      * Get the (common) jail configuration

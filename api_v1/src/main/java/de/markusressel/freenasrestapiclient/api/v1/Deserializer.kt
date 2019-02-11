@@ -18,6 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v1
 
+import com.github.kittinunf.fuel.core.ResponseDeserializable
+import com.github.salomonbrys.kotson.gsonTypeToken
+import com.google.gson.Gson
 import java.lang.reflect.Type
 
 /**

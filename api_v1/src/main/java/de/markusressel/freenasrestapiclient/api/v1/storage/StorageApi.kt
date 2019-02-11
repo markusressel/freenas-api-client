@@ -18,12 +18,12 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.storage
 
-import de.markusressel.freenasrestapiclient.api.v1.jails.jail.VolumeApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.dataset.DatasetApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.disk.DiskApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.scrub.ScrubApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.snapshot.SnapshotApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.task.TaskApi
+import de.markusressel.freenasrestapiclient.api.v1.storage.volume.VolumeApi
 
 /**
  * Created by Markus on 09.02.2018.

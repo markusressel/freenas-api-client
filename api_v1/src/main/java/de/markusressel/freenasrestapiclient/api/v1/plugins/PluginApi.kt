@@ -18,8 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.plugins
 
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager.Companion.DEFAULT_LIMIT
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager.Companion.DEFAULT_OFFSET
+import io.reactivex.Single
 
 interface PluginApi {
     /**

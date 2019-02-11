@@ -18,7 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.sharing.afp
 
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
+import io.reactivex.Single
 
 /**
  * Created by Markus on 10.02.2018.

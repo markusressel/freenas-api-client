@@ -18,8 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.storage.volume
 
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
-import de.markusressel.freenasrestapiclient.api.v1.jails.jail.VolumeApi
+import io.reactivex.Single
 
 /**
  * Created by Markus on 09.02.2018.
@@ -31,7 +33,7 @@ class VolumeHandler(private val requestManager: RequestManager) : VolumeApi {
         return requestManager.doRequest("/storage/volume/", params, Method.GET, VolumeModel.ListDeserializer())
     }
 
-    override fun createVolume(volumeName: String): Single<Pair<Response, Result<ByteArray, FuelError>>> {
+    override fun createVolume(volumeName: String): Single<VolumeModel> {
         throw NotImplementedError()
     }
 

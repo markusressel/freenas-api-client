@@ -18,6 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.system.update
 
+import com.github.kittinunf.fuel.core.ResponseDeserializable
+import com.github.salomonbrys.kotson.fromJson
+import com.google.gson.Gson
+
 /**
  * Created by Markus on 06.02.2018.
  */

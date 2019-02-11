@@ -16,10 +16,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v1.jails.jail
+package de.markusressel.freenasrestapiclient.api.v1.storage.volume
 
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
-import de.markusressel.freenasrestapiclient.api.v1.storage.volume.VolumeModel
+import io.reactivex.Single
 
 interface VolumeApi {
     /**
@@ -31,7 +32,7 @@ interface VolumeApi {
     /**
      * Create a Volume
      */
-    fun createVolume(volumeName: String): Single<Pair<Response, Result<ByteArray, FuelError>>>
+    fun createVolume(volumeName: String): Single<VolumeModel>
 
     /**
      * Delete a Volume

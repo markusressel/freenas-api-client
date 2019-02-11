@@ -18,7 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.storage.dataset
 
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
+import io.reactivex.Single
 
 interface DatasetApi {
     /**

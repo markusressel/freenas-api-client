@@ -18,8 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.system
 
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.system.alert.AlertApi
 import de.markusressel.freenasrestapiclient.api.v1.system.update.UpdateApi
+import io.reactivex.Single
 
 /**
  * Created by Markus on 09.02.2018.

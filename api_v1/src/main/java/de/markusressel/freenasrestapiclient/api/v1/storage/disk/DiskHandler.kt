@@ -18,7 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.storage.disk
 
+import com.github.kittinunf.fuel.core.Method
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
+import io.reactivex.Single
 
 /**
  * Created by Markus on 09.02.2018.

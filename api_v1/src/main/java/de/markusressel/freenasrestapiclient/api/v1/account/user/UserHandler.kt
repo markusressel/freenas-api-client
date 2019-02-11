@@ -18,7 +18,12 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.account.user
 
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.Response
+import com.github.salomonbrys.kotson.jsonArray
+import com.github.salomonbrys.kotson.jsonObject
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
+import io.reactivex.Single
 
 /**
  * Created by Markus on 09.02.2018.

@@ -18,8 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.jails.template
 
+import com.github.kittinunf.fuel.core.Response
 import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.jails.mountpoint.MountpointModel
+import io.reactivex.Single
 
 interface TemplateApi {
     /**

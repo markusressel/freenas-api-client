@@ -18,6 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.tasks.smart
 
+import com.github.kittinunf.fuel.core.ResponseDeserializable
+import com.github.salomonbrys.kotson.fromJson
+import com.google.gson.Gson
+
 /**
  * Created by Markus on 23.02.2018.
  */

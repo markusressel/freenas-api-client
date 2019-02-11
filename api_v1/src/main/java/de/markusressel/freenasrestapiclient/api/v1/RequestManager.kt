@@ -19,6 +19,12 @@
 package de.markusressel.freenasrestapiclient.api.v1
 
 import android.util.Log
+import com.github.kittinunf.fuel.core.*
+import com.github.kittinunf.fuel.core.extensions.authentication
+import com.github.kittinunf.fuel.rx.rxObject
+import com.github.kittinunf.fuel.rx.rxResponsePair
+import com.google.gson.Gson
+import io.reactivex.Single
 
 /**
  * Created by Markus on 08.02.2018.
