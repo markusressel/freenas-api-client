@@ -16,7 +16,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v1
+package de.markusressel.freenasrestapiclient.core
 
 /**
  * Created by Markus on 06.02.2018.

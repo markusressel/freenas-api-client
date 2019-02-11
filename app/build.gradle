@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
     implementation project(':api_v1')
+    implementation project(':api_v2')
 
     // RxJava (RxKotlin actually)
     implementation "io.reactivex.rxjava2:rxjava:2.2.3"

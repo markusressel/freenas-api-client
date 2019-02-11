@@ -18,7 +18,6 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.jails
 
-import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.jails.configuration.ConfigurationApi
 import de.markusressel.freenasrestapiclient.api.v1.jails.configuration.ConfigurationHandler
 import de.markusressel.freenasrestapiclient.api.v1.jails.jail.JailApi
@@ -27,6 +26,7 @@ import de.markusressel.freenasrestapiclient.api.v1.jails.mountpoint.MountpointAp
 import de.markusressel.freenasrestapiclient.api.v1.jails.mountpoint.MountpointHandler
 import de.markusressel.freenasrestapiclient.api.v1.jails.template.TemplateApi
 import de.markusressel.freenasrestapiclient.api.v1.jails.template.TemplateHandler
+import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Created by Markus on 09.02.2018.

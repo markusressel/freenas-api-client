@@ -18,6 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v1;
 
+import de.markusressel.freenasrestapiclient.core.BasicAuthConfig;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

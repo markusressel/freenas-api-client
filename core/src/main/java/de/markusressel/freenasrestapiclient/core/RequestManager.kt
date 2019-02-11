@@ -16,7 +16,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v1
+package de.markusressel.freenasrestapiclient.core
 
 import android.util.Log
 import com.github.kittinunf.fuel.core.*

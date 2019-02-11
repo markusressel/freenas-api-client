@@ -34,13 +34,15 @@ import de.markusressel.freenasrestapiclient.api.v1.system.SystemApi
 import de.markusressel.freenasrestapiclient.api.v1.system.SystemManager
 import de.markusressel.freenasrestapiclient.api.v1.tasks.TasksApi
 import de.markusressel.freenasrestapiclient.api.v1.tasks.TasksManager
+import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Convenience delegation class for easy access to all api methods
  *
  * Created by Markus on 06.02.2018.
  */
-class FreeNasRestApiV1Client(private val requestManager: RequestManager = RequestManager(),
+class FreeNasRestApiV1Client(private val requestManager: RequestManager = RequestManager(apiVersion = "1.0"),
                              accountApi: AccountApi = AccountManager(requestManager),
                              jailsApi: JailsApi = JailsManager(requestManager),
                              servicesApi: ServicesApi = ServicesManager(requestManager),
@@ -63,13 +65,6 @@ class FreeNasRestApiV1Client(private val requestManager: RequestManager = Reques
      */
     fun setBaseUrl(url: String) {
         requestManager.baseUrl = url
-    }
-
-    /**
-     * Set the api version for this client
-     */
-    fun setapiVersion(apiVersion: String) {
-        requestManager.apiVersion = apiVersion
     }
 
     /**

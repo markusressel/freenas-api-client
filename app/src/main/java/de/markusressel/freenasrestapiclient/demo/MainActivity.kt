@@ -23,8 +23,8 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
 import de.markusressel.commons.android.material.toast
-import de.markusressel.freenasrestapiclient.api.v1.BasicAuthConfig
 import de.markusressel.freenasrestapiclient.api.v1.FreeNasRestApiV1Client
+import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers

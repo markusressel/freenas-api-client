@@ -18,7 +18,6 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.storage
 
-import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.storage.dataset.DatasetApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.dataset.DatasetHandler
 import de.markusressel.freenasrestapiclient.api.v1.storage.disk.DiskApi
@@ -31,6 +30,7 @@ import de.markusressel.freenasrestapiclient.api.v1.storage.task.TaskApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.task.TaskHandler
 import de.markusressel.freenasrestapiclient.api.v1.storage.volume.VolumeApi
 import de.markusressel.freenasrestapiclient.api.v1.storage.volume.VolumeHandler
+import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Created by Markus on 09.02.2018.

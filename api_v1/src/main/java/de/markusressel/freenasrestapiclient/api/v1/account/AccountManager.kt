@@ -18,11 +18,11 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.account
 
-import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.account.group.GroupApi
 import de.markusressel.freenasrestapiclient.api.v1.account.group.GroupHandler
 import de.markusressel.freenasrestapiclient.api.v1.account.user.UserApi
 import de.markusressel.freenasrestapiclient.api.v1.account.user.UserHandler
+import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Delegation class for encapsulating api calls into subclasses
