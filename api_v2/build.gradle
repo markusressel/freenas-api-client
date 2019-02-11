@@ -47,6 +47,13 @@ android {
 dependencies {
     api project(':core')
 
+    // okhttp (for websockets)
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    api("com.github.markusressel.commons:commons_android_core:master-SNAPSHOT") {
+        changing = true
+    }
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
