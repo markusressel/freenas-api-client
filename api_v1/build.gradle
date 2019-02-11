@@ -16,20 +16,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.dokka-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "de.markusressel.freenasrestapiclient.demo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
-        versionName "1.0"
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,28 +45,25 @@ android {
 }
 
 dependencies {
-    implementation("com.github.markusressel.commons:commons_core:master-SNAPSHOT")
-    implementation("com.github.markusressel.commons:commons_android_core:master-SNAPSHOT")
-    implementation("com.github.markusressel.commons:commons_android_material:master-SNAPSHOT")
-
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
-
-    implementation project(':api_v1')
-
-    // RxJava (RxKotlin actually)
-    implementation "io.reactivex.rxjava2:rxjava:2.2.3"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation "io.reactivex.rxjava2:rxkotlin:${rootProject.ext.rxKotlinVersion}"
-
-    // RxLifecycle to prevent memory leaks
-    def rxLifecycleVersion = rootProject.ext.rxLifecycleVersion
-    implementation "com.trello.rxlifecycle2:rxlifecycle:$rxLifecycleVersion"
-    implementation "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycleVersion"
-    implementation "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifecycleVersion"
-    implementation "com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:$rxLifecycleVersion"
+    implementation project(':core')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task dokkaJar(type: Jar, dependsOn: dokka) {
+    classifier = 'javadoc'
+    from dokka.outputDirectory
+}
+
+artifacts {
+    archives sourcesJar
+    archives dokkaJar
 }
