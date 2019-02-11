@@ -40,15 +40,15 @@ import de.markusressel.freenasrestapiclient.api.v1.tasks.TasksManager
  *
  * Created by Markus on 06.02.2018.
  */
-class FreeNasWebApiClient(private val requestManager: RequestManager = RequestManager(),
-                          accountApi: AccountApi = AccountManager(requestManager),
-                          jailsApi: JailsApi = JailsManager(requestManager),
-                          servicesApi: ServicesApi = ServicesManager(requestManager),
-                          sharingApi: SharingApi = SharingManager(requestManager),
-                          storageApi: StorageApi = StorageManager(requestManager),
-                          systemApi: SystemApi = SystemManager(requestManager),
-                          pluginApi: PluginApi = PluginManager(requestManager),
-                          tasksApi: TasksApi = TasksManager(requestManager)) :
+class FreeNasRestApiV1Client(private val requestManager: RequestManager = RequestManager(),
+                             accountApi: AccountApi = AccountManager(requestManager),
+                             jailsApi: JailsApi = JailsManager(requestManager),
+                             servicesApi: ServicesApi = ServicesManager(requestManager),
+                             sharingApi: SharingApi = SharingManager(requestManager),
+                             storageApi: StorageApi = StorageManager(requestManager),
+                             systemApi: SystemApi = SystemManager(requestManager),
+                             pluginApi: PluginApi = PluginManager(requestManager),
+                             tasksApi: TasksApi = TasksManager(requestManager)) :
         AccountApi by accountApi,
         JailsApi by jailsApi,
         ServicesApi by servicesApi,

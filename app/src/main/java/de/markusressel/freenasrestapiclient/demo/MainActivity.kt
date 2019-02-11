@@ -24,7 +24,7 @@ import androidx.lifecycle.Lifecycle
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
 import de.markusressel.commons.android.material.toast
 import de.markusressel.freenasrestapiclient.api.v1.BasicAuthConfig
-import de.markusressel.freenasrestapiclient.api.v1.FreeNasWebApiClient
+import de.markusressel.freenasrestapiclient.api.v1.FreeNasRestApiV1Client
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : LifecycleActivityBase() {
 
-    private lateinit var freeNasWebApiClient: FreeNasWebApiClient
+    private lateinit var freeNasWebApiClient: FreeNasRestApiV1Client
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super
@@ -46,7 +46,7 @@ class MainActivity : LifecycleActivityBase() {
 
     private fun setupFreenasRestClient() {
         // create client
-        freeNasWebApiClient = FreeNasWebApiClient()
+        freeNasWebApiClient = FreeNasRestApiV1Client()
 
         // set connection properties
         freeNasWebApiClient.setBaseUrl("https://freenas.mydomain.de/api")
