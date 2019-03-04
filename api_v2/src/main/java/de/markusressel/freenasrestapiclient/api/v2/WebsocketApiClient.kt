@@ -19,6 +19,7 @@
 package de.markusressel.freenasrestapiclient.api.v2
 
 import android.util.Log
+import com.github.salomonbrys.kotson.*
 import de.markusressel.commons.android.core.runOnUiThread
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import okhttp3.*
@@ -52,6 +53,8 @@ class WebsocketApiClient(
 
     private var webSocket: WebSocket? = null
 
+    private var sessionId: String? = null
+
     /**
      * Set a listener to react to websocket events
      *
@@ -75,29 +78,26 @@ class WebsocketApiClient(
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
 
             override fun onOpen(webSocket: WebSocket, response: Response?) {
-                super.onOpen(webSocket, response)
                 isConnected = true
                 listener?.onConnectionChanged(isConnected)
             }
 
             override fun onMessage(webSocket: WebSocket, text: String?) {
-                super.onMessage(webSocket, text)
-
                 if (text == null) {
                     return
                 }
+
+                handleIncomingMessage(text)
 
                 listener?.onMessage(text)
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
                 isConnected = false
                 listener?.onConnectionChanged(isConnected)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable?, response: Response?) {
-                super.onFailure(webSocket, t, response)
                 isConnected = false
 
                 Log.e(TAG, "Websocket error", t)
@@ -106,6 +106,44 @@ class WebsocketApiClient(
                 }
             }
         })
+
+        createSession()
+    }
+
+    private fun handleIncomingMessage(message: String) {
+        val json = message.toJson()
+        when (json["msg"].string) {
+            "connected" -> {
+                sessionId = json["session"].string
+                callMethod("auth.createSession", listOf(
+                        "username" to auth.username,
+                        "password" to auth.password
+                ))
+            }
+            "failed" -> {
+                throw IllegalStateException("Error connecting")
+            }
+        }
+    }
+
+    /**
+     * Connect and authenticate the session
+     */
+    private fun createSession() {
+        callMethod("connect", listOf(
+                "version" to "1",
+                "support" to jsonArray(1)
+        ))
+    }
+
+    /**
+     * Call an api method
+     *
+     * @param method the method to call
+     * @param arguments method arguments
+     */
+    fun callMethod(method: String, arguments: List<Pair<String, Any?>>) {
+        sendMessage(message = "method", method = method, arguments = arguments)
     }
 
     /**
@@ -113,11 +151,40 @@ class WebsocketApiClient(
      *
      * @throws IllegalStateException when the websocket is disconnected
      */
-    fun send(message: String) {
+    private fun send(message: String) {
         if (!isConnected) {
             throw IllegalStateException("There is no active connection!")
         }
         webSocket?.send(message)
+    }
+
+    /**
+     * Send a message
+     *
+     * @param message the message
+     * @param method the method
+     * @param arguments method parameters
+     */
+    private fun sendMessage(message: String, method: String, arguments: List<Pair<String, Any?>>) {
+        val currentSession = sessionId
+        if (currentSession == null) {
+            Log.w(TAG, "No active session!")
+            return
+        }
+        val request = createRequest(sessionId = currentSession, message = message, method = method, arguments = arguments)
+        send(request.toJsonObject().toString())
+    }
+
+    /**
+     * Create a request
+     */
+    private fun createRequest(sessionId: String, message: String, method: String, arguments: List<Pair<String, Any?>>): List<Pair<String, Any?>> {
+        return listOf(
+                "id" to sessionId,
+                "msg" to message,
+                "method" to method,
+                "params" to jsonArray(arguments)
+        )
     }
 
     /**

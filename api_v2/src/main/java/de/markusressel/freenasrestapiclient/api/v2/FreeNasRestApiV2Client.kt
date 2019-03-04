@@ -25,8 +25,34 @@ import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
  *
  * Created by Markus on 06.02.2018.
  */
-class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig) {
+class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig) : WebsocketConnectionListener {
 
-    val websocketClient = WebsocketApiClient(baseUrl, auth)
+    val websocketClient = WebsocketApiClient(baseUrl, auth).apply {
+        setListener(this@FreeNasRestApiV2Client)
+    }
+
+    /**
+     * Connect to the websocket api
+     */
+    fun connect() {
+        websocketClient.connect()
+    }
+
+    /**
+     * Disconnect the api client
+     *
+     * @param code the code indicating the reason
+     * @param reason a text description of the disconnect reason
+     */
+    fun disconnect(code: Int = 1000, reason: String = "") {
+        websocketClient.disconnect(code, reason)
+    }
+
+    override fun onConnectionChanged(connected: Boolean, errorCode: Int?, throwable: Throwable?) {
+    }
+
+    override fun onMessage(text: String) {
+
+    }
 
 }
