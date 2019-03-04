@@ -16,17 +16,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2
+package de.markusressel.freenasrestapiclient.api.v2.updates
 
-interface WebsocketConnectionListener {
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+
+interface UpdatesApi {
 
     /**
-     * Called when the connection status of the websocket changes
+     * Check for available updates
      *
-     * @param connected true, when the websocket is now connected, false otherwise
-     * @param errorCode optional error code if the connection was ended
-     * @param throwable optional exception that occurred
+     * @param train update train to query
      */
-    fun onConnectionChanged(connected: Boolean, errorCode: Int? = null, throwable: Throwable? = null) {}
+    fun checkUpdateAvailable(train: String? = null, onResponse: ApiListener)
 
 }

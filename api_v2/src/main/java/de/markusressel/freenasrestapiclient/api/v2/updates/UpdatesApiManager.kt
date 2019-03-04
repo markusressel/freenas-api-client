@@ -16,17 +16,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2
+package de.markusressel.freenasrestapiclient.api.v2.updates
 
-interface WebsocketConnectionListener {
+import com.github.salomonbrys.kotson.addPropertyIfNotNull
+import com.github.salomonbrys.kotson.jsonObject
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-    /**
-     * Called when the connection status of the websocket changes
-     *
-     * @param connected true, when the websocket is now connected, false otherwise
-     * @param errorCode optional error code if the connection was ended
-     * @param throwable optional exception that occurred
-     */
-    fun onConnectionChanged(connected: Boolean, errorCode: Int? = null, throwable: Throwable? = null) {}
+class UpdatesApiManager(val websocketApiClient: WebsocketApiClient) : UpdatesApi {
+
+    override fun checkUpdateAvailable(train: String?, onResponse: ApiListener) {
+        val arguments = jsonObject().apply {
+            addPropertyIfNotNull("train", train)
+        }
+        websocketApiClient.callMethod("update.check_available", arguments, listener = onResponse)
+    }
 
 }

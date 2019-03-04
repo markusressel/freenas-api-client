@@ -18,6 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApi
+import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApiManager
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 
 /**
@@ -25,16 +27,16 @@ import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
  *
  * Created by Markus on 06.02.2018.
  */
-class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig) : WebsocketConnectionListener {
-
-    val websocketClient = WebsocketApiClient(baseUrl, auth).apply {
-        setListener(this@FreeNasRestApiV2Client)
-    }
+class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
+                             val websocketClient: WebsocketApiClient = WebsocketApiClient(baseUrl, auth),
+                             updatesApiManager: UpdatesApiManager = UpdatesApiManager(websocketClient)) :
+        UpdatesApi by updatesApiManager {
 
     /**
      * Connect to the websocket api
      */
-    fun connect() {
+    fun connect(listener: WebsocketConnectionListener) {
+        websocketClient.setListener(listener)
         websocketClient.connect()
     }
 
@@ -46,13 +48,6 @@ class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig) : Websocket
      */
     fun disconnect(code: Int = 1000, reason: String = "") {
         websocketClient.disconnect(code, reason)
-    }
-
-    override fun onConnectionChanged(connected: Boolean, errorCode: Int?, throwable: Throwable?) {
-    }
-
-    override fun onMessage(text: String) {
-
     }
 
 }

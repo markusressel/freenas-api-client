@@ -19,32 +19,37 @@
 package de.markusressel.freenasrestapiclient.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
 import de.markusressel.commons.android.material.toast
 import de.markusressel.freenasrestapiclient.api.v1.FreeNasRestApiV1Client
+import de.markusressel.freenasrestapiclient.api.v2.FreeNasRestApiV2Client
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketConnectionListener
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : LifecycleActivityBase() {
+class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
 
     private lateinit var freeNasWebApiClient: FreeNasRestApiV1Client
+    private lateinit var freeNasWebApiClientV2: FreeNasRestApiV2Client
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super
                 .onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupFreenasRestClient()
+        setupFreenasApiClient()
+        setupFreenasApiClientV2()
 
         loadUsers()
     }
 
-    private fun setupFreenasRestClient() {
+    private fun setupFreenasApiClient() {
         // create client
         freeNasWebApiClient = FreeNasRestApiV1Client()
 
@@ -74,4 +79,21 @@ class MainActivity : LifecycleActivityBase() {
                     toast("Error", duration = Toast.LENGTH_LONG)
                 })
     }
+
+    private fun setupFreenasApiClientV2() {
+        freeNasWebApiClientV2 = FreeNasRestApiV2Client(
+                baseUrl = "wss://freenas.mydomain.de/websocket",
+                auth = BasicAuthConfig(username = "root", password = "password")
+        )
+        freeNasWebApiClientV2.connect(this)
+    }
+
+    override fun onConnectionChanged(connected: Boolean, errorCode: Int?, throwable: Throwable?) {
+        if (connected) {
+            freeNasWebApiClientV2.checkUpdateAvailable {
+                Log.d("MainActivity", "Check Update response: $it")
+            }
+        }
+    }
+
 }

@@ -45,6 +45,8 @@ class RequestManager(baseUrl: String = "localhost/api", apiVersion: String = "1.
 
     private val fuelManager = FuelManager()
 
+    private val gson = Gson()
+
     init {
         addLogger()
         updateBaseUrl()
@@ -138,7 +140,7 @@ class RequestManager(baseUrl: String = "localhost/api", apiVersion: String = "1.
      * @param deserializer a deserializer for the <b>response</b> json body
      */
     fun <T : Any> doJsonRequest(url: String, method: Method, jsonData: Any, deserializer: Deserializable<T>): Single<T> {
-        val json = Gson().toJson(jsonData)
+        val json = gson.toJson(jsonData)
 
         return createRequest(url = url, method = method)
                 .body(json)
@@ -157,7 +159,7 @@ class RequestManager(baseUrl: String = "localhost/api", apiVersion: String = "1.
      * @param jsonData an Object that will be serialized to json
      */
     fun doJsonRequest(url: String, method: Method, jsonData: Any): Single<Pair<Response, ByteArray>> {
-        val json = Gson().toJson(jsonData)
+        val json = gson.toJson(jsonData)
 
         return createRequest(url = url, method = method)
                 .body(json)
