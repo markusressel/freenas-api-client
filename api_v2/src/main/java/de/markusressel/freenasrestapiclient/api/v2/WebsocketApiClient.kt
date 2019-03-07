@@ -21,14 +21,16 @@ package de.markusressel.freenasrestapiclient.api.v2
 import android.util.Log
 import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import de.markusressel.commons.android.core.runOnUiThread
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import okhttp3.*
+import java.net.ConnectException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-typealias ApiListener = (JsonElement) -> Unit
+typealias ApiListener = (Result<JsonElement>) -> Unit
 
 class WebsocketApiClient(
         val url: String,
@@ -122,11 +124,8 @@ class WebsocketApiClient(
 
         if (json.has(PROPERTY_ID)) {
             val responseId = json[PROPERTY_ID].string
-            responseListeners[responseId]?.apply {
-                invoke(json)
-                responseListeners.remove(responseId)
-            }
-            subscriptionListeners[responseId]?.invoke(json)
+            // TODO: the response might be an error, notify listeners differently if this is the case
+            notifyListener(responseId, json)
             return
         }
 
@@ -142,6 +141,21 @@ class WebsocketApiClient(
                 this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, -1, UnknownError(json["msg"].string))
             }
         }
+    }
+
+    /**
+     * Notifies listeners
+     *
+     * @param responseId response id used to identify requester
+     * @param json the response
+     */
+    private fun notifyListener(responseId: String, json: JsonObject) {
+        val result = Result.success(json)
+        responseListeners[responseId]?.apply {
+            invoke(result)
+            responseListeners.remove(responseId)
+        }
+        subscriptionListeners[responseId]?.invoke(result)
     }
 
     /**
@@ -164,15 +178,23 @@ class WebsocketApiClient(
                 auth.username,
                 auth.password
         ), suppressLog = true) {
-            Log.d(TAG, "Login response: $it")
+            it.fold(onSuccess = { result ->
+                Log.d(TAG, "Login response: $result")
 
-            val responseObject = it.asJsonObject
-            if (responseObject["result"].bool) {
-                isConnected = true
-                this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
-            } else {
-                disconnect(-1, responseObject["msg"].string)
-            }
+                val responseObject = result.asJsonObject
+                if (responseObject["result"].bool) {
+                    if (!isConnected) {
+                        isConnected = true
+                        this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
+                    }
+                } else {
+                    disconnect(-1, responseObject["msg"].string)
+                    throw ConnectException("Error connecting: ${responseObject["msg"]}")
+                }
+            }, onFailure = { error ->
+                disconnect(-1, "${error.message}")
+                throw error
+            })
         }
     }
 
@@ -207,10 +229,14 @@ class WebsocketApiClient(
      * @param arguments method arguments
      */
     fun callMethod(method: String, arguments: JsonElement? = null, suppressLog: Boolean = false, listener: ApiListener) {
-        val messageId = generateMesssageId()
-        if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$arguments' for '$messageId'")
-        responseListeners[messageId] = listener
-        sendMethodMessage(messageId = messageId, message = "method", method = method, arguments = arguments)
+        try {
+            val messageId = generateMesssageId()
+            if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$arguments' for '$messageId'")
+            responseListeners[messageId] = listener
+            sendMethodMessage(messageId = messageId, message = "method", method = method, arguments = arguments)
+        } catch (e: Exception) {
+            listener.invoke(Result.failure(e))
+        }
     }
 
     /**
@@ -262,10 +288,12 @@ class WebsocketApiClient(
     fun disconnect(code: Int, reason: String, t: Throwable? = null) {
         webSocket?.close(code, reason)
         webSocket = null
-        isConnected = false
         responseListeners.clear()
         subscriptionListeners.clear()
-        this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code, t)
+        if (isConnected) {
+            isConnected = false
+            this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code, t)
+        }
     }
 
     /**

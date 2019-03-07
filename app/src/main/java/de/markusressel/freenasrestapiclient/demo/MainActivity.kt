@@ -91,7 +91,11 @@ class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
     override fun onConnectionChanged(connected: Boolean, errorCode: Int?, throwable: Throwable?) {
         if (connected) {
             freeNasWebApiClientV2.checkUpdateAvailable {
-                Log.d("MainActivity", "Check Update response: $it")
+                it.fold(onSuccess = { result ->
+                    Log.d("MainActivity", "Check Update response: $result")
+                }, onFailure = { error ->
+                    Log.e("MainActivity", "Error checking update response: ${error.message}")
+                })
             }
         }
     }
