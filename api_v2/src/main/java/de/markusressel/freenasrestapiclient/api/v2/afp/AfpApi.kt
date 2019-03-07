@@ -16,18 +16,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.afp
 
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
-interface UpdatesApi {
+interface AfpApi {
+
+    enum class MapAcl {
+        rights,
+        mode,
+        none
+    }
+
+    enum class ChmodRequest {
+        preserve,
+        simple,
+        ignore
+    }
 
     /**
-     * Check for available updates
+     * Get the AFP sharing config
      *
-     * @param train update train to query
      * @param listener result listener
      */
-    fun checkUpdateAvailable(train: String? = null, listener: ApiListener)
+    fun getAfpConfig(listener: ApiListener)
+
+    /**
+     * Update the AFP sharing config
+     */
+    fun updateAfpConfig(chmodRequest: ChmodRequest? = null, mapAcls: MapAcl? = null, globalAux: String? = null,
+                        dbpath: String? = null, connectionsLimit: Int? = null, bindip: List<String>? = null,
+                        guest: Boolean? = null, guestUser: String? = null, listener: ApiListener)
 
 }

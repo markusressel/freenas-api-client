@@ -25,11 +25,11 @@ import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class UpdatesApiManager(val websocketApiClient: WebsocketApiClient) : UpdatesApi {
 
-    override fun checkUpdateAvailable(train: String?, onResponse: ApiListener) {
+    override fun checkUpdateAvailable(train: String?, listener: ApiListener) {
         val arguments = jsonObject().apply {
             addPropertyIfNotNull("train", train)
         }
-        websocketApiClient.callMethod("update.check_available", arguments, listener = onResponse)
+        websocketApiClient.callMethod("update.check_available", arguments, listener = listener)
     }
 
 }

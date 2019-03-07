@@ -16,18 +16,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.auth
 
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
-interface UpdatesApi {
+interface AuthApi {
 
     /**
-     * Check for available updates
+     * Verify username and password
      *
-     * @param train update train to query
+     * @param username username
+     * @param password password
+     */
+    fun checkUser(username: String = "root", password: String, listener: ApiListener)
+
+    /**
+     * Generate a token to be used for authentication.
+     *
+     * @param ttl time to live
+     * @param listener response listener
+     */
+    fun generateToken(ttl: Int? = null, listener: ApiListener)
+
+    /**
+     * Authenticate session using username and password. Currently only root user is allowed.
+     *
+     * @param username
+     * @param password
      * @param listener result listener
      */
-    fun checkUpdateAvailable(train: String? = null, listener: ApiListener)
+    fun login(username: String = "root", password: String, listener: ApiListener)
+
+    /**
+     * Deauthenticates an app and if a token exists, removes that from the session.
+     *
+     * @param listener response listener
+     */
+    fun logout(listener: ApiListener)
+
+    /**
+     * Authenticate using a given token id.
+     *
+     * @param token auth token
+     * @param listener response listener
+     */
+    fun authenticate(token: String, listener: ApiListener)
 
 }

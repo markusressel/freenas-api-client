@@ -16,18 +16,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.backup
 
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.backup.azure.AzureBackupApi
+import de.markusressel.freenasrestapiclient.api.v2.backup.b2.B2BackupApi
+import de.markusressel.freenasrestapiclient.api.v2.backup.credential.BackupCredentialsApi
+import de.markusressel.freenasrestapiclient.api.v2.backup.gcs.GcsBackupApi
+import de.markusressel.freenasrestapiclient.api.v2.backup.s3.S3BackupApi
 
-interface UpdatesApi {
+interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBackupApi, S3BackupApi {
 
     /**
-     * Check for available updates
+     * Creates a backup
      *
-     * @param train update train to query
-     * @param listener result listener
+     * TODO many parameters
+     *
+     * @param listener response listener
      */
-    fun checkUpdateAvailable(train: String? = null, listener: ApiListener)
+    fun createBackup(listener: ApiListener)
+
+    /**
+     * Queries a list of backups
+     */
+    fun getBackups(listener: ApiListener)
+
+    /**
+     * Updates a backup
+     *
+     * @param id id of the backup
+     */
+    fun updateBackup(id: String, listener: ApiListener)
+
+    /**
+     * Deletes a backup
+     *
+     * @param id id of the backup
+     * @param listener response listener
+     */
+    fun deleteBackup(id: String, listener: ApiListener)
 
 }

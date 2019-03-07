@@ -16,18 +16,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.alert
 
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
-interface UpdatesApi {
+interface AlertApi {
 
     /**
-     * Check for available updates
+     * Dismiss an alert
      *
-     * @param train update train to query
-     * @param listener result listener
+     * @param id alert to dismiss
      */
-    fun checkUpdateAvailable(train: String? = null, listener: ApiListener)
+    fun dismissAlert(id: String? = null, listener: ApiListener)
+
+    /**
+     * TODO:
+     */
+    fun flushAlerts(listener: ApiListener)
+
+    /**
+     * TODO:
+     */
+    fun listAlerts(listener: ApiListener)
+
+    /**
+     * TODO:
+     */
+    fun listAlertPolicies(listener: ApiListener)
+
+    /**
+     * TODO:
+     */
+    fun listAlertSources(listener: ApiListener)
+
+    /**
+     * TODO:
+     */
+    fun processAlerts(listener: ApiListener)
+
+    /**
+     * TODO:
+     */
+    fun restoreAlert(id: String, listener: ApiListener)
 
 }

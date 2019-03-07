@@ -16,18 +16,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.backup.azure
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
-
-interface UpdatesApi {
-
-    /**
-     * Check for available updates
-     *
-     * @param train update train to query
-     * @param listener result listener
-     */
-    fun checkUpdateAvailable(train: String? = null, listener: ApiListener)
-
+interface AzureBackupApi {
 }
