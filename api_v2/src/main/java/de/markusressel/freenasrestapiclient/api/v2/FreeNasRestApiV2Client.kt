@@ -18,6 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import de.markusressel.freenasrestapiclient.api.v2.jails.JailsApi
+import de.markusressel.freenasrestapiclient.api.v2.jails.JailsApiManager
 import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApi
 import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApiManager
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
@@ -29,7 +31,9 @@ import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
  */
 class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
                              val websocketClient: WebsocketApiClient = WebsocketApiClient(baseUrl, auth),
+                             jailsApiManager: JailsApiManager = JailsApiManager(websocketClient),
                              updatesApiManager: UpdatesApiManager = UpdatesApiManager(websocketClient)) :
+        JailsApi by jailsApiManager,
         UpdatesApi by updatesApiManager {
 
     /**
