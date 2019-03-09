@@ -18,11 +18,12 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.ftp
 
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface FtpApi {
 
-    enum class TlsPolicy {
+    enum class TlsPolicy(private val jsonValue: String) : ApiEnum {
         ON("on"),
         OFF("off"),
         DATA("data"),
@@ -34,11 +35,7 @@ interface FtpApi {
         AUTH_AND_DATA("auth+data"),
         AUTH_NO_DATA("auth+!data");
 
-        val value: String
-
-        constructor(value: String) {
-            this.value = value
-        }
+        override fun toJsonValue(): String = jsonValue
     }
 
     /**

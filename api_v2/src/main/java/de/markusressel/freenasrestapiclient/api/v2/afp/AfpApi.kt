@@ -18,20 +18,25 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.afp
 
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface AfpApi {
 
-    enum class MapAcl {
-        rights,
-        mode,
-        none
+    enum class MapAcl(private val jsonValue: String) : ApiEnum {
+        RIGHTS("rights"),
+        MODE("mode"),
+        NONE("none");
+
+        override fun toJsonValue(): String = jsonValue
     }
 
-    enum class ChmodRequest {
-        preserve,
-        simple,
-        ignore
+    enum class ChmodRequest(private val jsonValue: String) : ApiEnum {
+        PRESERVE("preserve"),
+        SIMPLE("simple"),
+        IGNORE("ignore");
+
+        override fun toJsonValue(): String = jsonValue
     }
 
     /**

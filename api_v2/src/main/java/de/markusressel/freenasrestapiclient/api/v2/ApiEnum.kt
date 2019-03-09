@@ -16,26 +16,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.device
+package de.markusressel.freenasrestapiclient.api.v2
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
-
-interface DeviceApi {
-
-    enum class DeviceInfoType : ApiEnum {
-        SERIAL,
-        DEVICE
-    }
+/**
+ * Interface for API constants
+ */
+interface ApiEnum {
 
     /**
-     * Get info for certain device types.
-     *
-     * Currently only SERIAL is supported.
-     *
-     * @param type device type to query
-     * @param listener result listener
+     * @return the json representation of this API constant
      */
-    fun getDeviceInfo(type: DeviceInfoType, listener: ApiListener)
+    fun toJsonValue(): String {
+        return "$this"
+    }
 
 }

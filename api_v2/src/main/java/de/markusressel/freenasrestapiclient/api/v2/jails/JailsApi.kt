@@ -18,11 +18,12 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.jails
 
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface JailsApi {
 
-    enum class DsType {
+    enum class DsType : ApiEnum {
         ALL,
         JAIL,
         TEMPLATE,

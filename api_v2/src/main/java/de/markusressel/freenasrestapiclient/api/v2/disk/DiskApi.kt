@@ -18,11 +18,12 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.disk
 
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface DiskApi {
 
-    enum class WipeType {
+    enum class WipeType : ApiEnum {
         /** clean the first few and last megabytes of every partition and disk */
         QUICK,
         /** write whole disk with zero's */

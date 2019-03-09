@@ -18,28 +18,31 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.domaincontroller
 
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface DomainControllerApi {
 
-    enum class DomainControllerRole {
+    enum class DomainControllerRole : ApiEnum {
         DC
     }
 
-    enum class DnsBackend {
+    enum class DnsBackend : ApiEnum {
         SAMBA_INTERNAL,
         BIND9_FLATFILE,
         BIND9_DLZ,
         NONE
     }
 
-    enum class ForestLevel {
-        `2000`,
-        `2003`,
-        `2008`,
-        `2008_R2`,
-        `2012`,
-        `2012_R2`
+    enum class ForestLevel(private val jsonValue: String) : ApiEnum {
+        LEVEL_2000("2000"),
+        LEVEL_2003("2003"),
+        LEVEL_2008("2008"),
+        LEVEL_2008_R2("2008_R2"),
+        LEVEL_2012("2012"),
+        LEVEL_2012_R2("2012_R2");
+
+        override fun toJsonValue(): String = jsonValue
     }
 
     /**

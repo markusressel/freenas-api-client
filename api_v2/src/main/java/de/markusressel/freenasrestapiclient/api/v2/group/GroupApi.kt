@@ -16,26 +16,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.device
+package de.markusressel.freenasrestapiclient.api.v2.group
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
-interface DeviceApi {
-
-    enum class DeviceInfoType : ApiEnum {
-        SERIAL,
-        DEVICE
-    }
+interface GroupApi {
 
     /**
-     * Get info for certain device types.
+     * Creates a new group
      *
-     * Currently only SERIAL is supported.
-     *
-     * @param type device type to query
      * @param listener result listener
      */
-    fun getDeviceInfo(type: DeviceInfoType, listener: ApiListener)
+    fun createGroup(groupId: Int,
+                    name: String,
+                    sudo: Boolean,
+                    allow_duplicate_gid: Boolean,
+                    users: List<Int>,
+                    listener: ApiListener)
+
+    /**
+     * Deletes a group
+     *
+     * @param groupId group id
+     * @param deleteUsers whether to delete users associated with this group
+     * @param listener result listener
+     */
+    fun deleteGroup(groupId: Int, deleteUsers: Boolean? = null, listener: ApiListener)
+
+    /**
+     * Get the next available/free gid.
+     *
+     * @param listener result listener
+     */
+    fun getNextFreeGroupId(listener: ApiListener)
+
+    /**
+     * Query a list of groups
+     *
+     * TODO: query params
+     *
+     * @param listener result listener
+     */
+    fun getGroups(listener: ApiListener)
+
+    /**
+     * Updates a group
+     *
+     * @param groupId group id to update
+     * @param listener result listener
+     */
+    fun updateGroup(groupId: Int, listener: ApiListener)
 
 }
