@@ -18,27 +18,28 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.group
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class GroupApiImpl(val websocketApiClient: WebsocketApiClient) : GroupApi {
-    override fun createGroup(groupId: Int, name: String, sudo: Boolean, allow_duplicate_gid: Boolean, users: List<Int>, listener: ApiListener) {
+    override suspend fun createGroup(groupId: Int, name: String, sudo: Boolean, allow_duplicate_gid: Boolean, users: List<Int>): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteGroup(groupId: Int, deleteUsers: Boolean?, listener: ApiListener) {
+    override suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getNextFreeGroupId(listener: ApiListener) {
+    override suspend fun getNextFreeGroupId(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getGroups(listener: ApiListener) {
+    override suspend fun getGroups(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateGroup(groupId: Int, listener: ApiListener) {
+    override suspend fun updateGroup(groupId: Int): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

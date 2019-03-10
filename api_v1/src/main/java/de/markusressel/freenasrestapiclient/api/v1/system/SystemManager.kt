@@ -20,11 +20,11 @@ package de.markusressel.freenasrestapiclient.api.v1.system
 
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.system.alert.AlertApi
 import de.markusressel.freenasrestapiclient.api.v1.system.alert.AlertHandler
 import de.markusressel.freenasrestapiclient.api.v1.system.update.UpdateApi
 import de.markusressel.freenasrestapiclient.api.v1.system.update.UpdateHandler
-import de.markusressel.freenasrestapiclient.core.RequestManager
 import io.reactivex.Single
 
 /**

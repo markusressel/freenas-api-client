@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.backup
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 import de.markusressel.freenasrestapiclient.api.v2.backup.azure.AzureBackupApi
 import de.markusressel.freenasrestapiclient.api.v2.backup.azure.AzureBackupApiImpl
@@ -43,19 +44,19 @@ class BackupApiImpl(val websocketApiClient: WebsocketApiClient,
         BackupCredentialsApi by backupCredentialsApi,
         GcsBackupApi by gcsBackupApi,
         S3BackupApi by s3BackupApi {
-    override fun createBackup(listener: ApiListener) {
+    override suspend fun createBackup(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getBackups(listener: ApiListener) {
+    override suspend fun getBackups(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateBackup(id: String, listener: ApiListener) {
+    override suspend fun updateBackup(id: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteBackup(id: String, listener: ApiListener) {
+    override suspend fun deleteBackup(id: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -26,10 +26,15 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import de.markusressel.commons.android.core.runOnUiThread
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.*
 import java.net.ConnectException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 
 typealias ApiListener = (Result<JsonElement, kotlin.Exception>) -> Unit
@@ -96,11 +101,7 @@ class WebsocketApiClient(
             }
 
             override fun onMessage(webSocket: WebSocket, text: String?) {
-                if (text == null) {
-                    return
-                }
-
-                handleIncomingMessage(function, text)
+                handleIncomingMessage(function, text ?: "")
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -177,15 +178,16 @@ class WebsocketApiClient(
      * Send a login message
      */
     private fun login(function: (Result<Boolean, Exception>) -> Unit) {
-        callMethod("auth.login", jsonArray(
-                auth.username,
-                auth.password
-        ), suppressLog = true) {
+        GlobalScope.launch {
+            val result = callMethod("auth.login", jsonArray(
+                    auth.username,
+                    auth.password
+            ), suppressLog = true)
 
-            it.fold(success = { result ->
-                Log.d(TAG, "Login response: $result")
+            result.fold(success = {
+                Log.d(TAG, "Login response: $it")
 
-                val responseObject = result.asJsonObject
+                val responseObject = it.asJsonObject
                 if (responseObject["result"].bool) {
                     if (!isConnected) {
                         this@WebsocketApiClient.listener?.onConnectionChanged(true)
@@ -201,6 +203,7 @@ class WebsocketApiClient(
                 throw error
             })
         }
+
     }
 
     /**
@@ -208,7 +211,7 @@ class WebsocketApiClient(
      *
      * @return a message identifier that can be used to unsubscribe
      */
-    fun subscribe(method: String, arguments: JsonElement? = null, listener: ApiListener): String {
+    suspend fun subscribe(method: String, arguments: JsonElement? = null, listener: ApiListener): String {
         val messageId = generateMesssageId()
         Log.d(TAG, "Subscribing '$messageId' to '$method' with parameters: '$arguments'")
         subscriptionListeners[messageId] = listener
@@ -221,7 +224,7 @@ class WebsocketApiClient(
      *
      * @param messageId the message id you got when subscribing
      */
-    fun unsubscribe(messageId: String) {
+    suspend fun unsubscribe(messageId: String) {
         // TODO: tell the server that we want to unsubscribe
         Log.d(TAG, "Unsubscribing '$messageId'")
         subscriptionListeners.remove(messageId)
@@ -233,14 +236,18 @@ class WebsocketApiClient(
      * @param method the method to call
      * @param arguments method arguments
      */
-    fun callMethod(method: String, arguments: JsonElement? = null, suppressLog: Boolean = false, listener: ApiListener) {
-        try {
-            val messageId = generateMesssageId()
-            if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$arguments' for '$messageId'")
-            responseListeners[messageId] = listener
-            sendMethodMessage(messageId = messageId, message = "method", method = method, arguments = arguments)
-        } catch (e: Exception) {
-            listener.invoke(Result.error(e))
+    suspend fun callMethod(method: String, arguments: JsonElement? = null, suppressLog: Boolean = false): Result<JsonElement, Exception> {
+        return suspendCoroutine { continuation ->
+            try {
+                val messageId = generateMesssageId()
+                if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$arguments' for '$messageId'")
+                responseListeners[messageId] = {
+                    continuation.resume(it)
+                }
+                sendMethodMessage(messageId = messageId, message = "method", method = method, arguments = arguments)
+            } catch (e: Exception) {
+                continuation.resumeWithException(e)
+            }
         }
     }
 

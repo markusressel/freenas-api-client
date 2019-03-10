@@ -18,27 +18,28 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.filesystem
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class FilesystemApiImpl(val websocketApiClient: WebsocketApiClient) : FilesystemApi {
-    override fun getFilesystemContent(path: String, listener: ApiListener) {
+    override suspend fun getFilesystemContent(path: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun listFilesystemDir(path: String, listener: ApiListener) {
+    override suspend fun listFilesystemDir(path: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putFilesystemContent(path: String, listener: ApiListener) {
+    override suspend fun putFilesystemContent(path: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun filesystemStat(path: String, listener: ApiListener) {
+    override suspend fun filesystemStat(path: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun filesystemStatFs(path: String, listener: ApiListener) {
+    override suspend fun filesystemStatFs(path: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

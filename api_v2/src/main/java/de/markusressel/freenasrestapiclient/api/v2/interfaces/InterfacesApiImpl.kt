@@ -18,16 +18,16 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.interfaces
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class InterfacesApiImpl(val websocketApiClient: WebsocketApiClient) : InterfacesApi {
-
-    override fun getInterfaceIpsInUse(listener: ApiListener) {
+    override suspend fun getInterfaceIpsInUse(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getInterfaces(listener: ApiListener) {
+    override suspend fun getInterfaces(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -18,13 +18,13 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.sharing
 
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.sharing.afp.AfpApi
 import de.markusressel.freenasrestapiclient.api.v1.sharing.afp.AfpShareHandler
 import de.markusressel.freenasrestapiclient.api.v1.sharing.cifs.CifsApi
 import de.markusressel.freenasrestapiclient.api.v1.sharing.cifs.CifsShareHandler
 import de.markusressel.freenasrestapiclient.api.v1.sharing.nfs.NfsApi
 import de.markusressel.freenasrestapiclient.api.v1.sharing.nfs.NfsShareHandler
-import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Created by Markus on 10.02.2018.

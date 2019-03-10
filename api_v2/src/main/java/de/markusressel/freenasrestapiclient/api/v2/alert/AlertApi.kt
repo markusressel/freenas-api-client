@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.alert
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface AlertApi {
 
@@ -27,36 +28,36 @@ interface AlertApi {
      *
      * @param id alert to dismiss
      */
-    fun dismissAlert(id: String? = null, listener: ApiListener)
+    suspend fun dismissAlert(id: String? = null): Result<JsonElement, Exception>
 
     /**
      * TODO:
      */
-    fun flushAlerts(listener: ApiListener)
+    suspend fun flushAlerts(): Result<JsonElement, Exception>
 
     /**
      * TODO:
      */
-    fun listAlerts(listener: ApiListener)
+    suspend fun listAlerts(): Result<JsonElement, Exception>
 
     /**
      * TODO:
      */
-    fun listAlertPolicies(listener: ApiListener)
+    suspend fun listAlertPolicies(): Result<JsonElement, Exception>
 
     /**
      * TODO:
      */
-    fun listAlertSources(listener: ApiListener)
+    suspend fun listAlertSources(): Result<JsonElement, Exception>
 
     /**
      * TODO:
      */
-    fun processAlerts(listener: ApiListener)
+    suspend fun processAlerts(): Result<JsonElement, Exception>
 
     /**
      * TODO:
      */
-    fun restoreAlert(id: String, listener: ApiListener)
+    suspend fun restoreAlert(id: String): Result<JsonElement, Exception>
 
 }

@@ -18,8 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.jail
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface JailApi {
 
@@ -34,17 +35,16 @@ interface JailApi {
      * Activates a pool for iocage usage, and deactivates the rest.
      *
      * @param pool the pool to use
-     * @param listener result listener
+
      */
-    fun activateJailPool(pool: String? = null, listener: ApiListener)
+    suspend fun activateJailPool(pool: String? = null): Result<JsonElement, Exception>
 
     /**
      * Cleans all iocage datasets of [dsType]
      *
      * @param dsType
-     * @param listener result listener
      */
-    fun cleanJail(dsType: DsType? = null, listener: ApiListener)
+    suspend fun cleanJail(dsType: DsType? = null): Result<JsonElement, Exception>
 
     /**
      * Creates a jail
@@ -54,18 +54,16 @@ interface JailApi {
      * @param template template to use
      * @param pkglist list of packages
      * @param baseJail base jail to use
-     * @param listener result listener
      */
-    fun createJail(uuid: String? = null, release: String? = null, template: String? = null,
-                   pkglist: String? = null, baseJail: Boolean? = null, listener: ApiListener)
+    suspend fun createJail(uuid: String? = null, release: String? = null, template: String? = null,
+                           pkglist: String? = null, baseJail: Boolean? = null): Result<JsonElement, Exception>
 
     /**
      * Starts a jail
      *
      * @param title the title of the jail
-     * @param listener result listener
      */
-    fun startJail(title: String, listener: ApiListener)
+    suspend fun startJail(title: String): Result<JsonElement, Exception>
 
     /**
      * Issues a command inside a jail
@@ -74,40 +72,35 @@ interface JailApi {
      * @param commands list of commands to issue
      * @param hostUser host user to use
      * @param jailUser jail user to use
-     * @param listener result listener
      */
-    fun execJailCommand(jail: String, commands: List<String>, hostUser: String? = null, jailUser: String? = null, listener: ApiListener)
+    suspend fun execJailCommand(jail: String, commands: List<String>, hostUser: String? = null, jailUser: String? = null): Result<JsonElement, Exception>
 
     /**
      * Exports jail to zip file
      *
      * @param title the title of the jail
-     * @param listener result listener
      */
-    fun exportJail(title: String, listener: ApiListener)
+    suspend fun exportJail(title: String): Result<JsonElement, Exception>
 
     /**
      * Fetches a release or plugin
      * TODO: add params
      *
-     * @param listener result listener
      */
-    fun fetchJail(listener: ApiListener)
+    suspend fun fetchJail(): Result<JsonElement, Exception>
 
     /**
      * Adds an fstab mount to the jail
      * TODO: add params
      *
-     * @param listener result listener
      */
-    fun addFstabMountToJail(title: String, listener: ApiListener)
+    suspend fun addFstabMountToJail(title: String): Result<JsonElement, Exception>
 
     /**
      * Returns the activated pool if there is one, or None
      *
-     * @param listener result listener
      */
-    fun getActiveJailPool(listener: ApiListener)
+    suspend fun getActiveJailPool(): Result<JsonElement, Exception>
 
     // TODO: jail.list_resource
     // TODO: jail.query
@@ -117,17 +110,15 @@ interface JailApi {
      * Stops a jail
      *
      * @param title the title of the jail
-     * @param listener result listener
      */
-    fun stopJail(title: String, listener: ApiListener)
+    suspend fun stopJail(title: String): Result<JsonElement, Exception>
 
     /**
      * Updates a jail
      *
      * @param title the title of the jail
-     * @param listener result listener
      */
-    fun updateJail(title: String, listener: ApiListener)
+    suspend fun updateJail(title: String): Result<JsonElement, Exception>
 
     // TODO: jail.update_to_latest_patch
 
@@ -137,8 +128,7 @@ interface JailApi {
      * Deletes a jail
      *
      * @param title the title of the jail
-     * @param listener result listener
      */
-    fun deleteJail(title: String, listener: ApiListener)
+    suspend fun deleteJail(title: String): Result<JsonElement, Exception>
 
 }

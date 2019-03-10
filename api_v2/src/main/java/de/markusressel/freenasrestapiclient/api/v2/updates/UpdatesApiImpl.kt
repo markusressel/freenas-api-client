@@ -23,20 +23,14 @@ import com.github.salomonbrys.kotson.addPropertyIfNotNull
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class UpdatesApiImpl(val websocketApiClient: WebsocketApiClient) : UpdatesApi {
 
     override suspend fun checkUpdateAvailable(train: String?): Result<JsonElement, Exception> {
-        return suspendCoroutine { continuation ->
-            val arguments = jsonObject().apply {
-                addPropertyIfNotNull("train", train)
-            }
-            websocketApiClient.callMethod("update.check_available", arguments) {
-                continuation.resume(it)
-            }
+        val arguments = jsonObject().apply {
+            addPropertyIfNotNull("train", train)
         }
+        return websocketApiClient.callMethod("update.check_available", arguments)
     }
 
 }

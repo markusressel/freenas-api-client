@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.backup
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.backup.azure.AzureBackupApi
 import de.markusressel.freenasrestapiclient.api.v2.backup.b2.B2BackupApi
 import de.markusressel.freenasrestapiclient.api.v2.backup.credential.BackupCredentialsApi
@@ -34,19 +35,19 @@ interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBack
      *
      * @param listener response listener
      */
-    fun createBackup(listener: ApiListener)
+    suspend fun createBackup(): Result<JsonElement, Exception>
 
     /**
      * Queries a list of backups
      */
-    fun getBackups(listener: ApiListener)
+    suspend fun getBackups(): Result<JsonElement, Exception>
 
     /**
      * Updates a backup
      *
      * @param id id of the backup
      */
-    fun updateBackup(id: String, listener: ApiListener)
+    suspend fun updateBackup(id: String): Result<JsonElement, Exception>
 
     /**
      * Deletes a backup
@@ -54,6 +55,6 @@ interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBack
      * @param id id of the backup
      * @param listener response listener
      */
-    fun deleteBackup(id: String, listener: ApiListener)
+    suspend fun deleteBackup(id: String): Result<JsonElement, Exception>
 
 }

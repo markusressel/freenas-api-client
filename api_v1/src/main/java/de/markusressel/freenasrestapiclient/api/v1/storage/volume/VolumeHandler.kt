@@ -20,7 +20,7 @@ package de.markusressel.freenasrestapiclient.api.v1.storage.volume
 
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Response
-import de.markusressel.freenasrestapiclient.core.RequestManager
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import io.reactivex.Single
 
 /**

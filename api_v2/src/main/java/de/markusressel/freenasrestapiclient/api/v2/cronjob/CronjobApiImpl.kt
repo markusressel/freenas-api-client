@@ -18,27 +18,28 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.cronjob
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class CronjobApiImpl(val websocketApiClient: WebsocketApiClient) : CronjobApi {
-    override fun createCronjob(listener: ApiListener) {
+    override suspend fun createCronjob(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCronjobs(listener: ApiListener) {
+    override suspend fun getCronjobs(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateCronjob(id: Int, listener: ApiListener) {
+    override suspend fun updateCronjob(id: Int): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun validateCronjon(id: Int, listener: ApiListener) {
+    override suspend fun validateCronjon(id: Int): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteCronjob(id: Int, listener: ApiListener) {
+    override suspend fun deleteCronjob(id: Int): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

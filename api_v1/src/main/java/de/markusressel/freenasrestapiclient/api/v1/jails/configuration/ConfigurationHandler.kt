@@ -19,7 +19,7 @@
 package de.markusressel.freenasrestapiclient.api.v1.jails.configuration
 
 import com.github.kittinunf.fuel.core.Method
-import de.markusressel.freenasrestapiclient.core.RequestManager
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import io.reactivex.Single
 
 /**

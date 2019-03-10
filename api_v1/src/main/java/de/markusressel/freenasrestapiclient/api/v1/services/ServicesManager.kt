@@ -18,9 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.services
 
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.services.service.ServiceApi
 import de.markusressel.freenasrestapiclient.api.v1.services.service.ServiceHandler
-import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Created by Markus on 09.02.2018.

@@ -18,27 +18,28 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.auth
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class AuthApiImpl(val websocketApiClient: WebsocketApiClient) : AuthApi {
-    override fun checkUser(username: String, password: String, listener: ApiListener) {
+    override suspend fun checkUser(username: String, password: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun generateToken(ttl: Int?, listener: ApiListener) {
+    override suspend fun generateToken(ttl: Int?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun login(username: String, password: String, listener: ApiListener) {
+    override suspend fun login(username: String, password: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun logout(listener: ApiListener) {
+    override suspend fun logout(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun authenticate(token: String, listener: ApiListener) {
+    override suspend fun authenticate(token: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

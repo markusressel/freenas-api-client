@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.filesystem
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface FilesystemApi {
 
@@ -26,9 +27,8 @@ interface FilesystemApi {
      * Job to get contents of path.
      *
      * @param path the path to query
-     * @param listener result listener
      */
-    fun getFilesystemContent(path: String, listener: ApiListener)
+    suspend fun getFilesystemContent(path: String): Result<JsonElement, Exception>
 
     /**
      * Get the contents of a directory.
@@ -46,24 +46,21 @@ interface FilesystemApi {
      * TODO: query filter params
      *
      * @param path path to query
-     * @param listener result listener
      */
-    fun listFilesystemDir(path: String, listener: ApiListener)
+    suspend fun listFilesystemDir(path: String): Result<JsonElement, Exception>
 
     /**
      * Job to put contents to path.
      *
-     * @param listener result listener
      */
-    fun putFilesystemContent(path: String, listener: ApiListener)
+    suspend fun putFilesystemContent(path: String): Result<JsonElement, Exception>
 
     /**
      * Return the filesystem stat(2) for a given path.
      *
      * @param path
-     * @param listener result listener
      */
-    fun filesystemStat(path: String, listener: ApiListener)
+    suspend fun filesystemStat(path: String): Result<JsonElement, Exception>
 
     /**
      * Return stats from the filesystem of a given path.
@@ -71,8 +68,7 @@ interface FilesystemApi {
      * Raises: CallError(ENOENT) - Path not found
      *
      * @param path
-     * @param listener result listener
      */
-    fun filesystemStatFs(path: String, listener: ApiListener)
+    suspend fun filesystemStatFs(path: String): Result<JsonElement, Exception>
 
 }

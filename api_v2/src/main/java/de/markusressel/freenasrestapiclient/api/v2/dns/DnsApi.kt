@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.dns
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface DnsApi {
 
@@ -26,8 +27,7 @@ interface DnsApi {
      * Queries a list of DNS providers
      *
      * TODO: query parameters
-     * @param listener result listener
      */
-    fun getDns(listener: ApiListener)
+    suspend fun getDns(): Result<JsonElement, Exception>
 
 }

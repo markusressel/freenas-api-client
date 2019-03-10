@@ -18,28 +18,27 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.dyndns
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface DynDnsApi {
 
     /**
      * Get the DynDNS config
      *
-     * @param listener result listener
      */
-    fun getDynDnsConfig(listener: ApiListener)
+    suspend fun getDynDnsConfig(): Result<JsonElement, Exception>
 
     /**
      * Set the DynDNS config
      *
      * TODO: params
-     * @param listener result listener
      */
-    fun setDynDnsConfig(provider: String?, checkipSsl: Boolean?,
-                        checkipServer: String?, checkipPath: String?,
-                        ssl: Boolean?, customDdnsServer: String?,
-                        customDdnsPath: String?, domain: List<String>,
-                        username: String?, password: String?,
-                        period: Int?, listener: ApiListener)
+    suspend fun setDynDnsConfig(provider: String?, checkipSsl: Boolean?,
+                                checkipServer: String?, checkipPath: String?,
+                                ssl: Boolean?, customDdnsServer: String?,
+                                customDdnsPath: String?, domain: List<String>,
+                                username: String?, password: String?,
+                                period: Int?): Result<JsonElement, Exception>
 
 }

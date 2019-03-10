@@ -27,9 +27,20 @@ class ExampleTest : TestBase() {
     fun test_example() {
         runBlocking {
             val result = underTest.checkUpdateAvailable()
-
             result.fold(success = {
-                val o = it.asJsonObject
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun test_example2() {
+        runBlocking {
+            val result = underTest.getBackups()
+            result.fold(success = {
+                println("$it")
             }, failure = {
                 throw it
             })

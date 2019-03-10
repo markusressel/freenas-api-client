@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.bootenv
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface BootEnvApi {
 
@@ -26,26 +27,23 @@ interface BootEnvApi {
      * Queries a list of boot environments
      *
      * TODO: query parameters
-     * @param listener result listener
      */
-    fun getBootEnvs(listener: ApiListener)
+    suspend fun getBootEnvs(): Result<JsonElement, Exception>
 
     /**
      * Activates a boot environment
      *
      * @param id boot environment id
-     * @param listener result listener
      */
-    fun activateBootEnv(id: String, listener: ApiListener)
+    suspend fun activateBootEnv(id: String): Result<JsonElement, Exception>
 
     /**
      * Creates a new boot environment
      *
      * @param name name of the environment
      * @param source TODO: what is this?
-     * @param listener result listener
      */
-    fun createBootEnv(name: String, source: String? = null, listener: ApiListener)
+    suspend fun createBootEnv(name: String, source: String? = null): Result<JsonElement, Exception>
 
     /**
      * Sets attributes of boot environment.
@@ -53,25 +51,22 @@ interface BootEnvApi {
      * Currently only [keep] attribute is allowed.
      *
      * @param keep whether to keep this environment forever
-     * @param listener result listener
      */
-    fun setBootEnvAttribute(keep: Boolean, listener: ApiListener)
+    suspend fun setBootEnvAttribute(keep: Boolean): Result<JsonElement, Exception>
 
     /**
      * Updates a boot environment
      *
      * @param id id of the boot environment
      * @param name name of the environment
-     * @param listener result listener
      */
-    fun updateBootEnv(id: String, name: String, listener: ApiListener)
+    suspend fun updateBootEnv(id: String, name: String): Result<JsonElement, Exception>
 
     /**
      * Deletes a boot environment
      *
      * @param id id of the environment
-     * @param listener result listener
      */
-    fun deleteBootEnv(id: String, listener: ApiListener)
+    suspend fun deleteBootEnv(id: String): Result<JsonElement, Exception>
 
 }

@@ -18,79 +18,79 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.jail
 
+import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.addPropertyIfNotNull
 import com.github.salomonbrys.kotson.jsonObject
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class JailApiImpl(val websocketApiClient: WebsocketApiClient) : JailApi {
-
-    override fun activateJailPool(pool: String?, listener: ApiListener) {
+    override suspend fun activateJailPool(pool: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun cleanJail(dsType: JailApi.DsType?, listener: ApiListener) {
+    override suspend fun cleanJail(dsType: JailApi.DsType?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun execJailCommand(jail: String, commands: List<String>, hostUser: String?, jailUser: String?, listener: ApiListener) {
+    override suspend fun execJailCommand(jail: String, commands: List<String>, hostUser: String?, jailUser: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun exportJail(title: String, listener: ApiListener) {
+    override suspend fun exportJail(title: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchJail(listener: ApiListener) {
+    override suspend fun fetchJail(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun addFstabMountToJail(title: String, listener: ApiListener) {
+    override suspend fun addFstabMountToJail(title: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getActiveJailPool(listener: ApiListener) {
+    override suspend fun getActiveJailPool(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun createJail(uuid: String?, release: String?, template: String?,
-                            pkglist: String?, baseJail: Boolean?, listener: ApiListener) {
+    override suspend fun createJail(uuid: String?, release: String?, template: String?,
+                                    pkglist: String?, baseJail: Boolean?): Result<JsonElement, Exception> {
         val arguments = jsonObject().apply {
             addPropertyIfNotNull("uuid", uuid)
             addPropertyIfNotNull("release", release)
             addPropertyIfNotNull("template", template)
             addPropertyIfNotNull("pkglist", pkglist)
         }
-        websocketApiClient.callMethod("jail.create", arguments, listener = listener)
+        return websocketApiClient.callMethod("jail.create", arguments)
     }
 
 
-    override fun startJail(title: String, listener: ApiListener) {
+    override suspend fun startJail(title: String): Result<JsonElement, Exception> {
         val arguments = jsonObject().apply {
             addPropertyIfNotNull("title", title)
         }
-        websocketApiClient.callMethod("jail.start", arguments, listener = listener)
+        return websocketApiClient.callMethod("jail.start", arguments)
     }
 
-    override fun stopJail(title: String, listener: ApiListener) {
+    override suspend fun stopJail(title: String): Result<JsonElement, Exception> {
         val arguments = jsonObject().apply {
             addPropertyIfNotNull("title", title)
         }
-        websocketApiClient.callMethod("jail.stop", arguments, listener = listener)
+        return websocketApiClient.callMethod("jail.stop", arguments)
     }
 
-    override fun updateJail(title: String, listener: ApiListener) {
+    override suspend fun updateJail(title: String): Result<JsonElement, Exception> {
         val arguments = jsonObject().apply {
             addPropertyIfNotNull("title", title)
         }
-        websocketApiClient.callMethod("jail.update", arguments, listener = listener)
+        return websocketApiClient.callMethod("jail.update", arguments)
     }
 
-    override fun deleteJail(title: String, listener: ApiListener) {
+    override suspend fun deleteJail(title: String): Result<JsonElement, Exception> {
         val arguments = jsonObject().apply {
             addPropertyIfNotNull("title", title)
         }
-        websocketApiClient.callMethod("jail.delete", arguments, listener = listener)
+        return websocketApiClient.callMethod("jail.delete", arguments)
     }
 
 }

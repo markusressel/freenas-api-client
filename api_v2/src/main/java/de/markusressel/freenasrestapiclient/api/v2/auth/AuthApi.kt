@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.auth
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface AuthApi {
 
@@ -28,7 +29,7 @@ interface AuthApi {
      * @param username username
      * @param password password
      */
-    fun checkUser(username: String = "root", password: String, listener: ApiListener)
+    suspend fun checkUser(username: String = "root", password: String): Result<JsonElement, Exception>
 
     /**
      * Generate a token to be used for authentication.
@@ -36,23 +37,23 @@ interface AuthApi {
      * @param ttl time to live
      * @param listener response listener
      */
-    fun generateToken(ttl: Int? = null, listener: ApiListener)
+    suspend fun generateToken(ttl: Int? = null): Result<JsonElement, Exception>
 
     /**
      * Authenticate session using username and password. Currently only root user is allowed.
      *
      * @param username
      * @param password
-     * @param listener result listener
+
      */
-    fun login(username: String = "root", password: String, listener: ApiListener)
+    suspend fun login(username: String = "root", password: String): Result<JsonElement, Exception>
 
     /**
      * Deauthenticates an app and if a token exists, removes that from the session.
      *
      * @param listener response listener
      */
-    fun logout(listener: ApiListener)
+    suspend fun logout(): Result<JsonElement, Exception>
 
     /**
      * Authenticate using a given token id.
@@ -60,6 +61,6 @@ interface AuthApi {
      * @param token auth token
      * @param listener response listener
      */
-    fun authenticate(token: String, listener: ApiListener)
+    suspend fun authenticate(token: String): Result<JsonElement, Exception>
 
 }

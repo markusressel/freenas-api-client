@@ -18,35 +18,36 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.alert
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class AlertApiImpl(val websocketApiClient: WebsocketApiClient) : AlertApi {
-    override fun dismissAlert(id: String?, listener: ApiListener) {
+    override suspend fun dismissAlert(id: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun flushAlerts(listener: ApiListener) {
+    override suspend fun flushAlerts(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun listAlerts(listener: ApiListener) {
+    override suspend fun listAlerts(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun listAlertPolicies(listener: ApiListener) {
+    override suspend fun listAlertPolicies(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun listAlertSources(listener: ApiListener) {
+    override suspend fun listAlertSources(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun processAlerts(listener: ApiListener) {
+    override suspend fun processAlerts(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun restoreAlert(id: String, listener: ApiListener) {
+    override suspend fun restoreAlert(id: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

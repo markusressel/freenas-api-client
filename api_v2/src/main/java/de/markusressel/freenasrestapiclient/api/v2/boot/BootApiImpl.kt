@@ -18,31 +18,33 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.boot
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class BootApiImpl(val websocketApiClient: WebsocketApiClient) : BootApi {
-    override fun attachBootPool(dev: String, expand: Boolean, listener: ApiListener) {
+    override suspend fun attachBootPool(dev: String, expand: Boolean): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun detachBootPool(dev: String, listener: ApiListener) {
+    override suspend fun detachBootPool(dev: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getBootDisks(listener: ApiListener) {
+    override suspend fun getBootDisks(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getBootState(listener: ApiListener) {
+    override suspend fun getBootState(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun replaceBootLabel(label: String, dev: String, listener: ApiListener) {
+    override suspend fun replaceBootLabel(label: String, dev: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun scrubBoot(listener: ApiListener) {
+    override suspend fun scrubBoot(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }

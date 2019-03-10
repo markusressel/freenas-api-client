@@ -18,31 +18,32 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.bootenv
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class BootEnvApiImpl(val websocketApiClient: WebsocketApiClient) : BootEnvApi {
-    override fun getBootEnvs(listener: ApiListener) {
+    override suspend fun getBootEnvs(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun activateBootEnv(id: String, listener: ApiListener) {
+    override suspend fun activateBootEnv(id: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun createBootEnv(name: String, source: String?, listener: ApiListener) {
+    override suspend fun createBootEnv(name: String, source: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setBootEnvAttribute(keep: Boolean, listener: ApiListener) {
+    override suspend fun setBootEnvAttribute(keep: Boolean): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateBootEnv(id: String, name: String, listener: ApiListener) {
+    override suspend fun updateBootEnv(id: String, name: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteBootEnv(id: String, listener: ApiListener) {
+    override suspend fun deleteBootEnv(id: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

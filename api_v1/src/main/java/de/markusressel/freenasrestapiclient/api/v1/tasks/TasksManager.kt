@@ -18,9 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.tasks
 
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import de.markusressel.freenasrestapiclient.api.v1.tasks.smart.SMARTTaskApi
 import de.markusressel.freenasrestapiclient.api.v1.tasks.smart.SMARTTaskHandler
-import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Created by Markus on 09.02.2018.

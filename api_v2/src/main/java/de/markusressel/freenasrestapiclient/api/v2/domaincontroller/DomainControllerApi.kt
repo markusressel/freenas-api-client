@@ -18,8 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.domaincontroller
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface DomainControllerApi {
 
@@ -48,20 +49,18 @@ interface DomainControllerApi {
     /**
      * Get the domain controller config
      *
-     * @param listener result listener
      */
-    fun getDomainControllerConfig(listener: ApiListener)
+    suspend fun getDomainControllerConfig(): Result<JsonElement, Exception>
 
     /**
      * Set the domain controller config
      *
      * TODO: params
      *
-     * @param listener result listener
      */
-    fun setDomainControllerConfig(realm: String?, domain: String?, role: DomainControllerRole?,
-                                  dnsBackend: DnsBackend?, dnsForwarder: String?,
-                                  forestLevel: ForestLevel, password: String?,
-                                  kerberosRealm: Int?, listener: ApiListener)
+    suspend fun setDomainControllerConfig(realm: String?, domain: String?, role: DomainControllerRole?,
+                                          dnsBackend: DnsBackend?, dnsForwarder: String?,
+                                          forestLevel: ForestLevel, password: String?,
+                                          kerberosRealm: Int?): Result<JsonElement, Exception>
 
 }

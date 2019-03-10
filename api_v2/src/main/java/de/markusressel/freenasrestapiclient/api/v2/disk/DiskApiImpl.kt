@@ -18,31 +18,32 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.disk
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class DiskApiImpl(val websocketApiClient: WebsocketApiClient) : DiskApi {
-    override fun decryptDisk(devices: List<String>, passphrase: String, listener: ApiListener) {
+    override suspend fun decryptDisk(devices: List<String>, passphrase: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getEncryptedDisks(unused: Boolean?, listener: ApiListener) {
+    override suspend fun getEncryptedDisks(unused: Boolean?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getUnusedDisks(joinPartitions: Boolean, listener: ApiListener) {
+    override suspend fun getUnusedDisks(joinPartitions: Boolean): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getDisks(listener: ApiListener) {
+    override suspend fun getDisks(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateDisk(listener: ApiListener) {
+    override suspend fun updateDisk(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun wipeDisk(dev: String, type: DiskApi.WipeType, listener: ApiListener) {
+    override suspend fun wipeDisk(dev: String, type: DiskApi.WipeType): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

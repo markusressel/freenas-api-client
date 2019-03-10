@@ -18,8 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.disk
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface DiskApi {
 
@@ -37,45 +38,40 @@ interface DiskApi {
      *
      * @param devices list of devices
      * @param passphrase encryption key passphrase
-     * @param listener result listener
      */
 
-    fun decryptDisk(devices: List<String>, passphrase: String, listener: ApiListener)
+    suspend fun decryptDisk(devices: List<String>, passphrase: String): Result<JsonElement, Exception>
 
     /**
      * Queries all geli providers.
      * It might be an entire disk or a partition of type freebsd-zfs.
      *
      * @param unused
-     * @param listener result listener
      */
-    fun getEncryptedDisks(unused: Boolean?, listener: ApiListener)
+    suspend fun getEncryptedDisks(unused: Boolean?): Result<JsonElement, Exception>
 
     /**
      * Helper method to get all disks that are not in use, either by the boot pool or the user pools.
      *
      * @param joinPartitions
-     * @param listener result listener
      */
-    fun getUnusedDisks(joinPartitions: Boolean = false, listener: ApiListener)
+    suspend fun getUnusedDisks(joinPartitions: Boolean = false): Result<JsonElement, Exception>
 
     /**
      * Queries a list of disks.
      *
      * TODO: many parameters
      *
-     * @param listener result listener
      */
-    fun getDisks(listener: ApiListener)
+    suspend fun getDisks(): Result<JsonElement, Exception>
 
     /**
      * Update a disk
      *
      * TODO: many parameters
      *
-     * @param listener result listener
      */
-    fun updateDisk(listener: ApiListener)
+    suspend fun updateDisk(): Result<JsonElement, Exception>
 
     /**
      * Performs a wipe of a disk dev.
@@ -87,8 +83,7 @@ interface DiskApi {
      *
      * @param dev device to wipe
      * @param type wipe type
-     * @param listener result listener
      */
-    fun wipeDisk(dev: String, type: WipeType, listener: ApiListener)
+    suspend fun wipeDisk(dev: String, type: WipeType): Result<JsonElement, Exception>
 
 }

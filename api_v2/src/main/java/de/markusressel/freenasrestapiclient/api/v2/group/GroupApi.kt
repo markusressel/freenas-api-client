@@ -18,53 +18,48 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.group
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface GroupApi {
 
     /**
      * Creates a new group
      *
-     * @param listener result listener
      */
-    fun createGroup(groupId: Int,
-                    name: String,
-                    sudo: Boolean,
-                    allow_duplicate_gid: Boolean,
-                    users: List<Int>,
-                    listener: ApiListener)
+    suspend fun createGroup(groupId: Int,
+                            name: String,
+                            sudo: Boolean,
+                            allow_duplicate_gid: Boolean,
+                            users: List<Int>): Result<JsonElement, Exception>
 
     /**
      * Deletes a group
      *
      * @param groupId group id
      * @param deleteUsers whether to delete users associated with this group
-     * @param listener result listener
      */
-    fun deleteGroup(groupId: Int, deleteUsers: Boolean? = null, listener: ApiListener)
+    suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean? = null): Result<JsonElement, Exception>
 
     /**
      * Get the next available/free gid.
      *
-     * @param listener result listener
      */
-    fun getNextFreeGroupId(listener: ApiListener)
+    suspend fun getNextFreeGroupId(): Result<JsonElement, Exception>
 
     /**
      * Query a list of groups
      *
      * TODO: query params
      *
-     * @param listener result listener
      */
-    fun getGroups(listener: ApiListener)
+    suspend fun getGroups(): Result<JsonElement, Exception>
 
     /**
      * Updates a group
      *
      * @param groupId group id to update
-     * @param listener result listener
      */
-    fun updateGroup(groupId: Int, listener: ApiListener)
+    suspend fun updateGroup(groupId: Int): Result<JsonElement, Exception>
 
 }

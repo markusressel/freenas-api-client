@@ -18,27 +18,28 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.cluster
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class ClusterApiImpl(val websocketApiClient: WebsocketApiClient) : ClusterApi {
-    override fun getAvailableClusterNodes(listener: ApiListener) {
+    override suspend fun getAvailableClusterNodes(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun addClusterNode(listener: ApiListener) {
+    override suspend fun addClusterNode(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun checkClusterNode(listener: ApiListener) {
+    override suspend fun checkClusterNode(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getClusterNodes(listener: ApiListener) {
+    override suspend fun getClusterNodes(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun removeClusterNode(listener: ApiListener) {
+    override suspend fun removeClusterNode(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

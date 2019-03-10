@@ -18,8 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.ftp
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface FtpApi {
 
@@ -41,57 +42,55 @@ interface FtpApi {
     /**
      * Get FTP config
      *
-     * @param listener result listener
      */
-    fun getFtpConfig(listener: ApiListener)
+    suspend fun getFtpConfig(): Result<JsonElement, Exception>
 
     /**
      * Set the FTP config
      *
      * TODO: maaaany params
      *
-     * @param listener result listener
      */
-    fun setFtpConfig(port: Int?,
-                     clients: Int?,
-                     ipConnections: Int?,
-                     loginAttempts: Int?,
-                     timeout: Int?,
-                     rootLogin: Boolean?,
-                     onlyAnonymous: Boolean?,
-                     anonpath: String?,
-                     onlylocal: Boolean?,
-                     banner: String?,
-                     filemask: String?,
-                     dirmask: String?,
-                     fxp: Boolean?,
-                     resume: Boolean?,
-                     defaultroot: Boolean?,
-                     ident: Boolean?,
-                     reversedns: Boolean?,
-                     masqaddress: String?,
-                     passiveportsmin: Int?,
-                     passiveportsmax: Int?,
-                     localuserbw: Int?,
-                     localuserdlbw: Int?,
-                     anonuserbw: Int?,
-                     anonuserdlbw: Int?,
-                     tls: Boolean?,
-                     tls_policy: TlsPolicy?,
-                     tls_opt_allow_client_renegotiations: Boolean?,
-                     tls_opt_allow_dot_login: Boolean?,
-                     tls_opt_allow_per_user: Boolean?,
-                     tls_opt_common_name_required: Boolean?,
-                     tls_opt_enable_diags: Boolean?,
-                     tls_opt_export_cert_data: Boolean?,
-                     tls_opt_no_cert_request: Boolean?,
-                     tls_opt_no_empty_fragments: Boolean?,
-                     tls_opt_no_session_reuse_required: Boolean?,
-                     tls_opt_stdenvvars: Boolean?,
-                     tls_opt_dns_name_required: Boolean?,
-                     tls_opt_ip_address_required: Boolean?,
-                     ssltls_certificate: Int?,
-                     options: String?,
-                     listener: ApiListener)
+    suspend fun setFtpConfig(port: Int?,
+                             clients: Int?,
+                             ipConnections: Int?,
+                             loginAttempts: Int?,
+                             timeout: Int?,
+                             rootLogin: Boolean?,
+                             onlyAnonymous: Boolean?,
+                             anonpath: String?,
+                             onlylocal: Boolean?,
+                             banner: String?,
+                             filemask: String?,
+                             dirmask: String?,
+                             fxp: Boolean?,
+                             resume: Boolean?,
+                             defaultroot: Boolean?,
+                             ident: Boolean?,
+                             reversedns: Boolean?,
+                             masqaddress: String?,
+                             passiveportsmin: Int?,
+                             passiveportsmax: Int?,
+                             localuserbw: Int?,
+                             localuserdlbw: Int?,
+                             anonuserbw: Int?,
+                             anonuserdlbw: Int?,
+                             tls: Boolean?,
+                             tls_policy: TlsPolicy?,
+                             tls_opt_allow_client_renegotiations: Boolean?,
+                             tls_opt_allow_dot_login: Boolean?,
+                             tls_opt_allow_per_user: Boolean?,
+                             tls_opt_common_name_required: Boolean?,
+                             tls_opt_enable_diags: Boolean?,
+                             tls_opt_export_cert_data: Boolean?,
+                             tls_opt_no_cert_request: Boolean?,
+                             tls_opt_no_empty_fragments: Boolean?,
+                             tls_opt_no_session_reuse_required: Boolean?,
+                             tls_opt_stdenvvars: Boolean?,
+                             tls_opt_dns_name_required: Boolean?,
+                             tls_opt_ip_address_required: Boolean?,
+                             ssltls_certificate: Int?,
+                             options: String?
+    ): Result<JsonElement, Exception>
 
 }

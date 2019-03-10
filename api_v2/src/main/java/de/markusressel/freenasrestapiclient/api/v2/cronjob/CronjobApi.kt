@@ -18,48 +18,44 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.cronjob
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface CronjobApi {
 
     /**
      * Creates a new cronjob
      * TODO: many params
-     * @param listener result listener
      */
-    fun createCronjob(listener: ApiListener)
+    suspend fun createCronjob(): Result<JsonElement, Exception>
 
     /**
      * Queries a list of cronjobs
      *
      * TODO: many params
-     * @param listener result listener
      */
-    fun getCronjobs(listener: ApiListener)
+    suspend fun getCronjobs(): Result<JsonElement, Exception>
 
     /**
      * Updates a cronjob
      *
      * @param id id of the cronjob
-     * @param listener result listener
      */
-    fun updateCronjob(id: Int, listener: ApiListener)
+    suspend fun updateCronjob(id: Int): Result<JsonElement, Exception>
 
     /**
      * Validates a cronjob
      *
      * @param id id of the cronjob
-     * @param listener result listener
      */
-    fun validateCronjon(id: Int, listener: ApiListener)
+    suspend fun validateCronjon(id: Int): Result<JsonElement, Exception>
 
     /**
      * Deletes a cronjob
      *
      * @param id id of the cronjob
-     * @param listener result listener
      */
-    fun deleteCronjob(id: Int, listener: ApiListener)
+    suspend fun deleteCronjob(id: Int): Result<JsonElement, Exception>
 
 
 }

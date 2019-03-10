@@ -18,7 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v1.storage.disk
 
-import de.markusressel.freenasrestapiclient.core.RequestManager
+import de.markusressel.freenasrestapiclient.api.v1.RequestManager
 import io.reactivex.Single
 
 interface DiskApi {

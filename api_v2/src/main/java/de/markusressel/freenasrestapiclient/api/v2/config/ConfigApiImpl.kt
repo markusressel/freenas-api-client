@@ -18,15 +18,16 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.config
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class ConfigApiImpl(val websocketApiClient: WebsocketApiClient) : ConfigApi {
-    override fun saveConfig(listener: ApiListener) {
+    override suspend fun saveConfig(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun uploadConfig(listener: ApiListener) {
+    override suspend fun uploadConfig(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

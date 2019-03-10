@@ -18,47 +18,52 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
-import android.util.Log
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import de.markusressel.freenasrestapiclient.core.BuildConfig
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
+import kotlin.system.measureTimeMillis
 
 abstract class TestBase : WebsocketConnectionListener {
 
     val underTest: FreeNasRestApiV2Client = FreeNasRestApiV2Client(
-            baseUrl = "wss://frittenbude.markusressel.de/websocket",
+            baseUrl = BuildConfig.TESTING_URL_V2,
             auth = BasicAuthConfig(
-                    username = "root",
-                    password = "bZ_EL80yL9mj=m&amp;9WB32eKPDo")
+                    username = BuildConfig.TESTING_USERNAME,
+                    password = BuildConfig.TESTING_PASSWORD)
     )
 
     @Before
     open fun before() {
-        runBlocking {
-            val result = underTest.connect()
-            result.fold(success = {
-                // ok
-            }, failure = {
-                throw  it
-            })
+        val time = measureTimeMillis {
+            runBlocking {
+                val result = underTest.connect()
+                result.fold(success = {
+                    // ok
+                }, failure = {
+                    throw  it
+                })
+            }
         }
-
-        Log.d("", "")
+        println("Login took: $time ms")
     }
 
     @After
     open fun after() {
-        runBlocking {
-            val result = underTest.disconnect()
-            result.fold(success = {
-                // ok
-            }, failure = {
-                throw  it
-            })
+        val time = measureTimeMillis {
+            runBlocking {
+                val result = underTest.disconnect()
+                result.fold(success = {
+                    // ok
+                }, failure = {
+                    throw  it
+                })
+            }
         }
+        println("Logout took: $time ms")
     }
 
 

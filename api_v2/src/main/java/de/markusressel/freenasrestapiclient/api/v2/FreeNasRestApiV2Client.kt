@@ -66,6 +66,7 @@ import de.markusressel.freenasrestapiclient.api.v2.sharing.SharingApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApi
 import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApiImpl
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -125,11 +126,16 @@ class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
 
     /**
      * Connect to the websocket api
+     *
+     * @param listener optional connection status listener
      */
-    suspend fun connect(): Result<Boolean, Exception> {
-        return suspendCoroutine { continuation ->
-            websocketClient.connect {
-                continuation.resume(it)
+    fun connect(listener: WebsocketConnectionListener? = null): Result<Boolean, Exception> {
+        websocketClient.setListener(listener)
+        return runBlocking {
+            suspendCoroutine<Result<Boolean, Exception>> { continuation ->
+                websocketClient.connect {
+                    continuation.resume(it)
+                }
             }
         }
     }

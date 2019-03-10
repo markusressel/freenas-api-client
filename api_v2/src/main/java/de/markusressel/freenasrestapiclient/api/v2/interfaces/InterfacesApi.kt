@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.interfaces
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface InterfacesApi {
 
@@ -41,18 +42,16 @@ interface InterfacesApi {
      *   },
      * ]
      *
-     * @param listener result listener
      */
-    fun getInterfaceIpsInUse(listener: ApiListener)
+    suspend fun getInterfaceIpsInUse(): Result<JsonElement, Exception>
 
     /**
      * Queries a list of interfaces
      *
      * TODO: query params
      *
-     * @param listener result listener
      */
-    fun getInterfaces(listener: ApiListener)
+    suspend fun getInterfaces(): Result<JsonElement, Exception>
 
 //    TODO: interfaces.websocket_interface
 //    TODO: interfaces.websocket_local_ip

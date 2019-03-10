@@ -33,6 +33,12 @@ android {
         versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // testing contants
+        buildConfigField "String", "TESTING_URL_V1", "\"ws://192.168.2.20/api/v1\""
+        buildConfigField "String", "TESTING_URL_V2", "\"ws://192.168.2.20/websocket\""
+        buildConfigField "String", "TESTING_USERNAME", "\"root\""
+        buildConfigField "String", "TESTING_PASSWORD", "\"root\""
     }
 
     buildTypes {
@@ -45,15 +51,6 @@ android {
 }
 
 dependencies {
-    //for JVM
-    api "com.github.kittinunf.fuel:fuel:${rootProject.ext.fuelVersion}"
-    //for RxJava support
-    api "com.github.kittinunf.fuel:fuel-rxjava:${rootProject.ext.fuelVersion}"
-    //for Gson support
-    api"com.github.kittinunf.fuel:fuel-gson:${rootProject.ext.fuelVersion}"
-    //for Android
-    api "com.github.kittinunf.fuel:fuel-android:${rootProject.ext.fuelVersion}"
-
     // Kotlin bindings for GSON
     api "com.github.salomonbrys.kotson:kotson:${rootProject.ext.kotsonVersion}"
 

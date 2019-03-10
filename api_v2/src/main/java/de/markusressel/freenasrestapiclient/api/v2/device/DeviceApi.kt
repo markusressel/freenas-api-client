@@ -18,8 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.device
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface DeviceApi {
 
@@ -34,8 +35,8 @@ interface DeviceApi {
      * Currently only SERIAL is supported.
      *
      * @param type device type to query
-     * @param listener result listener
+
      */
-    fun getDeviceInfo(type: DeviceInfoType, listener: ApiListener)
+    suspend fun getDeviceInfo(type: DeviceInfoType): Result<JsonElement, Exception>
 
 }

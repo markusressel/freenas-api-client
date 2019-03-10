@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.config
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface ConfigApi {
 
@@ -27,15 +28,13 @@ interface ConfigApi {
      *
      * secretseed - will include the password secret seed in the bundle.
      *
-     * @param listener result listener
      */
-    fun saveConfig(listener: ApiListener)
+    suspend fun saveConfig(): Result<JsonElement, Exception>
 
     /**
      * Accepts a configuration file via job pipe.
      *
-     * @param listener result listener
      */
-    fun uploadConfig(listener: ApiListener)
+    suspend fun uploadConfig(): Result<JsonElement, Exception>
 
 }

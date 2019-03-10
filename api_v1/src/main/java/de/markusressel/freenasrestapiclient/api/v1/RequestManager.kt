@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Markus Ressel
+ * Copyright (c) 2019 Markus Ressel
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights
@@ -16,7 +16,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.core
+package de.markusressel.freenasrestapiclient.api.v1
 
 import android.util.Log
 import com.github.kittinunf.fuel.core.*
@@ -24,6 +24,7 @@ import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.rx.rxObject
 import com.github.kittinunf.fuel.rx.rxResponsePair
 import com.google.gson.Gson
+import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import io.reactivex.Single
 
 /**

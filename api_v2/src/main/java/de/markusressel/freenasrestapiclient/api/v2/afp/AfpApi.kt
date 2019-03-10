@@ -18,8 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.afp
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
 interface AfpApi {
 
@@ -41,16 +42,14 @@ interface AfpApi {
 
     /**
      * Get the AFP sharing config
-     *
-     * @param listener result listener
      */
-    fun getAfpConfig(listener: ApiListener)
+    suspend fun getAfpConfig(): Result<JsonElement, Exception>
 
     /**
      * Update the AFP sharing config
      */
-    fun updateAfpConfig(chmodRequest: ChmodRequest? = null, mapAcls: MapAcl? = null, globalAux: String? = null,
-                        dbpath: String? = null, connectionsLimit: Int? = null, bindip: List<String>? = null,
-                        guest: Boolean? = null, guestUser: String? = null, listener: ApiListener)
+    suspend fun updateAfpConfig(chmodRequest: ChmodRequest? = null, mapAcls: MapAcl? = null, globalAux: String? = null,
+                                dbpath: String? = null, connectionsLimit: Int? = null, bindip: List<String>? = null,
+                                guest: Boolean? = null, guestUser: String? = null): Result<JsonElement, Exception>
 
 }

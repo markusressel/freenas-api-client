@@ -19,19 +19,23 @@
 package de.markusressel.freenasrestapiclient.demo
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
+import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.success
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
 import de.markusressel.commons.android.material.toast
 import de.markusressel.freenasrestapiclient.api.v1.FreeNasRestApiV1Client
 import de.markusressel.freenasrestapiclient.api.v2.FreeNasRestApiV2Client
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketConnectionListener
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import de.markusressel.freenasrestapiclient.core.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
 
@@ -82,23 +86,42 @@ class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
 
     private fun setupFreenasApiClientV2() {
         freeNasWebApiClientV2 = FreeNasRestApiV2Client(
-                baseUrl = "wss://frittenbude.markusressel.de/api/websocket",
+                baseUrl = BuildConfig.TESTING_URL_V2,
                 auth = BasicAuthConfig(
-                        username = "root",
-                        password = "bZ_EL80yL9mj=m&amp;9WB32eKPDo"))
+                        username = BuildConfig.TESTING_USERNAME,
+                        password = BuildConfig.TESTING_PASSWORD))
 
-        freeNasWebApiClientV2.connect(this)
+        val result = freeNasWebApiClientV2.connect(this)
+        showResult(result)
+        result.success {
+            checkForUpdates()
+        }
+    }
+
+    /**
+     * Simple function to show result in demo app GUI
+     */
+    private fun showResult(result: Result<*, Exception>, prefix: String = "Result: ") {
+        result.fold(success = {
+            textView.text = "$prefix$it"
+            checkForUpdates()
+        }, failure = {
+            textView.text = "$prefix${it.stackTrace}"
+        })
+    }
+
+    private fun checkForUpdates() {
+        GlobalScope.launch {
+            val result = freeNasWebApiClientV2.checkUpdateAvailable()
+            showResult(result)
+        }
     }
 
     override fun onConnectionChanged(connected: Boolean, errorCode: Int?, throwable: Throwable?) {
         if (connected) {
-            freeNasWebApiClientV2.checkUpdateAvailable {
-                it.fold(onSuccess = { result ->
-                    Log.d("MainActivity", "Check Update response: $result")
-                }, onFailure = { error ->
-                    Log.e("MainActivity", "Error checking update response: ${error.message}")
-                })
-            }
+            toast("Connected")
+        } else {
+            toast("Disconnected")
         }
     }
 

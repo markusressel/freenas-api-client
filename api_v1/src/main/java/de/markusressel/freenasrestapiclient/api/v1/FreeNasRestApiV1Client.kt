@@ -35,7 +35,6 @@ import de.markusressel.freenasrestapiclient.api.v1.system.SystemManager
 import de.markusressel.freenasrestapiclient.api.v1.tasks.TasksApi
 import de.markusressel.freenasrestapiclient.api.v1.tasks.TasksManager
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
-import de.markusressel.freenasrestapiclient.core.RequestManager
 
 /**
  * Convenience delegation class for easy access to all api methods

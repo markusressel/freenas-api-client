@@ -18,15 +18,16 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.ftp
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class FtpApiImpl(val websocketApiClient: WebsocketApiClient) : FtpApi {
-    override fun getFtpConfig(listener: ApiListener) {
+    override suspend fun getFtpConfig(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setFtpConfig(port: Int?, clients: Int?, ipConnections: Int?, loginAttempts: Int?, timeout: Int?, rootLogin: Boolean?, onlyAnonymous: Boolean?, anonpath: String?, onlylocal: Boolean?, banner: String?, filemask: String?, dirmask: String?, fxp: Boolean?, resume: Boolean?, defaultroot: Boolean?, ident: Boolean?, reversedns: Boolean?, masqaddress: String?, passiveportsmin: Int?, passiveportsmax: Int?, localuserbw: Int?, localuserdlbw: Int?, anonuserbw: Int?, anonuserdlbw: Int?, tls: Boolean?, tls_policy: FtpApi.TlsPolicy?, tls_opt_allow_client_renegotiations: Boolean?, tls_opt_allow_dot_login: Boolean?, tls_opt_allow_per_user: Boolean?, tls_opt_common_name_required: Boolean?, tls_opt_enable_diags: Boolean?, tls_opt_export_cert_data: Boolean?, tls_opt_no_cert_request: Boolean?, tls_opt_no_empty_fragments: Boolean?, tls_opt_no_session_reuse_required: Boolean?, tls_opt_stdenvvars: Boolean?, tls_opt_dns_name_required: Boolean?, tls_opt_ip_address_required: Boolean?, ssltls_certificate: Int?, options: String?, listener: ApiListener) {
+    override suspend fun setFtpConfig(port: Int?, clients: Int?, ipConnections: Int?, loginAttempts: Int?, timeout: Int?, rootLogin: Boolean?, onlyAnonymous: Boolean?, anonpath: String?, onlylocal: Boolean?, banner: String?, filemask: String?, dirmask: String?, fxp: Boolean?, resume: Boolean?, defaultroot: Boolean?, ident: Boolean?, reversedns: Boolean?, masqaddress: String?, passiveportsmin: Int?, passiveportsmax: Int?, localuserbw: Int?, localuserdlbw: Int?, anonuserbw: Int?, anonuserdlbw: Int?, tls: Boolean?, tls_policy: FtpApi.TlsPolicy?, tls_opt_allow_client_renegotiations: Boolean?, tls_opt_allow_dot_login: Boolean?, tls_opt_allow_per_user: Boolean?, tls_opt_common_name_required: Boolean?, tls_opt_enable_diags: Boolean?, tls_opt_export_cert_data: Boolean?, tls_opt_no_cert_request: Boolean?, tls_opt_no_empty_fragments: Boolean?, tls_opt_no_session_reuse_required: Boolean?, tls_opt_stdenvvars: Boolean?, tls_opt_dns_name_required: Boolean?, tls_opt_ip_address_required: Boolean?, ssltls_certificate: Int?, options: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

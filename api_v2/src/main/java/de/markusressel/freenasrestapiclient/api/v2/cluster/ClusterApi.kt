@@ -18,38 +18,34 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.cluster
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface ClusterApi {
 
     /**
-     *
-     * @param listener result listener
+     * Get available cluster nodes
      */
-    fun getAvailableClusterNodes(listener: ApiListener)
+    suspend fun getAvailableClusterNodes(): Result<JsonElement, Exception>
 
     /**
-     *
-     * @param listener result listener
+     * Add a node to a cluster
      */
-    fun addClusterNode(listener: ApiListener)
+    suspend fun addClusterNode(): Result<JsonElement, Exception>
 
     /**
-     *
-     * @param listener result listener
+     * Check the status of a cluster node
      */
-    fun checkClusterNode(listener: ApiListener)
+    suspend fun checkClusterNode(): Result<JsonElement, Exception>
 
     /**
-     *
-     * @param listener result listener
+     * Get nodes of a cluster
      */
-    fun getClusterNodes(listener: ApiListener)
+    suspend fun getClusterNodes(): Result<JsonElement, Exception>
 
     /**
-     *
-     * @param listener result listener
+     * Remove a node from a cluster
      */
-    fun removeClusterNode(listener: ApiListener)
+    suspend fun removeClusterNode(): Result<JsonElement, Exception>
 
 }

@@ -18,15 +18,16 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.afp
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class AfpApiImpl(val websocketApiClient: WebsocketApiClient) : AfpApi {
-    override fun getAfpConfig(listener: ApiListener) {
+    override suspend fun getAfpConfig(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateAfpConfig(chmodRequest: AfpApi.ChmodRequest?, mapAcls: AfpApi.MapAcl?, globalAux: String?, dbpath: String?, connectionsLimit: Int?, bindip: List<String>?, guest: Boolean?, guestUser: String?, listener: ApiListener) {
+    override suspend fun updateAfpConfig(chmodRequest: AfpApi.ChmodRequest?, mapAcls: AfpApi.MapAcl?, globalAux: String?, dbpath: String?, connectionsLimit: Int?, bindip: List<String>?, guest: Boolean?, guestUser: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

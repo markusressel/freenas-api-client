@@ -18,15 +18,21 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.dyndns
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class DynDnsApiImpl(val websocketApiClient: WebsocketApiClient) : DynDnsApi {
-    override fun getDynDnsConfig(listener: ApiListener) {
+    override suspend fun getDynDnsConfig(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setDynDnsConfig(provider: String?, checkipSsl: Boolean?, checkipServer: String?, checkipPath: String?, ssl: Boolean?, customDdnsServer: String?, customDdnsPath: String?, domain: List<String>, username: String?, password: String?, period: Int?, listener: ApiListener) {
+    override suspend fun setDynDnsConfig(provider: String?, checkipSsl: Boolean?,
+                                         checkipServer: String?, checkipPath: String?,
+                                         ssl: Boolean?, customDdnsServer: String?,
+                                         customDdnsPath: String?, domain: List<String>,
+                                         username: String?, password: String?,
+                                         period: Int?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
