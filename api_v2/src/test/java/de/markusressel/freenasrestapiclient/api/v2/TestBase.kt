@@ -38,6 +38,7 @@ abstract class TestBase : WebsocketConnectionListener {
      * The API instance that can be used for testing
      */
     val underTest: FreeNasRestApiV2Client = FreeNasRestApiV2Client(
+//            baseUrl = "ws://192.168.2.255/ws",
             baseUrl = BuildConfig.TESTING_URL_V2,
             auth = BasicAuthConfig(
                     username = BuildConfig.TESTING_USERNAME,
@@ -62,14 +63,7 @@ abstract class TestBase : WebsocketConnectionListener {
     @After
     open fun after() {
         val time = measureTimeMillis {
-            runBlocking {
-                val result = underTest.disconnect()
-                result.fold(success = {
-                    // ok
-                }, failure = {
-                    throw  it
-                })
-            }
+            underTest.disconnect()
         }
         println("Logout took: $time ms")
     }

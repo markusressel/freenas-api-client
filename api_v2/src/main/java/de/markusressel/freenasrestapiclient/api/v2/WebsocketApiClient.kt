@@ -32,6 +32,7 @@ import okhttp3.*
 import java.net.ConnectException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -84,46 +85,49 @@ class WebsocketApiClient(
      * Connect the websocket.
      * If the socket is already connected this is a no-op.
      */
-    fun connect(function: (Result<Boolean, Exception>) -> Unit) {
-        if (isConnected) {
-            Log.w(TAG, "Already connected")
-            return
-        }
-        Log.d(TAG, "Connecting websocket...")
-
-        val request = Request.Builder().url(url).build()
-
-        webSocket = client.newWebSocket(request, object : WebSocketListener() {
-
-            override fun onOpen(webSocket: WebSocket, response: Response?) {
-                Log.d(TAG, "Connection established")
-                createSession()
+    suspend fun connect(): Result<Boolean, Exception> {
+        return suspendCoroutine { continuation ->
+            if (isConnected) {
+                Log.w(TAG, "Already connected")
+                continuation.resume(Result.of(true))
             }
+            Log.d(TAG, "Connecting websocket...")
 
-            override fun onMessage(webSocket: WebSocket, text: String?) {
-                handleIncomingMessage(function, text ?: "")
-            }
+            val request = Request.Builder().url(url).build()
 
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                Log.d(TAG, "Connection closed: $code $reason")
-                isConnected = false
-                this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
-            }
+            webSocket = client.newWebSocket(request, object : WebSocketListener() {
 
-            override fun onFailure(webSocket: WebSocket, t: Throwable?, response: Response?) {
-                Log.e(TAG, "Connection error: $response", t)
-                isConnected = false
-                runOnUiThread {
-                    this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, response?.code(), t)
+                override fun onOpen(webSocket: WebSocket, response: Response?) {
+                    Log.d(TAG, "Connection established")
+                    createSession()
                 }
-            }
-        })
+
+                override fun onMessage(webSocket: WebSocket, text: String?) {
+                    handleIncomingMessage(continuation, text ?: "")
+                }
+
+                override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+                    Log.d(TAG, "Connection closed: $code $reason")
+                    isConnected = false
+                    this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
+                }
+
+                override fun onFailure(webSocket: WebSocket, t: Throwable?, response: Response?) {
+                    Log.e(TAG, "Connection error: $response", t)
+                    isConnected = false
+                    continuation.resume(Result.error(ConnectException("Error connecting: $t, $response")))
+                    runOnUiThread {
+                        this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, response?.code(), t)
+                    }
+                }
+            })
+        }
     }
 
     /**
      * Internal method to handle incoming websocket messages
      */
-    private fun handleIncomingMessage(function: (Result<Boolean, Exception>) -> Unit, message: String) {
+    private fun handleIncomingMessage(resultListener: Continuation<Result<Boolean, Exception>>, message: String) {
         val json = jsonParser.parse(message).asJsonObject
 
         if (json.has(PROPERTY_ID)) {
@@ -138,7 +142,7 @@ class WebsocketApiClient(
             "connected" -> {
                 sessionId = json["session"].string
                 Log.d(TAG, "Session created: $sessionId")
-                login(function)
+                login(resultListener)
             }
             "failed" -> {
                 isConnected = false
@@ -177,7 +181,7 @@ class WebsocketApiClient(
     /**
      * Send a login message
      */
-    private fun login(function: (Result<Boolean, Exception>) -> Unit) {
+    private fun login(resultListener: Continuation<Result<Boolean, Exception>>) {
         GlobalScope.launch {
             val result = callMethod("auth.login", jsonArray(
                     auth.username,
@@ -192,14 +196,14 @@ class WebsocketApiClient(
                     if (!isConnected) {
                         this@WebsocketApiClient.listener?.onConnectionChanged(true)
                         isConnected = true
-                        function(Result.of(isConnected))
+                        resultListener.resume(Result.of(isConnected))
                     }
                 } else {
-                    disconnect(-1, responseObject["msg"].string) { }
-                    function(Result.error(ConnectException("Error connecting: ${responseObject["msg"]}")))
+                    disconnect(-1, responseObject["msg"].string)
+                    resultListener.resume(Result.error(ConnectException("Error connecting: ${responseObject["msg"]}")))
                 }
             }, failure = { error ->
-                disconnect(-1, "${error.message}") {}
+                disconnect(-1, "${error.message}")
                 throw error
             })
         }
@@ -297,29 +301,22 @@ class WebsocketApiClient(
     /**
      * Disconnect a websocket
      */
-    fun disconnect(code: Int, reason: String, t: Throwable? = null, function: (Result<Boolean, Exception>) -> Unit) {
+    fun disconnect(code: Int, reason: String) {
         webSocket?.close(code, reason)
         webSocket = null
         responseListeners.clear()
         subscriptionListeners.clear()
         if (isConnected) {
             isConnected = false
-            this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code, t)
+            this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code)
         }
-
-        if (t == null) {
-            function.invoke(Result.of(isConnected))
-        } else {
-            function.invoke(Result.error(t as Exception))
-        }
-
     }
 
     /**
      * Shutdown the websocket
      */
     fun shutdown() {
-        disconnect(1000, "Client shutdown") {}
+        disconnect(1000, "Client shutdown")
         client.dispatcher().executorService().shutdown()
     }
 
