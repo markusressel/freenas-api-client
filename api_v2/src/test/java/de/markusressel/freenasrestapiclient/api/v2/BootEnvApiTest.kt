@@ -22,12 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class AlertApiTest : TestBase() {
+class BootEnvApiTest : TestBase() {
 
     @Test
-    fun testDismissAlert() {
+    fun testGetBootEnvs() {
         runBlocking {
-            val result = underTest.dismissAlert("123-123-123")
+            val result = underTest.getBootEnvs()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -37,9 +37,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testFlushAlerts() {
+    fun testActivateBootEnv() {
         runBlocking {
-            val result = underTest.flushAlerts()
+            val result = underTest.activateBootEnv("default")
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -49,9 +49,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlerts() {
+    fun testCreateBootEnv() {
         runBlocking {
-            val result = underTest.listAlerts()
+            val result = underTest.createBootEnv("test")
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -61,9 +61,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlertPolicies() {
+    fun testSetBootEnvAttribute() {
         runBlocking {
-            val result = underTest.listAlertPolicies()
+            val result = underTest.setBootEnvAttribute("default", true)
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -73,10 +73,16 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlertSources() {
+    fun testUpdateBootEnv() {
         runBlocking {
-            val result = underTest.listAlertSources()
+            val result = underTest.updateBootEnv("test", "test2")
             result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+            val result2 = underTest.updateBootEnv("test2", "test")
+            result2.fold(success = {
                 println("$it")
             }, failure = {
                 throw it
@@ -85,21 +91,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testProcessAlerts() {
+    fun testDeleteBootEnv() {
         runBlocking {
-            val result = underTest.processAlerts()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testRestoreAlert() {
-        runBlocking {
-            val result = underTest.restoreAlert("0")
+            val result = underTest.deleteBootEnv("test")
             result.fold(success = {
                 println("$it")
             }, failure = {

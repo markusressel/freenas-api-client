@@ -22,12 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class AlertApiTest : TestBase() {
+class ClusterApiTest : TestBase() {
 
     @Test
-    fun testDismissAlert() {
+    fun testGetAvailableClusterNodes() {
         runBlocking {
-            val result = underTest.dismissAlert("123-123-123")
+            val result = underTest.getAvailableClusterNodes()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -37,9 +37,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testFlushAlerts() {
+    fun testAddClusterNode() {
         runBlocking {
-            val result = underTest.flushAlerts()
+            val result = underTest.addClusterNode()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -49,9 +49,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlerts() {
+    fun testCheckClusterNode() {
         runBlocking {
-            val result = underTest.listAlerts()
+            val result = underTest.checkClusterNode()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -61,9 +61,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlertPolicies() {
+    fun testGetClusterNodes() {
         runBlocking {
-            val result = underTest.listAlertPolicies()
+            val result = underTest.getClusterNodes()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -73,33 +73,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlertSources() {
+    fun testRemoveClusterNode() {
         runBlocking {
-            val result = underTest.listAlertSources()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testProcessAlerts() {
-        runBlocking {
-            val result = underTest.processAlerts()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testRestoreAlert() {
-        runBlocking {
-            val result = underTest.restoreAlert("0")
+            val result = underTest.removeClusterNode()
             result.fold(success = {
                 println("$it")
             }, failure = {

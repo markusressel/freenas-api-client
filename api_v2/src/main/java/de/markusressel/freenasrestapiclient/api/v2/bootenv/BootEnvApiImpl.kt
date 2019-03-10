@@ -20,6 +20,7 @@ package de.markusressel.freenasrestapiclient.api.v2.bootenv
 
 import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.addPropertyIfNotNull
+import com.github.salomonbrys.kotson.jsonArray
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
@@ -42,18 +43,19 @@ class BootEnvApiImpl(val websocketApiClient: WebsocketApiClient) : BootEnvApi {
     }
 
     override suspend fun setBootEnvAttribute(id: String, keep: Boolean): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("id", id)
-            addProperty("keep", keep)
-        }
+        val arguments = jsonArray(id,
+                jsonObject().apply {
+                    addProperty("keep", keep)
+                })
+
         return websocketApiClient.callMethod("bootenv.set_attribute", arguments)
     }
 
     override suspend fun updateBootEnv(id: String, name: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("id", id)
-            addProperty("name", name)
-        }
+        val arguments = jsonArray(id,
+                jsonObject().apply {
+                    addProperty("name", name)
+                })
         return websocketApiClient.callMethod("bootenv.update", arguments)
     }
 

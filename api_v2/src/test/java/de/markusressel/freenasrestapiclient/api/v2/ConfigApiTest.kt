@@ -22,12 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class AlertApiTest : TestBase() {
+class ConfigApiTest : TestBase() {
 
     @Test
-    fun testDismissAlert() {
+    fun testSaveConfig() {
         runBlocking {
-            val result = underTest.dismissAlert("123-123-123")
+            val result = underTest.saveConfig()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -37,69 +37,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testFlushAlerts() {
+    fun testUploadConfig() {
         runBlocking {
-            val result = underTest.flushAlerts()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testListAlerts() {
-        runBlocking {
-            val result = underTest.listAlerts()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testListAlertPolicies() {
-        runBlocking {
-            val result = underTest.listAlertPolicies()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testListAlertSources() {
-        runBlocking {
-            val result = underTest.listAlertSources()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testProcessAlerts() {
-        runBlocking {
-            val result = underTest.processAlerts()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testRestoreAlert() {
-        runBlocking {
-            val result = underTest.restoreAlert("0")
+            val result = underTest.uploadConfig()
             result.fold(success = {
                 println("$it")
             }, failure = {

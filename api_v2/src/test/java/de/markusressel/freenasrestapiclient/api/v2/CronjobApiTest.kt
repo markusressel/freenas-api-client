@@ -22,12 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class AlertApiTest : TestBase() {
+class CronjobApiTest : TestBase() {
 
     @Test
-    fun testDismissAlert() {
+    fun testCreateCronjob() {
         runBlocking {
-            val result = underTest.dismissAlert("123-123-123")
+            val result = underTest.createCronjob()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -37,9 +37,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testFlushAlerts() {
+    fun testGetCronjobs() {
         runBlocking {
-            val result = underTest.flushAlerts()
+            val result = underTest.getCronjobs()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -49,9 +49,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlerts() {
+    fun testUpdateCronjob() {
         runBlocking {
-            val result = underTest.listAlerts()
+            val result = underTest.updateCronjob(0)
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -61,9 +61,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlertPolicies() {
+    fun testValidateCronjon() {
         runBlocking {
-            val result = underTest.listAlertPolicies()
+            val result = underTest.validateCronjon(0)
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -73,33 +73,9 @@ class AlertApiTest : TestBase() {
     }
 
     @Test
-    fun testListAlertSources() {
+    fun testDeleteCronjob() {
         runBlocking {
-            val result = underTest.listAlertSources()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testProcessAlerts() {
-        runBlocking {
-            val result = underTest.processAlerts()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
-    }
-
-    @Test
-    fun testRestoreAlert() {
-        runBlocking {
-            val result = underTest.restoreAlert("0")
+            val result = underTest.deleteCronjob(0)
             result.fold(success = {
                 println("$it")
             }, failure = {
