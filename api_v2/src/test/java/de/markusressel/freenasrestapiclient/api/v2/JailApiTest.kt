@@ -18,5 +18,22 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
+
 class JailApiTest : TestBase() {
+
+    @Test
+    fun testGetJails() {
+        runBlocking {
+            val result = underTest.getJails()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
 }

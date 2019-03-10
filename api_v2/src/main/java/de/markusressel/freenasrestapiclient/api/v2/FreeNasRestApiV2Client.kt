@@ -63,8 +63,8 @@ import de.markusressel.freenasrestapiclient.api.v2.jail.JailApi
 import de.markusressel.freenasrestapiclient.api.v2.jail.JailApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.sharing.SharingApi
 import de.markusressel.freenasrestapiclient.api.v2.sharing.SharingApiImpl
-import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApi
-import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApiImpl
+import de.markusressel.freenasrestapiclient.api.v2.update.UpdateApi
+import de.markusressel.freenasrestapiclient.api.v2.update.UpdateApiImpl
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 
 /**
@@ -96,7 +96,7 @@ class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
                              interfacesApi: InterfacesApi = InterfacesApiImpl(websocketClient),
                              jailApi: JailApi = JailApiImpl(websocketClient),
                              sharingApi: SharingApi = SharingApiImpl(websocketClient),
-                             updatesApi: UpdatesApi = UpdatesApiImpl(websocketClient)) :
+                             updateApi: UpdateApi = UpdateApiImpl(websocketClient)) :
         AfpApi by afpApi,
         AlertApi by alertApi,
         AuthApi by authApi,
@@ -119,7 +119,7 @@ class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
         InterfacesApi by interfacesApi,
         JailApi by jailApi,
         SharingApi by sharingApi,
-        UpdatesApi by updatesApi {
+        UpdateApi by updateApi {
 
     /**
      * Connect to the websocket api

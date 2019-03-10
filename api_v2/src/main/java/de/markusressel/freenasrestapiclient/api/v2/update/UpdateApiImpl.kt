@@ -16,18 +16,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.update
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.addPropertyIfNotNull
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-interface UpdatesApi {
+class UpdateApiImpl(val websocketApiClient: WebsocketApiClient) : UpdateApi {
 
-    /**
-     * Check for available updates
-     *
-     * @param train update train to query
-     */
-    suspend fun checkUpdateAvailable(train: String? = null): Result<JsonElement, Exception>
+    override suspend fun checkUpdateAvailable(train: String?): Result<JsonElement, Exception> {
+        val arguments = jsonObject().apply {
+            addPropertyIfNotNull("train", train)
+        }
+        return websocketApiClient.callMethod("update.check_available", arguments)
+    }
 
 }

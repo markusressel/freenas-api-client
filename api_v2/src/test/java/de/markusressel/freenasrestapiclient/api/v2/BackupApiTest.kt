@@ -22,12 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class DiskApiTest : TestBase() {
+class BackupApiTest : TestBase() {
 
     @Test
-    fun testGetDisks() {
+    fun testGetBackups() {
         runBlocking {
-            val result = underTest.getDisks()
+            val result = underTest.getBackups()
             result.fold(success = {
                 println("$it")
             }, failure = {

@@ -22,12 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class DiskApiTest : TestBase() {
+class UpdateApiTest : TestBase() {
 
     @Test
-    fun testGetDisks() {
+    fun testCheckUpdateAvailable() {
         runBlocking {
-            val result = underTest.getDisks()
+            val result = underTest.checkUpdateAvailable()
             result.fold(success = {
                 println("$it")
             }, failure = {

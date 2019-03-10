@@ -16,35 +16,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2
+package de.markusressel.freenasrestapiclient.api.v2.runner
 
-import kotlinx.coroutines.runBlocking
-import org.junit.Test
+import org.junit.runner.notification.RunNotifier
+import org.junit.runners.BlockJUnit4ClassRunner
+import org.junit.runners.model.FrameworkMethod
+import kotlin.system.measureTimeMillis
 
-class ExampleTest : TestBase() {
+class CustomRunner(clazz: Class<*>) : BlockJUnit4ClassRunner(clazz) {
 
-    @Test
-    fun test_example() {
-        runBlocking {
-            val result = underTest.checkUpdateAvailable()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
+    override fun runChild(method: FrameworkMethod?, notifier: RunNotifier?) {
+        val time = measureTimeMillis {
+            super.runChild(method, notifier)
         }
-    }
-
-    @Test
-    fun test_example2() {
-        runBlocking {
-            val result = underTest.getBackups()
-            result.fold(success = {
-                println("$it")
-            }, failure = {
-                throw it
-            })
-        }
+        println("Test took: $time ms")
     }
 
 }

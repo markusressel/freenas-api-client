@@ -16,8 +16,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2
+package de.markusressel.freenasrestapiclient.api.v2.base
 
+import de.markusressel.freenasrestapiclient.api.v2.FreeNasRestApiV2Client
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketConnectionListener
+import de.markusressel.freenasrestapiclient.api.v2.runner.CustomRunner
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import de.markusressel.freenasrestapiclient.core.BuildConfig
 import kotlinx.coroutines.runBlocking
@@ -25,6 +28,7 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.runner.RunWith
 import kotlin.system.measureTimeMillis
 
 /**
@@ -32,6 +36,7 @@ import kotlin.system.measureTimeMillis
  *
  * This class will automatically connect and disconnect the client for each test.
  */
+@RunWith(CustomRunner::class)
 abstract class TestBase : WebsocketConnectionListener {
 
     /**
