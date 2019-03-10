@@ -18,6 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.api.v2.afp.AfpApi
 import de.markusressel.freenasrestapiclient.api.v2.afp.AfpApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.alert.AlertApi
@@ -65,6 +66,8 @@ import de.markusressel.freenasrestapiclient.api.v2.sharing.SharingApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApi
 import de.markusressel.freenasrestapiclient.api.v2.updates.UpdatesApiImpl
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Convenience delegation class for easy access to all api methods
@@ -123,9 +126,12 @@ class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
     /**
      * Connect to the websocket api
      */
-    fun connect(listener: WebsocketConnectionListener) {
-        websocketClient.setListener(listener)
-        websocketClient.connect()
+    suspend fun connect(): Result<Boolean, Exception> {
+        return suspendCoroutine { continuation ->
+            websocketClient.connect {
+                continuation.resume(it)
+            }
+        }
     }
 
     /**
@@ -134,8 +140,12 @@ class FreeNasRestApiV2Client(baseUrl: String, auth: BasicAuthConfig,
      * @param code the code indicating the reason
      * @param reason a text description of the disconnect reason
      */
-    fun disconnect(code: Int = 1000, reason: String = "") {
-        websocketClient.disconnect(code, reason)
+    suspend fun disconnect(code: Int = 1000, reason: String = ""): Result<Boolean, Exception> {
+        return suspendCoroutine { continuation ->
+            websocketClient.disconnect(code, reason) {
+                continuation.resume(it)
+            }
+        }
     }
 
 }

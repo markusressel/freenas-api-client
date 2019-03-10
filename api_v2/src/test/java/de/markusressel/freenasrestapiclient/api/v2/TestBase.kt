@@ -18,7 +18,9 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import android.util.Log
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -27,27 +29,36 @@ import org.junit.BeforeClass
 abstract class TestBase : WebsocketConnectionListener {
 
     val underTest: FreeNasRestApiV2Client = FreeNasRestApiV2Client(
-            baseUrl = "wss://freenas.mydomain.de/websocket",
+            baseUrl = "wss://frittenbude.markusressel.de/websocket",
             auth = BasicAuthConfig(
                     username = "root",
-                    password = "password")
+                    password = "bZ_EL80yL9mj=m&amp;9WB32eKPDo")
     )
 
     @Before
     open fun before() {
-        underTest.connect(this)
-    }
-
-    override fun onConnectionChanged(connected: Boolean, errorCode: Int?, throwable: Throwable?) {
-        if (errorCode != null || throwable != null) {
-            throwable?.printStackTrace()
-            throw Exception("Connected: $connected Code: $errorCode")
+        runBlocking {
+            val result = underTest.connect()
+            result.fold(success = {
+                // ok
+            }, failure = {
+                throw  it
+            })
         }
+
+        Log.d("", "")
     }
 
     @After
     open fun after() {
-
+        runBlocking {
+            val result = underTest.disconnect()
+            result.fold(success = {
+                // ok
+            }, failure = {
+                throw  it
+            })
+        }
     }
 
 

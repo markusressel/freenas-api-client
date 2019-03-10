@@ -18,26 +18,22 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
-import com.google.gson.JsonElement
-import org.awaitility.kotlin.await
-import org.awaitility.kotlin.matches
-import org.awaitility.kotlin.untilCallTo
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class ExampleTest : TestBase() {
 
     @Test
     fun test_example() {
-        var result: Result<JsonElement>? = null
-        val listener = object : ApiListener {
-            override fun invoke(p1: Result<JsonElement>) {
-                result = p1
-            }
+        runBlocking {
+            val result = underTest.checkUpdateAvailable()
+
+            result.fold(success = {
+                val o = it.asJsonObject
+            }, failure = {
+                throw it
+            })
         }
-
-        underTest.checkUpdateAvailable(listener = listener)
-
-        await untilCallTo { result } matches { r -> r != null }
     }
 
 }

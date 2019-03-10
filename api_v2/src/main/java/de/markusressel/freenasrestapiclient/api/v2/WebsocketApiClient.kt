@@ -19,6 +19,7 @@
 package de.markusressel.freenasrestapiclient.api.v2
 
 import android.util.Log
+import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -30,7 +31,8 @@ import java.net.ConnectException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-typealias ApiListener = (Result<JsonElement>) -> Unit
+
+typealias ApiListener = (Result<JsonElement, kotlin.Exception>) -> Unit
 
 class WebsocketApiClient(
         val url: String,
@@ -39,7 +41,7 @@ class WebsocketApiClient(
     private var listener: WebsocketConnectionListener? = null
 
     private val client: OkHttpClient = OkHttpClient.Builder()
-            .readTimeout(0, TimeUnit.MILLISECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(3, TimeUnit.SECONDS)
             .pingInterval(30, TimeUnit.SECONDS)
             .authenticator { _, response ->
@@ -77,7 +79,7 @@ class WebsocketApiClient(
      * Connect the websocket.
      * If the socket is already connected this is a no-op.
      */
-    fun connect() {
+    fun connect(function: (Result<Boolean, Exception>) -> Unit) {
         if (isConnected) {
             Log.w(TAG, "Already connected")
             return
@@ -85,6 +87,7 @@ class WebsocketApiClient(
         Log.d(TAG, "Connecting websocket...")
 
         val request = Request.Builder().url(url).build()
+
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
 
             override fun onOpen(webSocket: WebSocket, response: Response?) {
@@ -97,7 +100,7 @@ class WebsocketApiClient(
                     return
                 }
 
-                handleIncomingMessage(text)
+                handleIncomingMessage(function, text)
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -119,7 +122,7 @@ class WebsocketApiClient(
     /**
      * Internal method to handle incoming websocket messages
      */
-    private fun handleIncomingMessage(message: String) {
+    private fun handleIncomingMessage(function: (Result<Boolean, Exception>) -> Unit, message: String) {
         val json = jsonParser.parse(message).asJsonObject
 
         if (json.has(PROPERTY_ID)) {
@@ -134,7 +137,7 @@ class WebsocketApiClient(
             "connected" -> {
                 sessionId = json["session"].string
                 Log.d(TAG, "Session created: $sessionId")
-                login()
+                login(function)
             }
             "failed" -> {
                 isConnected = false
@@ -150,7 +153,7 @@ class WebsocketApiClient(
      * @param json the response
      */
     private fun notifyListener(responseId: String, json: JsonObject) {
-        val result = Result.success(json)
+        val result = Result.of(json)
         responseListeners[responseId]?.apply {
             invoke(result)
             responseListeners.remove(responseId)
@@ -173,26 +176,28 @@ class WebsocketApiClient(
     /**
      * Send a login message
      */
-    private fun login() {
+    private fun login(function: (Result<Boolean, Exception>) -> Unit) {
         callMethod("auth.login", jsonArray(
                 auth.username,
                 auth.password
         ), suppressLog = true) {
-            it.fold(onSuccess = { result ->
+
+            it.fold(success = { result ->
                 Log.d(TAG, "Login response: $result")
 
                 val responseObject = result.asJsonObject
                 if (responseObject["result"].bool) {
                     if (!isConnected) {
+                        this@WebsocketApiClient.listener?.onConnectionChanged(true)
                         isConnected = true
-                        this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
+                        function(Result.of(isConnected))
                     }
                 } else {
-                    disconnect(-1, responseObject["msg"].string)
-                    throw ConnectException("Error connecting: ${responseObject["msg"]}")
+                    disconnect(-1, responseObject["msg"].string) { }
+                    function(Result.error(ConnectException("Error connecting: ${responseObject["msg"]}")))
                 }
-            }, onFailure = { error ->
-                disconnect(-1, "${error.message}")
+            }, failure = { error ->
+                disconnect(-1, "${error.message}") {}
                 throw error
             })
         }
@@ -235,7 +240,7 @@ class WebsocketApiClient(
             responseListeners[messageId] = listener
             sendMethodMessage(messageId = messageId, message = "method", method = method, arguments = arguments)
         } catch (e: Exception) {
-            listener.invoke(Result.failure(e))
+            listener.invoke(Result.error(e))
         }
     }
 
@@ -285,7 +290,7 @@ class WebsocketApiClient(
     /**
      * Disconnect a websocket
      */
-    fun disconnect(code: Int, reason: String, t: Throwable? = null) {
+    fun disconnect(code: Int, reason: String, t: Throwable? = null, function: (Result<Boolean, Exception>) -> Unit) {
         webSocket?.close(code, reason)
         webSocket = null
         responseListeners.clear()
@@ -294,13 +299,20 @@ class WebsocketApiClient(
             isConnected = false
             this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code, t)
         }
+
+        if (t == null) {
+            function.invoke(Result.of(isConnected))
+        } else {
+            function.invoke(Result.error(t as Exception))
+        }
+
     }
 
     /**
      * Shutdown the websocket
      */
     fun shutdown() {
-        disconnect(1000, "Client shutdown")
+        disconnect(1000, "Client shutdown") {}
         client.dispatcher().executorService().shutdown()
     }
 

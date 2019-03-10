@@ -18,7 +18,8 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.updates
 
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 
 interface UpdatesApi {
 
@@ -26,8 +27,7 @@ interface UpdatesApi {
      * Check for available updates
      *
      * @param train update train to query
-     * @param listener result listener
      */
-    fun checkUpdateAvailable(train: String? = null, listener: ApiListener)
+    suspend fun checkUpdateAvailable(train: String? = null): Result<JsonElement, Exception>
 
 }

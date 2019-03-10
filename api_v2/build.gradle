@@ -58,6 +58,11 @@ dependencies {
         changing = true
     }
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0-eap13"
+
+    implementation 'com.github.kittinunf.result:result:2.0.0' //for jvm
+    implementation 'com.github.kittinunf.result:result-coroutines:2.0.0' //for kotlin's coroutine support
+
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.awaitility:awaitility:3.1.6'
     testImplementation 'org.awaitility:awaitility-kotlin:3.1.6'

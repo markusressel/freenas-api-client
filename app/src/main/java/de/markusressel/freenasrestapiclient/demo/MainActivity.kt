@@ -82,9 +82,11 @@ class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
 
     private fun setupFreenasApiClientV2() {
         freeNasWebApiClientV2 = FreeNasRestApiV2Client(
-                baseUrl = "wss://freenas.mydomain.de/websocket",
-                auth = BasicAuthConfig(username = "root", password = "password")
-        )
+                baseUrl = "wss://frittenbude.markusressel.de/api/websocket",
+                auth = BasicAuthConfig(
+                        username = "root",
+                        password = "bZ_EL80yL9mj=m&amp;9WB32eKPDo"))
+
         freeNasWebApiClientV2.connect(this)
     }
 

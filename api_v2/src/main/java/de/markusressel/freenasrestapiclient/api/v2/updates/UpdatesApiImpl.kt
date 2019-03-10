@@ -18,18 +18,25 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.updates
 
+import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.addPropertyIfNotNull
 import com.github.salomonbrys.kotson.jsonObject
-import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class UpdatesApiImpl(val websocketApiClient: WebsocketApiClient) : UpdatesApi {
 
-    override fun checkUpdateAvailable(train: String?, listener: ApiListener) {
-        val arguments = jsonObject().apply {
-            addPropertyIfNotNull("train", train)
+    override suspend fun checkUpdateAvailable(train: String?): Result<JsonElement, Exception> {
+        return suspendCoroutine { continuation ->
+            val arguments = jsonObject().apply {
+                addPropertyIfNotNull("train", train)
+            }
+            websocketApiClient.callMethod("update.check_available", arguments) {
+                continuation.resume(it)
+            }
         }
-        websocketApiClient.callMethod("update.check_available", arguments, listener = listener)
     }
 
 }
