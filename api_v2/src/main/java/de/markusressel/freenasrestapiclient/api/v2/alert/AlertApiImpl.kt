@@ -19,35 +19,42 @@
 package de.markusressel.freenasrestapiclient.api.v2.alert
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class AlertApiImpl(val websocketApiClient: WebsocketApiClient) : AlertApi {
-    override suspend fun dismissAlert(id: String?): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun dismissAlert(id: String): Result<JsonElement, Exception> {
+        val arguments = jsonObject().apply {
+            addProperty("id", id)
+        }
+        return websocketApiClient.callMethod("alert.dismiss", arguments)
     }
 
     override suspend fun flushAlerts(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("alert.flush_alerts")
     }
 
     override suspend fun listAlerts(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("alert.list")
     }
 
     override suspend fun listAlertPolicies(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("alert.list_policies")
     }
 
     override suspend fun listAlertSources(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("alert.list_sources")
     }
 
     override suspend fun processAlerts(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("alert.process_alerts")
     }
 
     override suspend fun restoreAlert(id: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("id", id)
+        }
+        return websocketApiClient.callMethod("alert.restore", arguments)
     }
 }

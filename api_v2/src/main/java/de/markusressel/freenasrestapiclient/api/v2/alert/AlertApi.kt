@@ -28,7 +28,7 @@ interface AlertApi {
      *
      * @param id alert to dismiss
      */
-    suspend fun dismissAlert(id: String? = null): Result<JsonElement, Exception>
+    suspend fun dismissAlert(id: String): Result<JsonElement, Exception>
 
     /**
      * TODO:

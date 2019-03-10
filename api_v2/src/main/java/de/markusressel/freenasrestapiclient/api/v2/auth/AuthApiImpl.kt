@@ -19,27 +19,43 @@
 package de.markusressel.freenasrestapiclient.api.v2.auth
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.addPropertyIfNotNull
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class AuthApiImpl(val websocketApiClient: WebsocketApiClient) : AuthApi {
     override suspend fun checkUser(username: String, password: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("username", username)
+            addProperty("password", password)
+        }
+        return websocketApiClient.callMethod("auth.check_user", arguments)
     }
 
     override suspend fun generateToken(ttl: Int?): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addPropertyIfNotNull("ttl", ttl)
+        }
+        return websocketApiClient.callMethod("auth.generate_token", arguments)
     }
 
     override suspend fun login(username: String, password: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("username", username)
+            addProperty("password", password)
+        }
+        return websocketApiClient.callMethod("auth.login", arguments)
     }
 
     override suspend fun logout(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("auth.logout")
     }
 
     override suspend fun authenticate(token: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("token", token)
+        }
+        return websocketApiClient.callMethod("auth.token", arguments)
     }
 }

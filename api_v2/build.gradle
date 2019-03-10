@@ -64,8 +64,6 @@ dependencies {
     implementation 'com.github.kittinunf.result:result-coroutines:2.0.0' //for kotlin's coroutine support
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.awaitility:awaitility:3.1.6'
-    testImplementation 'org.awaitility:awaitility-kotlin:3.1.6'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
