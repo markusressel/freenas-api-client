@@ -7,8 +7,8 @@ echo
 
 if [[ "${TRAVIS_BRANCH}" =~ "${TELEGRAM_BRANCHES}"  ]]; then
   echo "Start compiling and assembling apk..."
-  ./gradlew clean testDebug lintDebug assembleDebug --stacktrace
+  ./gradlew clean lintDebug assembleDebug --stacktrace
 else
   echo "Start compiling WITHOUT assembling apk..."
-  ./gradlew clean testDebug lintDebug --stacktrace
+  ./gradlew clean lintDebug --stacktrace
 fi
