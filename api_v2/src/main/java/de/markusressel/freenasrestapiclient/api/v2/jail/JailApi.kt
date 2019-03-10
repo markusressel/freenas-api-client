@@ -31,6 +31,12 @@ interface JailApi {
         RELEASE
     }
 
+    enum class ResourceType : ApiEnum {
+        RELEASE,
+        TEMPLATE,
+        PLUGIN
+    }
+
     /**
      * Activates a pool for iocage usage, and deactivates the rest.
      *
@@ -102,9 +108,22 @@ interface JailApi {
      */
     suspend fun getActiveJailPool(): Result<JsonElement, Exception>
 
-    // TODO: jail.list_resource
-    // TODO: jail.query
-    // TODO: jail.rc_action
+    /**
+     * Returns a JSON list of the supplied resource on the host
+     */
+    suspend fun listJailResource(resourceType: ResourceType?, remote: Boolean? = null): Result<JsonElement, Exception>
+
+    /**
+     * Query a list of jails
+     *
+     * TODO: query params
+     */
+    suspend fun getJails(): Result<JsonElement, Exception>
+
+    /**
+     * Does specified action on rc enabled (boot=on) jails
+     */
+    suspend fun jailRcAction(): Result<JsonElement, Exception>
 
     /**
      * Stops a jail

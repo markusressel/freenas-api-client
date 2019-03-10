@@ -27,8 +27,16 @@ import org.junit.Before
 import org.junit.BeforeClass
 import kotlin.system.measureTimeMillis
 
+/**
+ * Base class for Websocket api tests.
+ *
+ * This class will automatically connect and disconnect the client for each test.
+ */
 abstract class TestBase : WebsocketConnectionListener {
 
+    /**
+     * The API instance that can be used for testing
+     */
     val underTest: FreeNasRestApiV2Client = FreeNasRestApiV2Client(
             baseUrl = BuildConfig.TESTING_URL_V2,
             auth = BasicAuthConfig(

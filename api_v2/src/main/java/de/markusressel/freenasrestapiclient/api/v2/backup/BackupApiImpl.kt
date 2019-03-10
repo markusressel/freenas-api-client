@@ -49,7 +49,7 @@ class BackupApiImpl(val websocketApiClient: WebsocketApiClient,
     }
 
     override suspend fun getBackups(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("backup.query")
     }
 
     override suspend fun updateBackup(id: String): Result<JsonElement, Exception> {

@@ -36,7 +36,7 @@ class DiskApiImpl(val websocketApiClient: WebsocketApiClient) : DiskApi {
     }
 
     override suspend fun getDisks(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("disk.query")
     }
 
     override suspend fun updateDisk(): Result<JsonElement, Exception> {

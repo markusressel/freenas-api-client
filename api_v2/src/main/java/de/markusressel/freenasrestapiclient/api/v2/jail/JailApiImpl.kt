@@ -25,6 +25,18 @@ import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class JailApiImpl(val websocketApiClient: WebsocketApiClient) : JailApi {
+    override suspend fun listJailResource(resourceType: JailApi.ResourceType?, remote: Boolean?): Result<JsonElement, Exception> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getJails(): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("jail.query")
+    }
+
+    override suspend fun jailRcAction(): Result<JsonElement, Exception> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun activateJailPool(pool: String?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
