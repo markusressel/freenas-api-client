@@ -16,20 +16,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.updates
+package de.markusressel.freenasrestapiclient.api.v2.config
 
-import com.github.salomonbrys.kotson.addPropertyIfNotNull
-import com.github.salomonbrys.kotson.jsonObject
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-class UpdatesApiManager(val websocketApiClient: WebsocketApiClient) : UpdatesApi {
-
-    override fun checkUpdateAvailable(train: String?, listener: ApiListener) {
-        val arguments = jsonObject().apply {
-            addPropertyIfNotNull("train", train)
-        }
-        websocketApiClient.callMethod("update.check_available", arguments, listener = listener)
+class ConfigApiImpl(val websocketApiClient: WebsocketApiClient) : ConfigApi {
+    override fun saveConfig(listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun uploadConfig(listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

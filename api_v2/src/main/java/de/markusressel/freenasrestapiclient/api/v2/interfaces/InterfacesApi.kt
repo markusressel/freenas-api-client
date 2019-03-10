@@ -16,10 +16,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.interfaces
 
-interface CertificateApi : CertificateAuthorityApi {
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
-    // TODO:
+interface InterfacesApi {
+
+    /**
+     * Get all IPv4 / Ipv6 from all valid interfaces, excluding lo0, bridge and tap.
+     * Choices is a dictionary with defaults to
+     * {'ipv4': True, 'ipv6': True}
+     * Returns a list of dicts - eg -
+     * [
+     *   {
+     *     "type": "INET6",
+     *     "address": "fe80::5054:ff:fe16:4aac",
+     *     "netmask": 64
+     *   },
+     *   {
+     *     "type": "INET",
+     *     "address": "192.168.122.148",
+     *     "netmask": 24,
+     *     "broadcast": "192.168.122.255"
+     *   },
+     * ]
+     *
+     * @param listener result listener
+     */
+    fun getInterfaceIpsInUse(listener: ApiListener)
+
+    /**
+     * Queries a list of interfaces
+     *
+     * TODO: query params
+     *
+     * @param listener result listener
+     */
+    fun getInterfaces(listener: ApiListener)
+
+//    TODO: interfaces.websocket_interface
+//    TODO: interfaces.websocket_local_ip
 
 }

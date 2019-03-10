@@ -16,10 +16,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.sharing
 
-interface CertificateApi : CertificateAuthorityApi {
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-    // TODO:
+class SharingApiImpl(val websocketApiClient: WebsocketApiClient) : SharingApi {
+
+    // TODO: implement this
 
 }

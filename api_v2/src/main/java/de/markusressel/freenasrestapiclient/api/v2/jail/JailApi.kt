@@ -16,12 +16,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.jails
+package de.markusressel.freenasrestapiclient.api.v2.jail
 
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 
-interface JailsApi {
+interface JailApi {
 
     enum class DsType : ApiEnum {
         ALL,

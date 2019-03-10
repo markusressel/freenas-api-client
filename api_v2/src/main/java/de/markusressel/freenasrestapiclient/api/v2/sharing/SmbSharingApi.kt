@@ -16,10 +16,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.sharing
 
-interface CertificateApi : CertificateAuthorityApi {
-
-    // TODO:
-
+interface SmbSharingApi {
+    // TODO: sharing.smb.create
+    // TODO: sharing.smb.delete
+    // TODO: sharing.smb.get_storage_tasks
+    // TODO: sharing.smb.query
+    // TODO: sharing.smb.update
+    // TODO: sharing.smb.vfsobjects_choices
 }

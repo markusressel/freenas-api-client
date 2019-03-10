@@ -16,13 +16,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.sharing
+package de.markusressel.freenasrestapiclient.api.v2.dyndns
 
-interface SmbSharesApi {
-    // TODO: sharing.smb.create
-    // TODO: sharing.smb.delete
-    // TODO: sharing.smb.get_storage_tasks
-    // TODO: sharing.smb.query
-    // TODO: sharing.smb.update
-    // TODO: sharing.smb.vfsobjects_choices
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+
+class DynDnsApiImpl(val websocketApiClient: WebsocketApiClient) : DynDnsApi {
+    override fun getDynDnsConfig(listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setDynDnsConfig(provider: String?, checkipSsl: Boolean?, checkipServer: String?, checkipPath: String?, ssl: Boolean?, customDdnsServer: String?, customDdnsPath: String?, domain: List<String>, username: String?, password: String?, period: Int?, listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

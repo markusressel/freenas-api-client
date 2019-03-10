@@ -16,10 +16,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.dns
 
-interface CertificateApi : CertificateAuthorityApi {
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-    // TODO:
-
+class DnsApiImpl(val websocketApiClient: WebsocketApiClient) : DnsApi {
+    override fun getDns(listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

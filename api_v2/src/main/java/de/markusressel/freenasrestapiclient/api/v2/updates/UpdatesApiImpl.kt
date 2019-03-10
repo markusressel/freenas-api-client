@@ -16,11 +16,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.sharing
+package de.markusressel.freenasrestapiclient.api.v2.updates
 
-interface WebDavSharesApi {
-    // TODO: sharing.webdav.create
-    // TODO: sharing.webdav.delete
-    // TODO: sharing.webdav.query
-    // TODO: sharing.webdav.update
+import com.github.salomonbrys.kotson.addPropertyIfNotNull
+import com.github.salomonbrys.kotson.jsonObject
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+
+class UpdatesApiImpl(val websocketApiClient: WebsocketApiClient) : UpdatesApi {
+
+    override fun checkUpdateAvailable(train: String?, listener: ApiListener) {
+        val arguments = jsonObject().apply {
+            addPropertyIfNotNull("train", train)
+        }
+        websocketApiClient.callMethod("update.check_available", arguments, listener = listener)
+    }
+
 }

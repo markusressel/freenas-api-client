@@ -18,8 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.certificate
 
-interface CertificateApi : CertificateAuthorityApi {
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-    // TODO:
-
+class CertificateApiImpl(val websocketApiClient: WebsocketApiClient) : CertificateApi {
 }

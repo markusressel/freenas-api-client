@@ -16,10 +16,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.sharing
 
-interface CertificateApi : CertificateAuthorityApi {
-
-    // TODO:
-
+interface WebDavSharingApi {
+    // TODO: sharing.webdav.create
+    // TODO: sharing.webdav.delete
+    // TODO: sharing.webdav.query
+    // TODO: sharing.webdav.update
 }

@@ -16,11 +16,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.sharing
+package de.markusressel.freenasrestapiclient.api.v2.domaincontroller
 
-interface NfsSharesApi {
-    // TODO: sharing.nfs.create
-    // TODO: sharing.nfs.delete
-    // TODO: sharing.nfs.query
-    // TODO: sharing.nfs.update
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+
+class DomainControllerApiImpl(val websocketApiClient: WebsocketApiClient) : DomainControllerApi {
+    override fun getDomainControllerConfig(listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setDomainControllerConfig(realm: String?, domain: String?, role: DomainControllerApi.DomainControllerRole?, dnsBackend: DomainControllerApi.DnsBackend?, dnsForwarder: String?, forestLevel: DomainControllerApi.ForestLevel, password: String?, kerberosRealm: Int?, listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -16,10 +16,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.afp
 
-interface CertificateApi : CertificateAuthorityApi {
+import de.markusressel.freenasrestapiclient.api.v2.ApiListener
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-    // TODO:
+class AfpApiImpl(val websocketApiClient: WebsocketApiClient) : AfpApi {
+    override fun getAfpConfig(listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
+    override fun updateAfpConfig(chmodRequest: AfpApi.ChmodRequest?, mapAcls: AfpApi.MapAcl?, globalAux: String?, dbpath: String?, connectionsLimit: Int?, bindip: List<String>?, guest: Boolean?, guestUser: String?, listener: ApiListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -16,20 +16,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.jails
+package de.markusressel.freenasrestapiclient.api.v2.jail
 
 import com.github.salomonbrys.kotson.addPropertyIfNotNull
 import com.github.salomonbrys.kotson.jsonObject
 import de.markusressel.freenasrestapiclient.api.v2.ApiListener
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-class JailsApiManager(val websocketApiClient: WebsocketApiClient) : JailsApi {
+class JailApiImpl(val websocketApiClient: WebsocketApiClient) : JailApi {
 
     override fun activateJailPool(pool: String?, listener: ApiListener) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun cleanJail(dsType: JailsApi.DsType?, listener: ApiListener) {
+    override fun cleanJail(dsType: JailApi.DsType?, listener: ApiListener) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

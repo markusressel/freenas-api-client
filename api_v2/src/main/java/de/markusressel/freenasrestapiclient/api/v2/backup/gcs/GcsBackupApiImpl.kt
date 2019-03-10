@@ -16,9 +16,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.backup.gcs
 
-interface CertificateApi : CertificateAuthorityApi {
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+
+class GcsBackupApiImpl(val websocketApiClient: WebsocketApiClient) : GcsBackupApi {
 
     // TODO:
 

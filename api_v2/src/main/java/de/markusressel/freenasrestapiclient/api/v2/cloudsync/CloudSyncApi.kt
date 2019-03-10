@@ -19,4 +19,7 @@
 package de.markusressel.freenasrestapiclient.api.v2.cloudsync
 
 interface CloudSyncApi : CloudSyncCredentialsApi {
+
+    // TODO:
+
 }

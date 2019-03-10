@@ -16,11 +16,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.sharing
+package de.markusressel.freenasrestapiclient.api.v2.backup.credential
 
-interface AfpSharesApi {
-    // TODO: sharing.afp.create
-    // TODO: sharing.afp.delete
-    // TODO: sharing.afp.query
-    // TODO: sharing.afp.update
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+
+class BackupCredentialsApiImpl(val websocketApiClient: WebsocketApiClient) : BackupCredentialsApi {
+
+    // TODO:
+
 }

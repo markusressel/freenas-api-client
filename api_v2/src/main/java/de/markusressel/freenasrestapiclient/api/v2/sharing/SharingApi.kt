@@ -16,10 +16,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.certificate
+package de.markusressel.freenasrestapiclient.api.v2.sharing
 
-interface CertificateApi : CertificateAuthorityApi {
-
-    // TODO:
-
-}
+interface SharingApi : AfpSharingApi, NfsSharingApi, SmbSharingApi, WebDavSharingApi
