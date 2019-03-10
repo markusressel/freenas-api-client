@@ -50,9 +50,10 @@ interface BootEnvApi {
      *
      * Currently only [keep] attribute is allowed.
      *
+     * @param id id of the boot environment
      * @param keep whether to keep this environment forever
      */
-    suspend fun setBootEnvAttribute(keep: Boolean): Result<JsonElement, Exception>
+    suspend fun setBootEnvAttribute(id: String, keep: Boolean): Result<JsonElement, Exception>
 
     /**
      * Updates a boot environment

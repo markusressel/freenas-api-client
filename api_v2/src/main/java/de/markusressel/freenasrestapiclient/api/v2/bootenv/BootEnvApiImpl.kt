@@ -19,31 +19,48 @@
 package de.markusressel.freenasrestapiclient.api.v2.bootenv
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.addPropertyIfNotNull
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class BootEnvApiImpl(val websocketApiClient: WebsocketApiClient) : BootEnvApi {
     override suspend fun getBootEnvs(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("bootenv.query")
     }
 
     override suspend fun activateBootEnv(id: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("bootenv.activate")
     }
 
     override suspend fun createBootEnv(name: String, source: String?): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("name", name)
+            addPropertyIfNotNull("source", source)
+        }
+        return websocketApiClient.callMethod("bootenv.activate", arguments)
     }
 
-    override suspend fun setBootEnvAttribute(keep: Boolean): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun setBootEnvAttribute(id: String, keep: Boolean): Result<JsonElement, Exception> {
+        val arguments = jsonObject().apply {
+            addProperty("id", id)
+            addProperty("keep", keep)
+        }
+        return websocketApiClient.callMethod("bootenv.set_attribute", arguments)
     }
 
     override suspend fun updateBootEnv(id: String, name: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("id", id)
+            addProperty("name", name)
+        }
+        return websocketApiClient.callMethod("bootenv.update", arguments)
     }
 
     override suspend fun deleteBootEnv(id: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arguments = jsonObject().apply {
+            addProperty("id", id)
+        }
+        return websocketApiClient.callMethod("bootenv.delete", arguments)
     }
 }

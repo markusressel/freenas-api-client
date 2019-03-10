@@ -27,8 +27,8 @@ interface BootApi {
      * Attach a disk to the boot pool, turning a stripe into a mirror.
      *
      * @param dev the device to attach
-     * @param expand determines whether the new disk partition will be the maximum available or the same size as the current disk.
-
+     * @param expand determines whether the new disk partition will be the maximum available or
+     *               the same size as the current disk.
      */
     suspend fun attachBootPool(dev: String, expand: Boolean): Result<JsonElement, Exception>
 
@@ -36,21 +36,18 @@ interface BootApi {
      * Detach given dev from boot pool.
      *
      * @param dev the device to detach
-
      */
     suspend fun detachBootPool(dev: String): Result<JsonElement, Exception>
 
     /**
      * Returns disks of the boot pool.
      *
-
      */
     suspend fun getBootDisks(): Result<JsonElement, Exception>
 
     /**
      * Returns the current state of the boot pool, including all vdevs, properties and datasets.
      *
-
      */
     suspend fun getBootState(): Result<JsonElement, Exception>
 
@@ -59,7 +56,6 @@ interface BootApi {
      *
      * @param label label
      * @param dev device
-
      */
     suspend fun replaceBootLabel(label: String, dev: String): Result<JsonElement, Exception>
 
