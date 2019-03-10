@@ -115,7 +115,12 @@ class WebsocketApiClient(
                 override fun onFailure(webSocket: WebSocket, t: Throwable?, response: Response?) {
                     Log.e(TAG, "Connection error: $response", t)
                     isConnected = false
-                    continuation.resume(Result.error(ConnectException("Error connecting: $t, $response")))
+
+                    try {
+                        continuation.resume(Result.error(ConnectException("Error connecting: $t, $response")))
+                    } catch (e: IllegalStateException) {
+                    }
+
                     runOnUiThread {
                         this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, response?.code(), t)
                     }
@@ -132,7 +137,6 @@ class WebsocketApiClient(
 
         if (json.has(PROPERTY_ID)) {
             val responseId = json[PROPERTY_ID].string
-            // TODO: the response might be an error, notify listeners differently if this is the case
             notifyListener(responseId, json)
             return
         }
@@ -158,7 +162,11 @@ class WebsocketApiClient(
      * @param json the response
      */
     private fun notifyListener(responseId: String, json: JsonObject) {
-        val result = Result.of(json)
+        val result = when {
+            json.has(PROPERTY_ERROR) -> Result.error(Exception("${json[PROPERTY_ERROR]}"))
+            else -> Result.of(json)
+        }
+
         responseListeners[responseId]?.apply {
             invoke(result)
             responseListeners.remove(responseId)
@@ -324,6 +332,7 @@ class WebsocketApiClient(
         private const val TAG = "WebsocketApiClient"
         private const val PROPERTY_ID = "id"
         private const val PROPERTY_MSG = "msg"
+        private const val PROPERTY_ERROR = "error"
     }
 
 }

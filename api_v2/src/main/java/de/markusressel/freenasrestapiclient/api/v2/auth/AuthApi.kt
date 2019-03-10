@@ -35,7 +35,6 @@ interface AuthApi {
      * Generate a token to be used for authentication.
      *
      * @param ttl time to live
-     * @param listener response listener
      */
     suspend fun generateToken(ttl: Int? = null): Result<JsonElement, Exception>
 
@@ -50,8 +49,6 @@ interface AuthApi {
 
     /**
      * Deauthenticates an app and if a token exists, removes that from the session.
-     *
-     * @param listener response listener
      */
     suspend fun logout(): Result<JsonElement, Exception>
 
@@ -59,7 +56,6 @@ interface AuthApi {
      * Authenticate using a given token id.
      *
      * @param token auth token
-     * @param listener response listener
      */
     suspend fun authenticate(token: String): Result<JsonElement, Exception>
 

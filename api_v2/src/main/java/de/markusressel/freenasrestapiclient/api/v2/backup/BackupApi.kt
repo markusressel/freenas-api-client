@@ -32,8 +32,6 @@ interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBack
      * Creates a backup
      *
      * TODO many parameters
-     *
-     * @param listener response listener
      */
     suspend fun createBackup(): Result<JsonElement, Exception>
 
@@ -53,7 +51,6 @@ interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBack
      * Deletes a backup
      *
      * @param id id of the backup
-     * @param listener response listener
      */
     suspend fun deleteBackup(id: String): Result<JsonElement, Exception>
 
