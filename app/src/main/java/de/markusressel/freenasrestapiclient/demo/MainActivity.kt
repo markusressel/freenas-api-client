@@ -91,10 +91,12 @@ class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
                         username = BuildConfig.TESTING_USERNAME,
                         password = BuildConfig.TESTING_PASSWORD))
 
-        val result = freeNasWebApiClientV2.connect(this)
-        showResult(result)
-        result.success {
-            checkForUpdates()
+        GlobalScope.launch {
+            val result = freeNasWebApiClientV2.connect(this@MainActivity)
+            showResult(result)
+            result.success {
+                checkForUpdates()
+            }
         }
     }
 
