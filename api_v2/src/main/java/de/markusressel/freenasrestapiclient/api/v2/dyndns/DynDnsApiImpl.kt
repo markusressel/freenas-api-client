@@ -27,11 +27,16 @@ class DynDnsApiImpl(val websocketApiClient: WebsocketApiClient) : DynDnsApi {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun setDynDnsConfig(provider: String?, checkipSsl: Boolean?,
-                                         checkipServer: String?, checkipPath: String?,
-                                         ssl: Boolean?, customDdnsServer: String?,
-                                         customDdnsPath: String?, domain: List<String>,
-                                         username: String?, password: String?,
+    override suspend fun setDynDnsConfig(provider: String?,
+                                         checkipSsl: Boolean?,
+                                         checkipServer: String?,
+                                         checkipPath: String?,
+                                         ssl: Boolean?,
+                                         customDdnsServer: String?,
+                                         customDdnsPath: String?,
+                                         domain: List<String>?,
+                                         username: String?,
+                                         password: String?,
                                          period: Int?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

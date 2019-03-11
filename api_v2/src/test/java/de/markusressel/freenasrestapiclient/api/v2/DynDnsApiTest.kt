@@ -16,34 +16,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.dyndns
+package de.markusressel.freenasrestapiclient.api.v2
 
-import com.github.kittinunf.result.Result
-import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 
-interface DynDnsApi {
+class DynDnsApiTest : TestBase() {
 
-    /**
-     * Get the DynDNS config
-     *
-     */
-    suspend fun getDynDnsConfig(): Result<JsonElement, Exception>
+    @Test
+    fun testGetDynDnsConfig() {
+        runBlocking {
+            val result = underTest.getDynDnsConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
-    /**
-     * Set the DynDNS config
-     *
-     * TODO: params
-     */
-    suspend fun setDynDnsConfig(provider: String? = null,
-                                checkipSsl: Boolean? = null,
-                                checkipServer: String? = null,
-                                checkipPath: String? = null,
-                                ssl: Boolean? = null,
-                                customDdnsServer: String? = null,
-                                customDdnsPath: String? = null,
-                                domain: List<String>? = null,
-                                username: String? = null,
-                                password: String? = null,
-                                period: Int? = null): Result<JsonElement, Exception>
+    @Test
+    fun testSetDynDnsConfig() {
+        runBlocking {
+            val result = underTest.setDynDnsConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
 }

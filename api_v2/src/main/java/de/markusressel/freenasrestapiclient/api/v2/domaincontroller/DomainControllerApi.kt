@@ -58,9 +58,13 @@ interface DomainControllerApi {
      * TODO: params
      *
      */
-    suspend fun setDomainControllerConfig(realm: String?, domain: String?, role: DomainControllerRole?,
-                                          dnsBackend: DnsBackend?, dnsForwarder: String?,
-                                          forestLevel: ForestLevel, password: String?,
-                                          kerberosRealm: Int?): Result<JsonElement, Exception>
+    suspend fun setDomainControllerConfig(realm: String? = null,
+                                          domain: String? = null,
+                                          role: DomainControllerRole? = null,
+                                          dnsBackend: DnsBackend? = null,
+                                          dnsForwarder: String? = null,
+                                          forestLevel: ForestLevel? = null,
+                                          password: String? = null,
+                                          kerberosRealm: Int? = null): Result<JsonElement, Exception>
 
 }

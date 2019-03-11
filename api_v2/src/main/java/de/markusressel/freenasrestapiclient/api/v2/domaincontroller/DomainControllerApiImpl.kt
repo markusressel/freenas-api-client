@@ -21,16 +21,20 @@ package de.markusressel.freenasrestapiclient.api.v2.domaincontroller
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+import de.markusressel.freenasrestapiclient.api.v2.domaincontroller.DomainControllerApi.DnsBackend
+import de.markusressel.freenasrestapiclient.api.v2.domaincontroller.DomainControllerApi.ForestLevel
 
 class DomainControllerApiImpl(val websocketApiClient: WebsocketApiClient) : DomainControllerApi {
     override suspend fun getDomainControllerConfig(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun setDomainControllerConfig(realm: String?, domain: String?,
+    override suspend fun setDomainControllerConfig(realm: String?,
+                                                   domain: String?,
                                                    role: DomainControllerApi.DomainControllerRole?,
-                                                   dnsBackend: DomainControllerApi.DnsBackend?,
-                                                   dnsForwarder: String?, forestLevel: DomainControllerApi.ForestLevel,
+                                                   dnsBackend: DnsBackend?,
+                                                   dnsForwarder: String?,
+                                                   forestLevel: ForestLevel?,
                                                    password: String?, kerberosRealm: Int?): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
