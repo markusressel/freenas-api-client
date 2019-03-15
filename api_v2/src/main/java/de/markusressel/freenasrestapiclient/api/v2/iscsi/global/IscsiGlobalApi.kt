@@ -16,19 +16,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.interfaces
+package de.markusressel.freenasrestapiclient.api.v2.iscsi.global
 
-import com.github.kittinunf.result.Result
-import com.google.gson.JsonElement
-import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
-import de.markusressel.freenasrestapiclient.api.v2.ipmi.IpmiApi
-
-class InterfacesApiImpl(val websocketApiClient: WebsocketApiClient) : IpmiApi {
-    override suspend fun getInterfaceIpsInUse(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override suspend fun getInterfaces(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+interface IscsiGlobalApi {
 }
