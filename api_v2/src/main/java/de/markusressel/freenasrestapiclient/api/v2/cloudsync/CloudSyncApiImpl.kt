@@ -21,4 +21,35 @@ package de.markusressel.freenasrestapiclient.api.v2.cloudsync
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class CloudSyncApiImpl(val websocketApiClient: WebsocketApiClient) : CloudSyncApi, CloudSyncCredentialsApi {
+    override suspend fun createCloudSync(description: String, direction: CloudSyncApi.Direction, transfer_mode: CloudSyncApi.TransferMode, path: String, credentials: Int, encryption: Boolean, filename_encryption: Boolean, encryption_password: String, encryption_salt: String, schedule: CloudSyncApi.Schedule, args: String, enabled: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun deleteCloudSync(id: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun listBuckets(id: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun listDirectories() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun cloudSyncProviders() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getCloudSyncEntries() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun runCloudSync(id: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun updateCloudSync(id: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

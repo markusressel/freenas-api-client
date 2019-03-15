@@ -18,8 +18,64 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.certificate
 
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
+
 interface CertificateAuthorityApi {
 
-    // TODO:
+    enum class CreateType : ApiEnum {
+        CA_CREATE_INTERNAL,
+        CA_CREATE_IMPORTED,
+        CA_CREATE_INTERMEDIATE
+    }
+
+    /**
+     *
+     */
+    suspend fun certificateAuthoritySignCsr(caId: Int, csrCertId: Int, name: String)
+
+    /**
+     * Creates a new certificate authority
+     */
+    suspend fun createCertificateAuthority(
+            signedby: Int,
+            key_length: Int,
+            type: Int,
+            lifetime: Int,
+            serial: Int,
+            certificate: String,
+            city: String,
+            common: String,
+            country: String,
+            CSR: String,
+            email: String,
+            name: String,
+            organization: String,
+            passphrase: String,
+            privatekey: String,
+            state: String,
+            create_type: CreateType,
+            digest_algorithm: CertificateApi.DigestAlgorithm,
+            san: List<String>)
+
+    /**
+     * Deletes a certificate authority
+     *
+     * @param id id of CA
+     */
+    suspend fun deleteCertificateAuthority(id: Int)
+
+    /**
+     * Queries a list of certificate authorities
+     *
+     * TODO: query params
+     */
+    suspend fun getCertificateAuthorities()
+
+    /**
+     * Updates a certificate authority
+     *
+     * @param id id of CA
+     */
+    suspend fun updateCertificateAuthority(id: Int)
 
 }

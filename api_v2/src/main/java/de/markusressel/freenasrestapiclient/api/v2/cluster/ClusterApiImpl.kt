@@ -24,22 +24,22 @@ import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class ClusterApiImpl(val websocketApiClient: WebsocketApiClient) : ClusterApi {
     override suspend fun getAvailableClusterNodes(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("cluster.get_available_nodes")
     }
 
     override suspend fun addClusterNode(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("cluster.node_add")
     }
 
     override suspend fun checkClusterNode(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("cluster.node_check")
     }
 
     override suspend fun getClusterNodes(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("cluster.node_list")
     }
 
     override suspend fun removeClusterNode(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("cluster.node_remove")
     }
 }

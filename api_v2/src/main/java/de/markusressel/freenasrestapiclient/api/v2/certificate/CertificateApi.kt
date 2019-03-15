@@ -18,8 +18,74 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.certificate
 
+import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
+
 interface CertificateApi : CertificateAuthorityApi {
 
-    // TODO:
+    enum class CreateType(private val jsonValue: String) : ApiEnum {
+        INTERNAL("CERTIFICATE_CREATE_INTERNAL"),
+        IMPORTED("CERTIFICATE_CREATE_IMPORTED"),
+        STANDARD("CERTIFICATE_CREATE"),
+        CSR("CERTIFICATE_CREATE_CSR");
+
+        override fun toJsonValue(): String = jsonValue
+    }
+
+    enum class DigestAlgorithm : ApiEnum {
+        SHA1,
+        SHA224,
+        SHA256,
+        SHA384,
+        SHA512;
+    }
+
+    /**
+     * Creates a certificate
+     *
+     * TODO: params
+     */
+    suspend fun createCertificate(signedBy: Int,
+                                  keyLength: Int,
+                                  type: Int,
+                                  lifetime: Int,
+                                  serial: Int,
+                                  certificate: String,
+                                  city: String,
+                                  common: String,
+                                  country: String,
+                                  CSR: String,
+                                  email: String,
+                                  name: String,
+                                  organization: String,
+                                  passphrase: String,
+                                  privatekey: String,
+                                  state: String,
+                                  createType: CreateType,
+                                  digestAlgorithm: DigestAlgorithm,
+                                  san: List<String>)
+
+    /**
+     * Queries a list of certificates
+     *
+     * TODO: query params
+     */
+    suspend fun getCertificates(): List<JsonElement>
+
+    /**
+     * Updates a certificate
+     *
+     * @param id id of the certificate
+     * @param name new name
+     * @param certificate
+     */
+    suspend fun updateCertificate(id: Int, name: String, certificate: String)
+
+    /**
+     * Deletes a certificate
+     *
+     * @param id id of the certificate
+     */
+    suspend fun deleteCertificate(id: Int)
 
 }

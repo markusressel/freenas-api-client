@@ -16,18 +16,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.config
+package de.markusressel.freenasrestapiclient.api.v2
 
-import com.github.kittinunf.result.Result
-import com.google.gson.JsonElement
-import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
+import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 
-class ConfigApiImpl(val websocketApiClient: WebsocketApiClient) : ConfigApi {
-    override suspend fun saveConfig(): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("config.save")
+class FtpApiTest : TestBase() {
+
+    @Test
+    fun testGetFtpConfig() {
+        runBlocking {
+            val result = underTest.getFtpConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
     }
 
-    override suspend fun uploadConfig(): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("config.upload")
+    @Test
+    fun testSetFtpConfig() {
+        runBlocking {
+            val result = underTest.setFtpConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
     }
+
 }

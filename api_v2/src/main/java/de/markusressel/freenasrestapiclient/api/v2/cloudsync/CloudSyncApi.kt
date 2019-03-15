@@ -20,6 +20,76 @@ package de.markusressel.freenasrestapiclient.api.v2.cloudsync
 
 interface CloudSyncApi : CloudSyncCredentialsApi {
 
-    // TODO:
+    enum class Direction {
+        PUSH,
+        PULL
+    }
+
+    enum class TransferMode {
+        SYNC,
+        COPY,
+        MOVE
+    }
+
+    data class Schedule(val minute: String,
+                        val hour: String,
+                        val dom: String,
+                        val month: String,
+                        val dow: String)
+
+    /**
+     * Creates a new cloud sync entry
+     */
+    suspend fun createCloudSync(
+            description: String,
+            direction: Direction,
+            transfer_mode: TransferMode,
+            path: String,
+            credentials: Int,
+            encryption: Boolean,
+            filename_encryption: Boolean,
+            encryption_password: String,
+            encryption_salt: String,
+            schedule: Schedule,
+            args: String,
+            enabled: Boolean
+    )
+
+    /**
+     * Deletes a cloud sync entry
+     *
+     * @param id entry id
+     */
+    suspend fun deleteCloudSync(id: Int)
+
+    /**
+     * List cloud sync buckets
+     */
+    suspend fun listBuckets(id: Int)
+
+    suspend fun listDirectories()
+
+    suspend fun cloudSyncProviders()
+
+    /**
+     * Queries a list of cloud sync entries
+     *
+     * TODO: query params
+     */
+    suspend fun getCloudSyncEntries()
+
+    /**
+     * Run the cloud_sync job [id], syncing the local data to remote.
+     *
+     * @param id
+     */
+    suspend fun runCloudSync(id: Int)
+
+    /**
+     * Updates a cloud sync entry
+     *
+     * @param id id of cloud sync entry
+     */
+    suspend fun updateCloudSync(id: Int)
 
 }
