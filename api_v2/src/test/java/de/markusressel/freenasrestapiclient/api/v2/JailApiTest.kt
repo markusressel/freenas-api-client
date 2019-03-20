@@ -19,15 +19,186 @@
 package de.markusressel.freenasrestapiclient.api.v2
 
 import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import de.markusressel.freenasrestapiclient.api.v2.jail.JailApi.Action
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class JailApiTest : TestBase() {
 
     @Test
+    fun testactivateJailPool() {
+        runBlocking {
+            val result = underTest.activateJailPool("test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testcleanJail() {
+        runBlocking {
+            val result = underTest.cleanJail()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testcreateJail() {
+        runBlocking {
+            val result = underTest.createJail(
+                    uuid = "48c9c0fe-bce7-46a0-aab1-1fd1bbb882bc",
+                    release = "test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun teststartJail() {
+        runBlocking {
+            val result = underTest.startJail("test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testexecJailCommand() {
+        runBlocking {
+            val result = underTest.execJailCommand("test", listOf("echo test"))
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testexportJail() {
+        runBlocking {
+            val result = underTest.exportJail("test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testfetchJail() {
+        runBlocking {
+            val result = underTest.fetchJail()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testaddFstabMountToJail() {
+        runBlocking {
+            val result = underTest.addFstabMountToJail("test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testgetActiveJailPool() {
+        runBlocking {
+            val result = underTest.getActiveJailPool()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testlistJailResource() {
+        runBlocking {
+            val result = underTest.listJailResource()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
     fun testGetJails() {
         runBlocking {
             val result = underTest.getJails()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testjailRcAction() {
+        runBlocking {
+            val result = underTest.jailRcAction(action = Action.STOP)
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun teststopJail() {
+        runBlocking {
+            val result = underTest.stopJail("test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testupdateJail() {
+        runBlocking {
+            val result = underTest.updateJail("test")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testdeleteJail() {
+        runBlocking {
+            val result = underTest.deleteJail("test")
             result.fold(success = {
                 println("$it")
             }, failure = {

@@ -37,20 +37,26 @@ interface JailApi {
         PLUGIN
     }
 
+    enum class Action : ApiEnum {
+        START,
+        STOP,
+        RESTART
+    }
+
     /**
      * Activates a pool for iocage usage, and deactivates the rest.
      *
      * @param pool the pool to use
 
      */
-    suspend fun activateJailPool(pool: String? = null): Result<JsonElement, Exception>
+    suspend fun activateJailPool(pool: String): Result<JsonElement, Exception>
 
     /**
      * Cleans all iocage datasets of [dsType]
      *
      * @param dsType
      */
-    suspend fun cleanJail(dsType: DsType? = null): Result<JsonElement, Exception>
+    suspend fun cleanJail(dsType: DsType = DsType.ALL): Result<JsonElement, Exception>
 
     /**
      * Creates a jail
@@ -61,7 +67,7 @@ interface JailApi {
      * @param pkglist list of packages
      * @param baseJail base jail to use
      */
-    suspend fun createJail(uuid: String? = null, release: String? = null, template: String? = null,
+    suspend fun createJail(uuid: String, release: String, template: String? = null,
                            pkglist: String? = null, baseJail: Boolean? = null): Result<JsonElement, Exception>
 
     /**
@@ -111,7 +117,8 @@ interface JailApi {
     /**
      * Returns a JSON list of the supplied resource on the host
      */
-    suspend fun listJailResource(resourceType: ResourceType?, remote: Boolean? = null): Result<JsonElement, Exception>
+    suspend fun listJailResource(resourceType: ResourceType? = null,
+                                 remote: Boolean? = null): Result<JsonElement, Exception>
 
     /**
      * Query a list of jails
@@ -123,7 +130,7 @@ interface JailApi {
     /**
      * Does specified action on rc enabled (boot=on) jails
      */
-    suspend fun jailRcAction(): Result<JsonElement, Exception>
+    suspend fun jailRcAction(action: Action): Result<JsonElement, Exception>
 
     /**
      * Stops a jail
@@ -136,8 +143,9 @@ interface JailApi {
      * Updates a jail
      *
      * @param title the title of the jail
+     * @param plugin whether the jail is a plugin jail
      */
-    suspend fun updateJail(title: String): Result<JsonElement, Exception>
+    suspend fun updateJail(title: String, plugin: Boolean = false): Result<JsonElement, Exception>
 
     // TODO: jail.update_to_latest_patch
 
