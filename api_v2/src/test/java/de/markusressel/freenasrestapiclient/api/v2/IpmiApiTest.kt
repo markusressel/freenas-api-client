@@ -22,18 +22,12 @@ import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class GroupApiTest : TestBase() {
+class IpmiApiTest : TestBase() {
 
     @Test
-    fun testCreateGroup() {
+    fun testGetIpmiChannels() {
         runBlocking {
-            val result = underTest.createGroup(
-                    groupId = 1005,
-                    name = "my-group",
-                    sudo = false,
-                    allow_duplicate_gid = true,
-                    users = emptyList()
-            )
+            val result = underTest.getIpmiChannels()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -43,12 +37,9 @@ class GroupApiTest : TestBase() {
     }
 
     @Test
-    fun testDeleteGroup() {
+    fun testIdentifyIpmi() {
         runBlocking {
-            val result = underTest.deleteGroup(
-                    groupId = 1005,
-                    deleteUsers = false
-            )
+            val result = underTest.identifyIpmi(seconds = 5, force = false)
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -58,9 +49,9 @@ class GroupApiTest : TestBase() {
     }
 
     @Test
-    fun testGetNextFreeGroupId() {
+    fun testisIpmiLoaded() {
         runBlocking {
-            val result = underTest.getNextFreeGroupId()
+            val result = underTest.isIpmiLoaded()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -70,9 +61,9 @@ class GroupApiTest : TestBase() {
     }
 
     @Test
-    fun testGetGroups() {
+    fun testgetIpmi() {
         runBlocking {
-            val result = underTest.getGroups()
+            val result = underTest.getIpmi()
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -82,10 +73,16 @@ class GroupApiTest : TestBase() {
     }
 
     @Test
-    fun testUpdateGroup() {
+    fun testupdateIpmi() {
         runBlocking {
-            val result = underTest.updateGroup(
-                    groupId = 1005
+            val result = underTest.updateIpmi(
+                    channel = 12345,
+                    ipaddress = "192.168.0.150",
+                    netmask = "255.255.255.0",
+                    gateway = "127.0.0.1",
+                    password = "test",
+                    dhcp = true,
+                    vlan = 0
             )
             result.fold(success = {
                 println("$it")

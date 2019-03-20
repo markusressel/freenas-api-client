@@ -29,9 +29,9 @@ interface GroupApi {
      */
     suspend fun createGroup(groupId: Int,
                             name: String,
-                            sudo: Boolean,
-                            allow_duplicate_gid: Boolean,
-                            users: List<Int>): Result<JsonElement, Exception>
+                            sudo: Boolean = false,
+                            allow_duplicate_gid: Boolean = false,
+                            users: List<Int> = emptyList()): Result<JsonElement, Exception>
 
     /**
      * Deletes a group
@@ -39,7 +39,7 @@ interface GroupApi {
      * @param groupId group id
      * @param deleteUsers whether to delete users associated with this group
      */
-    suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean? = null): Result<JsonElement, Exception>
+    suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean = false): Result<JsonElement, Exception>
 
     /**
      * Get the next available/free gid.

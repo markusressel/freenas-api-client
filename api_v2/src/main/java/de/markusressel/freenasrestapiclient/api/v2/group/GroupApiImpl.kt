@@ -27,7 +27,7 @@ class GroupApiImpl(val websocketApiClient: WebsocketApiClient) : GroupApi {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean?): Result<JsonElement, Exception> {
+    override suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

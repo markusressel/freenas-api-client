@@ -39,7 +39,49 @@ class FtpApiTest : TestBase() {
     @Test
     fun testSetFtpConfig() {
         runBlocking {
-            val result = underTest.setFtpConfig()
+            val result = underTest.setFtpConfig(
+                    port = null,
+                    clients = null,
+                    ipConnections = null,
+                    loginAttempts = null,
+                    timeout = null,
+                    rootLogin = null,
+                    onlyAnonymous = null,
+                    anonpath = null,
+                    onlylocal = null,
+                    banner = null,
+                    filemask = null,
+                    dirmask = null,
+                    fxp = null,
+                    resume = null,
+                    defaultroot = null,
+                    ident = null,
+                    reversedns = null,
+                    masqaddress = null,
+                    passiveportsmin = null,
+                    passiveportsmax = null,
+                    localuserbw = null,
+                    localuserdlbw = null,
+                    anonuserbw = null,
+                    anonuserdlbw = null,
+                    tls = null,
+                    tls_policy = null,
+                    tls_opt_allow_client_renegotiations = null,
+                    tls_opt_allow_dot_login = null,
+                    tls_opt_allow_per_user = null,
+                    tls_opt_common_name_required = null,
+                    tls_opt_enable_diags = null,
+                    tls_opt_export_cert_data = null,
+                    tls_opt_no_cert_request = null,
+                    tls_opt_no_empty_fragments = null,
+                    tls_opt_no_session_reuse_required = null,
+                    tls_opt_stdenvvars = null,
+                    tls_opt_dns_name_required = null,
+                    tls_opt_ip_address_required = null,
+                    ssltls_certificate = null,
+                    options = null
+
+            )
             result.fold(success = {
                 println("$it")
             }, failure = {

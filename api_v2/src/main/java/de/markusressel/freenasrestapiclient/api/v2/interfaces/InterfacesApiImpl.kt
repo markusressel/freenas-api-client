@@ -21,9 +21,8 @@ package de.markusressel.freenasrestapiclient.api.v2.interfaces
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
-import de.markusressel.freenasrestapiclient.api.v2.ipmi.IpmiApi
 
-class InterfacesApiImpl(val websocketApiClient: WebsocketApiClient) : IpmiApi {
+class InterfacesApiImpl(val websocketApiClient: WebsocketApiClient) : InterfacesApi {
     override suspend fun getInterfaceIpsInUse(): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

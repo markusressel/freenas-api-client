@@ -31,29 +31,31 @@ interface IpmiApi {
     /**
      * Turn on IPMI chassis identify light.
      *
-     * To turn off specify 0 as seconds.
+     * @param seconds time in seconds to identify (0 to turn off)
+     * @param force ???
      */
-    suspend fun identifyIpmi(seconds: Int, force: Boolean)
+    suspend fun identifyIpmi(seconds: Int = 15, force: Boolean = false): Result<JsonElement, Exception>
 
     /**
      *
      */
-    suspend fun isIpmiLoaded()
+    suspend fun isIpmiLoaded(): Result<JsonElement, Exception>
 
     /**
      * TODO: query params
      */
-    suspend fun getIpmi()
+    suspend fun getIpmi(): Result<JsonElement, Exception>
 
     /**
      *
      */
     suspend fun updateIpmi(
+            channel: Int,
             ipaddress: String,
             netmask: String,
             gateway: String,
             password: String,
             dhcp: Boolean,
-            vlan: Int)
+            vlan: Int): Result<JsonElement, Exception>
 
 }
