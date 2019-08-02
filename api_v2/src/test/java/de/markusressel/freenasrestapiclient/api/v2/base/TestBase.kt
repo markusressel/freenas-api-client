@@ -18,7 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.base
 
-import de.markusressel.freenasrestapiclient.api.v2.FreeNasRestApiV2Client
+import de.markusressel.freenasrestapiclient.api.v2.FreeNasApiV2Client
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketConnectionListener
 import de.markusressel.freenasrestapiclient.api.v2.runner.CustomRunner
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
@@ -42,7 +42,7 @@ abstract class TestBase : WebsocketConnectionListener {
     /**
      * The API instance that can be used for testing
      */
-    val underTest: FreeNasRestApiV2Client = FreeNasRestApiV2Client(
+    val underTest: FreeNasApiV2Client = FreeNasApiV2Client(
 //            baseUrl = "ws://192.168.2.255/ws",
             baseUrl = BuildConfig.TESTING_URL_V2,
             auth = BasicAuthConfig(

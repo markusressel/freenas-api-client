@@ -26,7 +26,7 @@ import com.github.kittinunf.result.success
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
 import de.markusressel.commons.android.material.toast
 import de.markusressel.freenasrestapiclient.api.v1.FreeNasRestApiV1Client
-import de.markusressel.freenasrestapiclient.api.v2.FreeNasRestApiV2Client
+import de.markusressel.freenasrestapiclient.api.v2.FreeNasApiV2Client
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketConnectionListener
 import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 import de.markusressel.freenasrestapiclient.core.BuildConfig
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
 
     private lateinit var freeNasWebApiClient: FreeNasRestApiV1Client
-    private lateinit var freeNasWebApiClientV2: FreeNasRestApiV2Client
+    private lateinit var freeNasWebApiClientV2: FreeNasApiV2Client
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super
@@ -85,7 +85,7 @@ class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
     }
 
     private fun setupFreenasApiClientV2() {
-        freeNasWebApiClientV2 = FreeNasRestApiV2Client(
+        freeNasWebApiClientV2 = FreeNasApiV2Client(
                 baseUrl = BuildConfig.TESTING_URL_V2,
                 auth = BasicAuthConfig(
                         username = BuildConfig.TESTING_USERNAME,
