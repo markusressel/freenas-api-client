@@ -16,28 +16,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v1;
+package de.markusressel.freenasrestapiclient.api.v1
 
-import de.markusressel.freenasrestapiclient.core.BasicAuthConfig;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-public class ExampleUnitTest {
+class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    fun addition_isCorrect() {
+        assertEquals(4, (2 + 2).toLong())
     }
 
     @Test
-    public void basic_auth_create() {
-        BasicAuthConfig basicAuthConfig = new BasicAuthConfig("Hello", "World");
-        assertNotNull(basicAuthConfig);
+    fun basic_auth_create() {
+        val basicAuthConfig = BasicAuthConfig("Hello", "World")
+        assertNotNull(basicAuthConfig)
+
+        val client = FreeNasRestApiV1Client()
+        client.setBaseUrl("https://localhost/api")
+        // optional basic auth setup
+        client.setBasicAuthConfig(BasicAuthConfig("root", "pw"))
+
+        client.getUsers().subscribe({ result ->
+            // do something with the result list
+        }, { error ->
+            // handle error
+        })
     }
 }
