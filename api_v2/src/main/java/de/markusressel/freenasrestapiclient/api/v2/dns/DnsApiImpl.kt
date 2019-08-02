@@ -20,10 +20,13 @@ package de.markusressel.freenasrestapiclient.api.v2.dns
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class DnsApiImpl(val websocketApiClient: WebsocketApiClient) : DnsApi {
-    override suspend fun getDns(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getDns(queryFilters: List<QueryFilter>,
+                                queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("dns.query", queryFilters, queryOptions)
     }
 }

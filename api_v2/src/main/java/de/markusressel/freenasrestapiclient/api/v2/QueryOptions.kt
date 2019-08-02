@@ -16,21 +16,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.dns
+package de.markusressel.freenasrestapiclient.api.v2
 
-import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
-import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
-import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
-interface DnsApi {
-
-    /**
-     * Queries a list of DNS providers
-     *
-     * TODO: query parameters
-     */
-    suspend fun getDns(queryFilters: List<QueryFilter>,
-                       queryOptions: QueryOptions): Result<JsonElement, Exception>
-
-}
+data class QueryOptions(
+        val order_by: List<Any> = emptyList(),
+        val select: List<Any> = emptyList(),
+        val count: Boolean? = null,
+        val get: Boolean? = null,
+        val prefix: String? = null,
+        val extend: String? = null,
+        val extra: JsonElement = jsonObject()
+)

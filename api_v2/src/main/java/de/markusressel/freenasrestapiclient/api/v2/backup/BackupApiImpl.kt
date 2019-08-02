@@ -19,7 +19,9 @@
 package de.markusressel.freenasrestapiclient.api.v2.backup
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 import de.markusressel.freenasrestapiclient.api.v2.backup.azure.AzureBackupApi
 import de.markusressel.freenasrestapiclient.api.v2.backup.azure.AzureBackupApiImpl
@@ -44,19 +46,99 @@ class BackupApiImpl(val websocketApiClient: WebsocketApiClient,
         BackupCredentialsApi by backupCredentialsApi,
         GcsBackupApi by gcsBackupApi,
         S3BackupApi by s3BackupApi {
-    override suspend fun createBackup(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    enum class BackupDirection(private val jsonValue: String) : ApiEnum {
+        PUSH("PUSH"),
+        PULL("PULL");
+
+        override fun toJsonValue() = jsonValue
+    }
+
+    enum class BackupTransferMode(private val jsonValue: String) : ApiEnum {
+        SYNC("SYNC"),
+        COPY("COPY"),
+        MOVE("MOVE");
+
+        override fun toJsonValue() = jsonValue
+    }
+
+    override suspend fun createBackup(description: String?,
+                                      direction: BackupDirection?,
+                                      transferMode: BackupTransferMode,
+                                      path: String?,
+                                      credential: Int,
+                                      encryption: Boolean?,
+                                      filenameEncryption: Boolean?,
+                                      encryptionPassword: String?,
+                                      encryptionSalt: String?,
+                                      minute: String?,
+                                      hour: String?,
+                                      daymonth: String?,
+                                      dayweek: String?,
+                                      month: String?,
+                                      enabled: Boolean?): Result<JsonElement, Exception> {
+        val args = jsonObject(
+                "description" to description,
+                "direction" to direction?.toJsonValue(),
+                "transfer_mode" to transferMode,
+                "path" to path,
+                "credential" to credential,
+                "encryption" to encryption,
+                "filename_encryption" to filenameEncryption,
+                "encryption_password" to encryptionPassword,
+                "encryption_salt" to encryptionSalt,
+                "minute" to minute,
+                "hour" to hour,
+                "daymonth" to daymonth,
+                "dayweek" to dayweek,
+                "month" to month,
+                "enabled" to enabled
+        )
+        return websocketApiClient.callMethod("backup.create", args)
     }
 
     override suspend fun getBackups(): Result<JsonElement, Exception> {
         return websocketApiClient.callMethod("backup.query")
     }
 
-    override suspend fun updateBackup(id: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun updateBackup(id: String,
+                                      description: String?,
+                                      direction: BackupDirection?,
+                                      transferMode: BackupTransferMode,
+                                      path: String?,
+                                      credential: Int,
+                                      encryption: Boolean?,
+                                      filenameEncryption: Boolean?,
+                                      encryptionPassword: String?,
+                                      encryptionSalt: String?,
+                                      minute: String?,
+                                      hour: String?,
+                                      daymonth: String?,
+                                      dayweek: String?,
+                                      month: String?,
+                                      enabled: Boolean?): Result<JsonElement, Exception> {
+
+        val args = jsonObject(
+                "description" to description,
+                "direction" to direction?.toJsonValue(),
+                "transfer_mode" to transferMode,
+                "path" to path,
+                "credential" to credential,
+                "encryption" to encryption,
+                "filename_encryption" to filenameEncryption,
+                "encryption_password" to encryptionPassword,
+                "encryption_salt" to encryptionSalt,
+                "minute" to minute,
+                "hour" to hour,
+                "daymonth" to daymonth,
+                "dayweek" to dayweek,
+                "month" to month,
+                "enabled" to enabled
+        )
+        return websocketApiClient.callMethod("backup.update", id, args)
     }
 
     override suspend fun deleteBackup(id: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("backup.delete", id)
     }
 }

@@ -30,10 +30,22 @@ interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBack
 
     /**
      * Creates a backup
-     *
-     * TODO many parameters
      */
-    suspend fun createBackup(): Result<JsonElement, Exception>
+    suspend fun createBackup(description: String?,
+                             direction: BackupApiImpl.BackupDirection?,
+                             transferMode: BackupApiImpl.BackupTransferMode,
+                             path: String?,
+                             credential: Int,
+                             encryption: Boolean?,
+                             filenameEncryption: Boolean?,
+                             encryptionPassword: String?,
+                             encryptionSalt: String?,
+                             minute: String?,
+                             hour: String?,
+                             daymonth: String?,
+                             dayweek: String?,
+                             month: String?,
+                             enabled: Boolean?): Result<JsonElement, Exception>
 
     /**
      * Queries a list of backups
@@ -45,7 +57,22 @@ interface BackupApi : AzureBackupApi, B2BackupApi, BackupCredentialsApi, GcsBack
      *
      * @param id id of the backup
      */
-    suspend fun updateBackup(id: String): Result<JsonElement, Exception>
+    suspend fun updateBackup(id: String,
+                             description: String?,
+                             direction: BackupApiImpl.BackupDirection?,
+                             transferMode: BackupApiImpl.BackupTransferMode,
+                             path: String?,
+                             credential: Int,
+                             encryption: Boolean?,
+                             filenameEncryption: Boolean?,
+                             encryptionPassword: String?,
+                             encryptionSalt: String?,
+                             minute: String?,
+                             hour: String?,
+                             daymonth: String?,
+                             dayweek: String?,
+                             month: String?,
+                             enabled: Boolean?): Result<JsonElement, Exception>
 
     /**
      * Deletes a backup

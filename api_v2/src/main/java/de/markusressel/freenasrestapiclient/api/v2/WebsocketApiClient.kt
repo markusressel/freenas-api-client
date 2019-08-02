@@ -246,7 +246,8 @@ class WebsocketApiClient(
      * Call an api method
      *
      * @param method the method to call
-     * @param arguments method arguments
+     * @param argument method arguments
+     * @param suppressLog whether to suppress message logging (useful for privacy sensitive requests/responses)
      */
     suspend fun callMethod(method: String, vararg argument: Any? = emptyArray(), suppressLog: Boolean = false): Result<JsonElement, Exception> {
         return suspendCoroutine { continuation ->

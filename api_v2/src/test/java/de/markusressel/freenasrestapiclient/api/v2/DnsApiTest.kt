@@ -27,7 +27,7 @@ class DnsApiTest : TestBase() {
     @Test
     fun testGetDns() {
         runBlocking {
-            val result = underTest.getDns()
+            val result = underTest.getDns(emptyList(), QueryOptions())
             result.fold(success = {
                 println("$it")
             }, failure = {
