@@ -16,18 +16,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.iscsi
+package de.markusressel.freenasrestapiclient.api.v2
 
-import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.auth.IscsiAuthApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.auth.IscsiAuthApiImpl
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.extent.IscsiExtentApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.extent.IscsiExtentApiImpl
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.global.IscsiGlobalApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.global.IscsiGlobalApiImpl
+import com.github.kittinunf.result.map
+import com.github.salomonbrys.kotson.get
+import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 
-class IscsiApiImpl(private val websocketApiClient: WebsocketApiClient,
-                   iscsiAuthApi: IscsiAuthApi = IscsiAuthApiImpl(websocketApiClient),
-                   iscsiExtentApi: IscsiExtentApi = IscsiExtentApiImpl(websocketApiClient),
-                   iscsiGlobalApi: IscsiGlobalApi = IscsiGlobalApiImpl(websocketApiClient)
-) : IscsiApi, IscsiAuthApi by iscsiAuthApi, IscsiExtentApi by iscsiExtentApi, IscsiGlobalApi by iscsiGlobalApi
+class IscsiGlobalApiTest : TestBase() {
+
+    @Test
+    fun testGetIscsiGlobal() {
+        runBlocking {
+            val result = underTest.getIscsiGlobalConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testUpdateIscsiGlobal() {
+        runBlocking {
+            val current = underTest.getIscsiGlobalConfig()
+                    .map { it["result"] }.get()
+
+            val result = underTest.updateIscsiGlobalConfig(
+                    basename = current["basename"].asString
+            )
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+}

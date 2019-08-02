@@ -18,5 +18,71 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.iscsi.extent
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
+
 interface IscsiExtentApi {
+
+    enum class ExtentType(private val jsonValue: String) : ApiEnum {
+        DISK("DISK"),
+        FILE("FILE");
+
+        override fun toJsonValue() = jsonValue
+    }
+
+    enum class ExtentRpm(private val jsonValue: String) : ApiEnum {
+        UNKNOWN("UNKNOWN"),
+        SSD("SSD"),
+        _5400("5400"),
+        _7200("7200"),
+        _10000("10000"),
+        _15000("15000");
+
+        override fun toJsonValue() = jsonValue
+    }
+
+    /**
+     * @param secret must be between 12 and 16 characters
+     */
+    suspend fun createIscsiExtent(name: String,
+                                  type: ExtentType,
+                                  disk: String? = null,
+                                  serial: String? = null,
+                                  path: String? = null,
+                                  filesize: Int? = null,
+                                  blocksize: Int = 512,
+                                  pblocksize: Boolean? = null,
+                                  avail_threshold: Int? = null,
+                                  comment: String? = null,
+                                  insecure_tpc: Boolean? = null,
+                                  xen: Boolean? = null,
+                                  rpm: ExtentRpm? = null,
+                                  ro: Boolean? = null): Result<JsonElement, Exception>
+
+    suspend fun deleteIscsiExtent(id: Int, remove: Boolean? = null): Result<JsonElement, Exception>
+
+    suspend fun getIscsiExtent(queryFilters: List<QueryFilter> = emptyList(),
+                               queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
+
+    suspend fun setIscsiExtentDiskChoices(exclude: List<Any>): Result<JsonElement, Exception>
+
+    suspend fun updateIscsiExtent(id: Int,
+                                  name: String,
+                                  type: ExtentType? = null,
+                                  disk: String? = null,
+                                  serial: String? = null,
+                                  path: String? = null,
+                                  filesize: Int? = null,
+                                  blocksize: Int? = null,
+                                  pblocksize: Boolean? = null,
+                                  avail_threshold: Int? = null,
+                                  comment: String? = null,
+                                  insecure_tpc: Boolean? = null,
+                                  xen: Boolean? = null,
+                                  rpm: ExtentRpm? = null,
+                                  ro: Boolean? = null): Result<JsonElement, Exception>
+
 }

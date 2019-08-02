@@ -18,5 +18,19 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.iscsi.global
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
+
 interface IscsiGlobalApi {
+
+    suspend fun getIscsiGlobalConfig(): Result<JsonElement, Exception>
+
+    /**
+     * @param alua is a no-op for FreeNAS.
+     */
+    suspend fun updateIscsiGlobalConfig(basename: String,
+                                        isns_servers: List<String>? = null,
+                                        pool_avail_threshold: Int? = null,
+                                        alua: Boolean? = null): Result<JsonElement, Exception>
+
 }

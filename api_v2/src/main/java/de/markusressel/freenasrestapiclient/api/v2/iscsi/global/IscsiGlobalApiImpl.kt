@@ -16,18 +16,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.iscsi
+package de.markusressel.freenasrestapiclient.api.v2.iscsi.global
 
+import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
+import com.github.salomonbrys.kotson.toJsonArray
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.auth.IscsiAuthApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.auth.IscsiAuthApiImpl
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.extent.IscsiExtentApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.extent.IscsiExtentApiImpl
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.global.IscsiGlobalApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.global.IscsiGlobalApiImpl
 
-class IscsiApiImpl(private val websocketApiClient: WebsocketApiClient,
-                   iscsiAuthApi: IscsiAuthApi = IscsiAuthApiImpl(websocketApiClient),
-                   iscsiExtentApi: IscsiExtentApi = IscsiExtentApiImpl(websocketApiClient),
-                   iscsiGlobalApi: IscsiGlobalApi = IscsiGlobalApiImpl(websocketApiClient)
-) : IscsiApi, IscsiAuthApi by iscsiAuthApi, IscsiExtentApi by iscsiExtentApi, IscsiGlobalApi by iscsiGlobalApi
+class IscsiGlobalApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiGlobalApi {
+
+    override suspend fun getIscsiGlobalConfig(): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("iscsi.global.config")
+    }
+
+    override suspend fun updateIscsiGlobalConfig(basename: String,
+                                                 isns_servers: List<String>?,
+                                                 pool_avail_threshold: Int?,
+                                                 alua: Boolean?): Result<JsonElement, Exception> {
+
+        return websocketApiClient.callMethod("iscsi.global.update", jsonObject(
+                "basename" to basename,
+                "isns_servers" to isns_servers?.toJsonArray(),
+                "pool_avail_threshold" to pool_avail_threshold,
+                "alua" to alua
+        ))
+    }
+
+}
