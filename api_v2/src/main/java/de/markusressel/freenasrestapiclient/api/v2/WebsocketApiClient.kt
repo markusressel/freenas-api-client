@@ -207,11 +207,11 @@ class WebsocketApiClient(
                         resultListener.resume(Result.of(isConnected))
                     }
                 } else {
-                    disconnect(-1, responseObject["msg"].string)
-                    resultListener.resume(Result.error(ConnectException("Error connecting: ${responseObject["msg"]}")))
+                    disconnect(1000, responseObject["msg"].string)
+                    resultListener.resume(Result.error(ConnectException("Error logging in: ${responseObject["msg"]}")))
                 }
             }, failure = { error ->
-                disconnect(-1, "${error.message}")
+                disconnect(5000, "${error.message}")
                 throw error
             })
         }
@@ -308,6 +308,9 @@ class WebsocketApiClient(
 
     /**
      * Disconnect a websocket
+     *
+     * @param code reason code in [1000..5000] range
+     * @param reason reason message
      */
     fun disconnect(code: Int, reason: String) {
         webSocket?.close(code, reason)
