@@ -20,14 +20,10 @@ package de.markusressel.freenasrestapiclient.api.v2.device
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class DeviceApiImpl(val websocketApiClient: WebsocketApiClient) : DeviceApi {
     override suspend fun getDeviceInfo(type: DeviceApi.DeviceInfoType): Result<JsonElement, Exception> {
-        val args = JsonObject().apply {
-            "type" to type
-        }
-        return websocketApiClient.callMethod("device.get_info", args)
+        return websocketApiClient.callMethod("device.get_info", type)
     }
 }

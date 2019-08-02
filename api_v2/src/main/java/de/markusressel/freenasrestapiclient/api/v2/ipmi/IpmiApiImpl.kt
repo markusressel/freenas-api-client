@@ -19,7 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.ipmi
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonArray
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
@@ -30,11 +29,9 @@ class IpmiApiImpl(val websocketApiClient: WebsocketApiClient) : IpmiApi {
     }
 
     override suspend fun identifyIpmi(seconds: Int, force: Boolean): Result<JsonElement, Exception> {
-        val arguments = jsonArray(
-                jsonObject(
-                        "seconds" to seconds,
-                        "force" to force
-                )
+        val arguments = jsonObject(
+                "seconds" to seconds,
+                "force" to force
         )
         return websocketApiClient.callMethod("ipmi.identify", arguments)
     }
@@ -54,18 +51,15 @@ class IpmiApiImpl(val websocketApiClient: WebsocketApiClient) : IpmiApi {
                                     password: String,
                                     dhcp: Boolean,
                                     vlan: Int): Result<JsonElement, Exception> {
-        val arguments = jsonArray(
-                channel,
-                jsonObject(
-                        "ipaddress" to ipaddress,
-                        "netmask" to netmask,
-                        "gateway" to gateway,
-                        "password" to password,
-                        "dhcp" to dhcp,
-                        "vlan" to vlan
-                )
+        val arguments = jsonObject(
+                "ipaddress" to ipaddress,
+                "netmask" to netmask,
+                "gateway" to gateway,
+                "password" to password,
+                "dhcp" to dhcp,
+                "vlan" to vlan
         )
 
-        return websocketApiClient.callMethod("ipmi.update", arguments)
+        return websocketApiClient.callMethod("ipmi.update", channel, arguments)
     }
 }

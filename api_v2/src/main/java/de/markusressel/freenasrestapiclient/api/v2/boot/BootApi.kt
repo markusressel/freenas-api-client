@@ -30,7 +30,7 @@ interface BootApi {
      * @param expand determines whether the new disk partition will be the maximum available or
      *               the same size as the current disk.
      */
-    suspend fun attachBootPool(dev: String, expand: Boolean): Result<JsonElement, Exception>
+    suspend fun attachBootPool(dev: String, expand: Boolean?): Result<JsonElement, Exception>
 
     /**
      * Detach given dev from boot pool.

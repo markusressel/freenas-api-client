@@ -20,9 +20,7 @@ package de.markusressel.freenasrestapiclient.api.v2.jail
 
 import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.addPropertyIfNotNull
-import com.github.salomonbrys.kotson.jsonArray
 import com.github.salomonbrys.kotson.jsonObject
-import com.github.salomonbrys.kotson.toJsonArray
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
@@ -36,40 +34,32 @@ class JailApiImpl(val websocketApiClient: WebsocketApiClient) : JailApi {
     }
 
     override suspend fun jailRcAction(action: JailApi.Action): Result<JsonElement, Exception> {
-        val arguments = jsonArray(action.toJsonValue())
-        return websocketApiClient.callMethod("jail.rc_action", arguments)
+        return websocketApiClient.callMethod("jail.rc_action", action)
     }
 
     override suspend fun activateJailPool(pool: String): Result<JsonElement, Exception> {
-        val arguments = jsonArray(pool)
-        return websocketApiClient.callMethod("jail.activate", arguments)
+        return websocketApiClient.callMethod("jail.activate", pool)
     }
 
     override suspend fun cleanJail(dsType: JailApi.DsType): Result<JsonElement, Exception> {
-        val arguments = jsonArray(dsType.toJsonValue())
-        return websocketApiClient.callMethod("jail.clean", arguments)
+        return websocketApiClient.callMethod("jail.clean", dsType)
     }
 
     override suspend fun execJailCommand(jail: String, commands: List<String>, hostUser: String?, jailUser: String?): Result<JsonElement, Exception> {
-        val arguments = jsonArray(
-                jail,
-                commands.toJsonArray(),
-                jsonObject().apply {
-                    addPropertyIfNotNull("hostUser", hostUser)
-                    addPropertyIfNotNull("jailUser", jailUser)
-                }
-        )
-        return websocketApiClient.callMethod("jail.exec", arguments)
+        val arguments = jsonObject().apply {
+            addProperty("host_user", hostUser)
+            addProperty("jail_user", jailUser)
+        }
+        return websocketApiClient.callMethod("jail.exec", jail, commands, arguments)
     }
 
     override suspend fun exportJail(title: String): Result<JsonElement, Exception> {
-        val arguments = jsonArray(title)
-        return websocketApiClient.callMethod("jail.export", arguments)
+        return websocketApiClient.callMethod("jail.export", title)
     }
 
     override suspend fun fetchJail(): Result<JsonElement, Exception> {
-        val arguments = jsonArray()
-        return websocketApiClient.callMethod("jail.fetch", arguments)
+        // TODO: many arguments
+        return websocketApiClient.callMethod("jail.fetch")
     }
 
     override suspend fun addFstabMountToJail(title: String): Result<JsonElement, Exception> {
@@ -82,45 +72,37 @@ class JailApiImpl(val websocketApiClient: WebsocketApiClient) : JailApi {
 
     override suspend fun createJail(uuid: String, release: String, template: String?,
                                     pkglist: String?, baseJail: Boolean?): Result<JsonElement, Exception> {
-        val arguments = jsonArray(
-                jsonObject().apply {
-                    addProperty("uuid", uuid)
-                    addProperty("release", release)
-                    addPropertyIfNotNull("template", template)
-                    addPropertyIfNotNull("pkglist", pkglist)
-                }
-        )
+        val arguments = jsonObject().apply {
+            addProperty("uuid", uuid)
+            addProperty("release", release)
+            addPropertyIfNotNull("template", template)
+            addPropertyIfNotNull("pkglist", pkglist)
+        }
         return websocketApiClient.callMethod("jail.create", arguments)
     }
 
 
     override suspend fun startJail(title: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addPropertyIfNotNull("title", title)
-        }
-        return websocketApiClient.callMethod("jail.start", arguments)
+        return websocketApiClient.callMethod("jail.start", title)
     }
 
     override suspend fun stopJail(title: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addPropertyIfNotNull("title", title)
-        }
-        return websocketApiClient.callMethod("jail.stop", arguments)
+        return websocketApiClient.callMethod("jail.stop", title)
     }
 
     override suspend fun updateJail(title: String, plugin: Boolean): Result<JsonElement, Exception> {
-        val arguments = jsonArray(
-                title,
-                jsonObject().apply {
-                    addPropertyIfNotNull("plugin", plugin)
-                }
-        )
-        return websocketApiClient.callMethod("jail.update", arguments)
+        val arguments = jsonObject().apply {
+            addPropertyIfNotNull("plugin", plugin)
+        }
+        return websocketApiClient.callMethod("jail.update", title, arguments)
+    }
+
+    override suspend fun updateJailToLatestPatch(title: String): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("jail.update_to_latest_patch", title)
     }
 
     override suspend fun deleteJail(title: String): Result<JsonElement, Exception> {
-        val arguments = jsonArray(title)
-        return websocketApiClient.callMethod("jail.delete", arguments)
+        return websocketApiClient.callMethod("jail.delete", title)
     }
 
 }

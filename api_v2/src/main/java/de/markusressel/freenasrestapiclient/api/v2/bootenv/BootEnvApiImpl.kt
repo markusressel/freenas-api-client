@@ -19,14 +19,14 @@
 package de.markusressel.freenasrestapiclient.api.v2.bootenv
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.addPropertyIfNotNull
-import com.github.salomonbrys.kotson.jsonArray
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class BootEnvApiImpl(val websocketApiClient: WebsocketApiClient) : BootEnvApi {
+
     override suspend fun getBootEnvs(): Result<JsonElement, Exception> {
+        // TODO: query-filters
         return websocketApiClient.callMethod("bootenv.query")
     }
 
@@ -37,32 +37,27 @@ class BootEnvApiImpl(val websocketApiClient: WebsocketApiClient) : BootEnvApi {
     override suspend fun createBootEnv(name: String, source: String?): Result<JsonElement, Exception> {
         val arguments = jsonObject().apply {
             addProperty("name", name)
-            addPropertyIfNotNull("source", source)
+            addProperty("source", source)
         }
-        return websocketApiClient.callMethod("bootenv.activate", arguments)
+        return websocketApiClient.callMethod("bootenv.create", arguments)
     }
 
     override suspend fun setBootEnvAttribute(id: String, keep: Boolean): Result<JsonElement, Exception> {
-        val arguments = jsonArray(id,
-                jsonObject().apply {
-                    addProperty("keep", keep)
-                })
+        val attributes = jsonObject().apply {
+            addProperty("keep", keep)
+        }
 
-        return websocketApiClient.callMethod("bootenv.set_attribute", arguments)
+        return websocketApiClient.callMethod("bootenv.set_attribute", id, attributes)
     }
 
     override suspend fun updateBootEnv(id: String, name: String): Result<JsonElement, Exception> {
-        val arguments = jsonArray(id,
-                jsonObject().apply {
-                    addProperty("name", name)
-                })
-        return websocketApiClient.callMethod("bootenv.update", arguments)
+        val bootenv_update = jsonObject().apply {
+            addProperty("name", name)
+        }
+        return websocketApiClient.callMethod("bootenv.update", id, bootenv_update)
     }
 
     override suspend fun deleteBootEnv(id: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("id", id)
-        }
-        return websocketApiClient.callMethod("bootenv.delete", arguments)
+        return websocketApiClient.callMethod("bootenv.delete", id)
     }
 }

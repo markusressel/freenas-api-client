@@ -19,16 +19,12 @@
 package de.markusressel.freenasrestapiclient.api.v2.alert
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class AlertApiImpl(val websocketApiClient: WebsocketApiClient) : AlertApi {
     override suspend fun dismissAlert(id: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("id", id)
-        }
-        return websocketApiClient.callMethod("alert.dismiss", arguments)
+        return websocketApiClient.callMethod("alert.dismiss", id)
     }
 
     override suspend fun flushAlerts(): Result<JsonElement, Exception> {
@@ -52,9 +48,6 @@ class AlertApiImpl(val websocketApiClient: WebsocketApiClient) : AlertApi {
     }
 
     override suspend fun restoreAlert(id: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("id", id)
-        }
-        return websocketApiClient.callMethod("alert.restore", arguments)
+        return websocketApiClient.callMethod("alert.restore", id)
     }
 }

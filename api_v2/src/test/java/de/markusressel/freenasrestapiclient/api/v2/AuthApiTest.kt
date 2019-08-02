@@ -18,6 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import com.github.salomonbrys.kotson.get
 import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -27,9 +28,18 @@ class AuthApiTest : TestBase() {
     @Test
     fun testCheckUser() {
         runBlocking {
-            val result = underTest.checkUser("root", "root")
+            var result = underTest.checkUser("root", "root")
             result.fold(success = {
                 println("$it")
+                assert(it["result"].asBoolean)
+            }, failure = {
+                throw it
+            })
+
+            result = underTest.checkUser("wrong", "wrong")
+            result.fold(success = {
+                println("$it")
+                assert(!it["result"].asBoolean)
             }, failure = {
                 throw it
             })

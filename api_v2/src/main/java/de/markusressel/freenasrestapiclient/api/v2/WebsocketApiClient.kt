@@ -21,6 +21,7 @@ package de.markusressel.freenasrestapiclient.api.v2
 import android.util.Log
 import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.*
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -191,10 +192,9 @@ class WebsocketApiClient(
      */
     private fun login(resultListener: Continuation<Result<Boolean, Exception>>) {
         GlobalScope.launch {
-            val result = callMethod("auth.login", jsonArray(
-                    auth.username,
-                    auth.password
-            ), suppressLog = true)
+            val result = callMethod("auth.login",
+                    auth.username, auth.password,
+                    suppressLog = true)
 
             result.fold(success = {
                 Log.d(TAG, "Login response: $it")
@@ -211,7 +211,7 @@ class WebsocketApiClient(
                     resultListener.resume(Result.error(ConnectException("Error logging in: ${responseObject["msg"]}")))
                 }
             }, failure = { error ->
-                disconnect(5000, "${error.message}")
+                disconnect(4000, "${error.message}")
                 throw error
             })
         }
@@ -248,14 +248,32 @@ class WebsocketApiClient(
      * @param method the method to call
      * @param arguments method arguments
      */
-    suspend fun callMethod(method: String, arguments: JsonElement? = null, suppressLog: Boolean = false): Result<JsonElement, Exception> {
+    suspend fun callMethod(method: String, vararg argument: Any? = emptyArray(), suppressLog: Boolean = false): Result<JsonElement, Exception> {
         return suspendCoroutine { continuation ->
             try {
                 val messageId = generateMesssageId()
-                if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$arguments' for '$messageId'")
+                if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$argument' for '$messageId'")
                 responseListeners[messageId] = {
                     continuation.resume(it)
                 }
+
+                val jsonElementArgs = argument.map {
+                    if (it is ApiEnum) {
+                        it.toJsonValue()
+                    } else {
+                        it
+                    }
+                }.map {
+                    if (it !is JsonElement) {
+                        GSON.toJsonTree(it)
+                    } else {
+                        it
+                    }
+                }
+                val arguments = jsonArray().apply {
+                    addAll(jsonElementArgs)
+                }
+
                 sendMethodMessage(messageId = messageId, message = "method", method = method, arguments = arguments)
             } catch (e: Exception) {
                 continuation.resumeWithException(e)
@@ -309,7 +327,7 @@ class WebsocketApiClient(
     /**
      * Disconnect a websocket
      *
-     * @param code reason code in [1000..5000] range
+     * @param code reason code in [1000..5000[ range
      * @param reason reason message
      */
     fun disconnect(code: Int, reason: String) {
@@ -336,6 +354,8 @@ class WebsocketApiClient(
         private const val PROPERTY_ID = "id"
         private const val PROPERTY_MSG = "msg"
         private const val PROPERTY_ERROR = "error"
+
+        private val GSON = Gson()
     }
 
 }

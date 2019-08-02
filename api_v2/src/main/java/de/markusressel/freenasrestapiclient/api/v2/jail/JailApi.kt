@@ -147,7 +147,12 @@ interface JailApi {
      */
     suspend fun updateJail(title: String, plugin: Boolean = false): Result<JsonElement, Exception>
 
-    // TODO: jail.update_to_latest_patch
+    /**
+     * Updates a jail
+     *
+     * @param title the title of the jail
+     */
+    suspend fun updateJailToLatestPatch(title: String): Result<JsonElement, Exception>
 
     // TODO: jail.upgrade
 

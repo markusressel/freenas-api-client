@@ -24,19 +24,15 @@ import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class BootApiImpl(val websocketApiClient: WebsocketApiClient) : BootApi {
-    override suspend fun attachBootPool(dev: String, expand: Boolean): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("dev", dev)
+    override suspend fun attachBootPool(dev: String, expand: Boolean?): Result<JsonElement, Exception> {
+        val options = jsonObject().apply {
             addProperty("expand", expand)
         }
-        return websocketApiClient.callMethod("boot.attach", arguments)
+        return websocketApiClient.callMethod("boot.attach", dev, options)
     }
 
     override suspend fun detachBootPool(dev: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("dev", dev)
-        }
-        return websocketApiClient.callMethod("boot.detach", arguments)
+        return websocketApiClient.callMethod("boot.detach", dev)
     }
 
     override suspend fun getBootDisks(): Result<JsonElement, Exception> {
@@ -48,11 +44,7 @@ class BootApiImpl(val websocketApiClient: WebsocketApiClient) : BootApi {
     }
 
     override suspend fun replaceBootLabel(label: String, dev: String): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("label", label)
-            addProperty("dev", dev)
-        }
-        return websocketApiClient.callMethod("boot.replace", arguments)
+        return websocketApiClient.callMethod("boot.replace", label, dev)
     }
 
     override suspend fun scrubBoot(): Result<JsonElement, Exception> {
