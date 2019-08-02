@@ -20,6 +20,8 @@ package de.markusressel.freenasrestapiclient.api.v2.ipmi
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface IpmiApi {
 
@@ -44,7 +46,8 @@ interface IpmiApi {
     /**
      * TODO: query params
      */
-    suspend fun getIpmi(): Result<JsonElement, Exception>
+    suspend fun getIpmi(queryFilters: List<QueryFilter> = emptyList(),
+                        queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      *

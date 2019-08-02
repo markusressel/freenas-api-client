@@ -39,7 +39,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 
-typealias ApiListener = (Result<JsonElement, kotlin.Exception>) -> Unit
+typealias ApiListener = (Result<JsonElement, Exception>) -> Unit
 
 class WebsocketApiClient(
         val url: String,
@@ -224,7 +224,7 @@ class WebsocketApiClient(
      * @return a message identifier that can be used to unsubscribe
      */
     suspend fun subscribe(method: String, arguments: JsonElement? = null, listener: ApiListener): String {
-        val messageId = generateMesssageId()
+        val messageId = generateMessageId()
         Log.d(TAG, "Subscribing '$messageId' to '$method' with parameters: '$arguments'")
         subscriptionListeners[messageId] = listener
         // TODO: subscribe to something
@@ -252,10 +252,11 @@ class WebsocketApiClient(
     suspend fun callMethod(method: String, vararg argument: Any? = emptyArray(), suppressLog: Boolean = false): Result<JsonElement, Exception> {
         return suspendCoroutine { continuation ->
             try {
-                val messageId = generateMesssageId()
+                val messageId = generateMessageId()
                 if (!suppressLog) Log.d(TAG, "Calling method '$method' with parameters: '$argument' for '$messageId'")
-                responseListeners[messageId] = {
-                    continuation.resume(it)
+
+                responseListeners[messageId] = { result ->
+                    continuation.resume(result)
                 }
 
                 val jsonElementArgs = argument.map {
@@ -290,7 +291,7 @@ class WebsocketApiClient(
      * @param method the method
      * @param arguments method parameters
      */
-    private fun sendMethodMessage(messageId: String = generateMesssageId(), message: String, method: String, arguments: JsonElement?) {
+    private fun sendMethodMessage(messageId: String = generateMessageId(), message: String, method: String, arguments: JsonElement?) {
         val request = jsonObject().apply {
             addProperty(PROPERTY_ID, messageId)
             addProperty(PROPERTY_MSG, message)
@@ -321,7 +322,7 @@ class WebsocketApiClient(
      *
      * @return the generated id
      */
-    private fun generateMesssageId(): String {
+    private fun generateMessageId(): String {
         return UUID.randomUUID().toString()
     }
 

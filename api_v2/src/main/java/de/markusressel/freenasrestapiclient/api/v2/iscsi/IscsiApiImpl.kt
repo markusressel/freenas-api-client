@@ -18,12 +18,10 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.iscsi
 
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 import de.markusressel.freenasrestapiclient.api.v2.iscsi.auth.IscsiAuthApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.extent.IscsiExtentApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.global.IscsiGlobalApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.initiator.IscsiInitiatorApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.portal.IscsiPortalApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.target.IscsiTargetApi
-import de.markusressel.freenasrestapiclient.api.v2.iscsi.targetextent.IscsiTargetExtentApi
+import de.markusressel.freenasrestapiclient.api.v2.iscsi.auth.IscsiAuthApiImpl
 
-interface IscsiApi : IscsiAuthApi, IscsiExtentApi, IscsiGlobalApi, IscsiInitiatorApi, IscsiPortalApi, IscsiTargetApi, IscsiTargetExtentApi
+class IscsiApiImpl(private val websocketApiClient: WebsocketApiClient,
+                   iscsiAuthApi: IscsiAuthApi = IscsiAuthApiImpl(websocketApiClient)
+) : IscsiApi, IscsiAuthApi by iscsiAuthApi

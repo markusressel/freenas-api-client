@@ -18,5 +18,32 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.iscsi.auth
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
+
 interface IscsiAuthApi {
+
+    /**
+     * @param secret must be between 12 and 16 characters
+     */
+    suspend fun createIscsiAuth(tag: Int,
+                                user: String,
+                                secret: String,
+                                peeruser: String,
+                                peersecret: String): Result<JsonElement, Exception>
+
+    suspend fun deleteIscsiAuth(id: Int): Result<JsonElement, Exception>
+
+    suspend fun getIscsiAuth(queryFilters: List<QueryFilter> = emptyList(),
+                             queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
+
+    suspend fun updateIscsiAuth(id: Int,
+                                tag: Int,
+                                user: String,
+                                secret: String,
+                                peeruser: String,
+                                peersecret: String): Result<JsonElement, Exception>
+
 }

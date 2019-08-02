@@ -21,6 +21,8 @@ package de.markusressel.freenasrestapiclient.api.v2.ipmi
 import com.github.kittinunf.result.Result
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class IpmiApiImpl(val websocketApiClient: WebsocketApiClient) : IpmiApi {
@@ -40,8 +42,9 @@ class IpmiApiImpl(val websocketApiClient: WebsocketApiClient) : IpmiApi {
         return websocketApiClient.callMethod("ipmi.is_loaded")
     }
 
-    override suspend fun getIpmi(): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("ipmi.query")
+    override suspend fun getIpmi(queryFilters: List<QueryFilter>,
+                                 queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("ipmi.query", queryFilters, queryOptions)
     }
 
     override suspend fun updateIpmi(channel: Int,

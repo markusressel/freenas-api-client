@@ -19,15 +19,24 @@
 package de.markusressel.freenasrestapiclient.api.v2.interfaces
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class InterfacesApiImpl(val websocketApiClient: WebsocketApiClient) : InterfacesApi {
-    override suspend fun getInterfaceIpsInUse(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getInterfaceIpsInUse(ipv4: Boolean,
+                                              ipv6: Boolean): Result<JsonElement, Exception> {
+        val ips = jsonObject(
+                "ipv4" to ipv4,
+                "ipv6" to ipv6
+        )
+        return websocketApiClient.callMethod("interfaces.ip_in_use", ips)
     }
 
-    override suspend fun getInterfaces(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getInterfaces(queryFilters: List<QueryFilter>,
+                                       queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("interfaces.query", queryFilters, queryOptions)
     }
 }

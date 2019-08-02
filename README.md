@@ -61,6 +61,9 @@ client.getUsers().subscribe({ result ->
 
 ### API V2
 
+The V2 client uses the [Result](https://github.com/kittinunf/Result) library
+to simplify result handling.
+
 ```kotlin
 val client = FreeNasRestApiV2Client(
     baseUrl = "wss://my.server.com/websocket",
