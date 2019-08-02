@@ -20,6 +20,8 @@ package de.markusressel.freenasrestapiclient.api.v2.filesystem
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface FilesystemApi {
 
@@ -47,13 +49,17 @@ interface FilesystemApi {
      *
      * @param path path to query
      */
-    suspend fun listFilesystemDir(path: String): Result<JsonElement, Exception>
+    suspend fun listFilesystemDir(path: String,
+                                  queryFilters: List<QueryFilter> = emptyList(),
+                                  queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      * Job to put contents to path.
      *
      */
-    suspend fun putFilesystemContent(path: String): Result<JsonElement, Exception>
+    suspend fun putFilesystemContent(path: String,
+                                     append: Boolean? = null,
+                                     mode: Int? = null): Result<JsonElement, Exception>
 
     /**
      * Return the filesystem stat(2) for a given path.

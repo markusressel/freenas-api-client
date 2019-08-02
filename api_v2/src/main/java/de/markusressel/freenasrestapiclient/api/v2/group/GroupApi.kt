@@ -20,6 +20,8 @@ package de.markusressel.freenasrestapiclient.api.v2.group
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface GroupApi {
 
@@ -27,19 +29,19 @@ interface GroupApi {
      * Creates a new group
      *
      */
-    suspend fun createGroup(groupId: Int,
+    suspend fun createGroup(gid: Int,
                             name: String,
                             sudo: Boolean = false,
-                            allow_duplicate_gid: Boolean = false,
+                            allowDuplicateGid: Boolean = false,
                             users: List<Int> = emptyList()): Result<JsonElement, Exception>
 
     /**
      * Deletes a group
      *
-     * @param groupId group id
+     * @param id id of group (not the gid!)
      * @param deleteUsers whether to delete users associated with this group
      */
-    suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean = false): Result<JsonElement, Exception>
+    suspend fun deleteGroup(id: Int, deleteUsers: Boolean = false): Result<JsonElement, Exception>
 
     /**
      * Get the next available/free gid.
@@ -53,13 +55,24 @@ interface GroupApi {
      * TODO: query params
      *
      */
-    suspend fun getGroups(): Result<JsonElement, Exception>
+    suspend fun getGroups(queryFilters: List<QueryFilter> = emptyList(),
+                          queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      * Updates a group
      *
-     * @param groupId group id to update
+     * @param id id of group (not the gid!)
+     * @param gid new gid
+     * @param name new name
+     * @param sudo new sudo state
+     * @param allowDuplicateGid whether to allow duplicate gid or not
+     * @param users new list of users in the given group
      */
-    suspend fun updateGroup(groupId: Int): Result<JsonElement, Exception>
+    suspend fun updateGroup(id: Int,
+                            gid: Int? = null,
+                            name: String? = null,
+                            sudo: Boolean? = null,
+                            allowDuplicateGid: Boolean? = null,
+                            users: List<Int>? = null): Result<JsonElement, Exception>
 
 }

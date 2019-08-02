@@ -18,6 +18,7 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
+import com.github.salomonbrys.kotson.get
 import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -28,10 +29,10 @@ class GroupApiTest : TestBase() {
     fun testCreateGroup() {
         runBlocking {
             val result = underTest.createGroup(
-                    groupId = 1005,
-                    name = "my-group",
+                    gid = 1005,
+                    name = TEST_GROUP_NAME,
                     sudo = false,
-                    allow_duplicate_gid = true,
+                    allowDuplicateGid = true,
                     users = emptyList()
             )
             result.fold(success = {
@@ -45,8 +46,14 @@ class GroupApiTest : TestBase() {
     @Test
     fun testDeleteGroup() {
         runBlocking {
+            val groups = underTest.getGroups()
+            val group = groups.component1()!!["result"].asJsonArray.first {
+                it["group"].asString.startsWith(TEST_GROUP_NAME, ignoreCase = true)
+            }
+            val group_id = group["id"].asInt
+
             val result = underTest.deleteGroup(
-                    groupId = 1005,
+                    id = group_id,
                     deleteUsers = false
             )
             result.fold(success = {
@@ -84,8 +91,19 @@ class GroupApiTest : TestBase() {
     @Test
     fun testUpdateGroup() {
         runBlocking {
+            val groups = underTest.getGroups()
+            val group = groups.component1()!!["result"].asJsonArray.first {
+                it["group"].asString.contains(TEST_GROUP_NAME, ignoreCase = true)
+            }
+            val group_id = group["id"].asInt
+
             val result = underTest.updateGroup(
-                    groupId = 1005
+                    id = group_id,
+                    gid = 1005,
+                    name = "${TEST_GROUP_NAME}2",
+                    sudo = false,
+                    allowDuplicateGid = true,
+                    users = emptyList()
             )
             result.fold(success = {
                 println("$it")
@@ -93,6 +111,10 @@ class GroupApiTest : TestBase() {
                 throw it
             })
         }
+    }
+
+    companion object {
+        const val TEST_GROUP_NAME = "my-group"
     }
 
 }

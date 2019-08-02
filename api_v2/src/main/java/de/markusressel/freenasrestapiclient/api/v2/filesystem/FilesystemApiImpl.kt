@@ -19,27 +19,37 @@
 package de.markusressel.freenasrestapiclient.api.v2.filesystem
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class FilesystemApiImpl(val websocketApiClient: WebsocketApiClient) : FilesystemApi {
     override suspend fun getFilesystemContent(path: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("filesystem.get", path)
     }
 
-    override suspend fun listFilesystemDir(path: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun listFilesystemDir(path: String,
+                                           queryFilters: List<QueryFilter>,
+                                           queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("filesystem.listdir", path, queryFilters, queryOptions)
     }
 
-    override suspend fun putFilesystemContent(path: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun putFilesystemContent(path: String,
+                                              append: Boolean?,
+                                              mode: Int?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("filesystem.put", path, jsonObject(
+                "append" to append,
+                "mode" to mode
+        ))
     }
 
     override suspend fun filesystemStat(path: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("filesystem.stat", path)
     }
 
     override suspend fun filesystemStatFs(path: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("filesystem.statfs", path)
     }
 }

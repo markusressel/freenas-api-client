@@ -19,27 +19,55 @@
 package de.markusressel.freenasrestapiclient.api.v2.group
 
 import com.github.kittinunf.result.Result
+import com.github.salomonbrys.kotson.jsonObject
+import com.github.salomonbrys.kotson.toJsonArray
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class GroupApiImpl(val websocketApiClient: WebsocketApiClient) : GroupApi {
-    override suspend fun createGroup(groupId: Int, name: String, sudo: Boolean, allow_duplicate_gid: Boolean, users: List<Int>): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun createGroup(gid: Int,
+                                     name: String,
+                                     sudo: Boolean,
+                                     allowDuplicateGid: Boolean,
+                                     users: List<Int>): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("group.create", jsonObject(
+                "gid" to gid,
+                "name" to name,
+                "sudo" to sudo,
+                "allow_duplicate_gid" to allowDuplicateGid,
+                "users" to users.toJsonArray()
+        ))
     }
 
-    override suspend fun deleteGroup(groupId: Int, deleteUsers: Boolean): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun deleteGroup(id: Int, deleteUsers: Boolean): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("group.delete", id, jsonObject(
+                "delete_users" to deleteUsers
+        ))
     }
 
     override suspend fun getNextFreeGroupId(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("group.get_next_gid")
     }
 
-    override suspend fun getGroups(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getGroups(queryFilters: List<QueryFilter>,
+                                   queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("group.query", queryFilters, queryOptions)
     }
 
-    override suspend fun updateGroup(groupId: Int): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun updateGroup(id: Int,
+                                     gid: Int?,
+                                     name: String?,
+                                     sudo: Boolean?,
+                                     allowDuplicateGid: Boolean?,
+                                     users: List<Int>?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("group.update", id, jsonObject(
+                "gid" to gid,
+                "name" to name,
+                "sudo" to sudo,
+                "allow_duplicate_gid" to allowDuplicateGid,
+                "users" to users?.toJsonArray()
+        ))
     }
 }
