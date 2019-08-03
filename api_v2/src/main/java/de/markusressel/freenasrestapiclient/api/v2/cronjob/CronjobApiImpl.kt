@@ -20,26 +20,60 @@ package de.markusressel.freenasrestapiclient.api.v2.cronjob
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class CronjobApiImpl(val websocketApiClient: WebsocketApiClient) : CronjobApi {
-    override suspend fun createCronjob(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override suspend fun createCronjob(enabled: Boolean?,
+                                       stderr: Boolean?,
+                                       stdout: Boolean?,
+                                       schedule: CronjobApi.CronjobSchedule,
+                                       command: String,
+                                       description: String?,
+                                       user: String): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("cronjob.create", mapOf(
+                "enabled" to enabled,
+                "stderr" to stderr,
+                "stdout" to stdout,
+                "schedule" to schedule,
+                "command" to command,
+                "description" to description,
+                "user" to user
+        ))
     }
 
-    override suspend fun getCronjobs(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getCronjobs(queryFilters: List<QueryFilter>,
+                                     queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("cronjob.query", queryFilters, queryOptions)
     }
 
-    override suspend fun updateCronjob(id: Int): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun updateCronjob(id: Int,
+                                       enabled: Boolean?,
+                                       stderr: Boolean?,
+                                       stdout: Boolean?,
+                                       schedule: CronjobApi.CronjobSchedule,
+                                       command: String,
+                                       description: String?,
+                                       user: String): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("cronjob.update", id, mapOf(
+                "enabled" to enabled,
+                "stderr" to stderr,
+                "stdout" to stdout,
+                "schedule" to schedule,
+                "command" to command,
+                "description" to description,
+                "user" to user
+        ))
     }
 
-    override suspend fun validateCronjon(id: Int): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun validateCronjob(id: Int): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("cronjob.validate_data")
     }
 
     override suspend fun deleteCronjob(id: Int): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("cronjob.delete", id)
+
     }
 }

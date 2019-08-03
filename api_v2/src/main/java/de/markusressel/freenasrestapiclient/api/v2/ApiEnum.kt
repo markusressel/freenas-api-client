@@ -21,15 +21,4 @@ package de.markusressel.freenasrestapiclient.api.v2
 /**
  * Interface for API constants
  */
-interface ApiEnum {
-
-    /**
-     * Override this to ensure the json value of enum constants stay the same even when renaming enum constants.
-     *
-     * @return the json representation of this API constant
-     */
-    fun toJsonValue(): String {
-        return "$this"
-    }
-
-}
+interface ApiEnum

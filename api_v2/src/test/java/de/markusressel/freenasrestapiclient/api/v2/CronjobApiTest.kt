@@ -19,6 +19,7 @@
 package de.markusressel.freenasrestapiclient.api.v2
 
 import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import de.markusressel.freenasrestapiclient.api.v2.cronjob.CronjobApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -27,7 +28,12 @@ class CronjobApiTest : TestBase() {
     @Test
     fun testCreateCronjob() {
         runBlocking {
-            val result = underTest.createCronjob()
+            val result = underTest.createCronjob(
+                    enabled = false,
+                    command = "echo test",
+                    schedule = CronjobApi.CronjobSchedule(),
+                    user = "test"
+            )
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -51,7 +57,11 @@ class CronjobApiTest : TestBase() {
     @Test
     fun testUpdateCronjob() {
         runBlocking {
-            val result = underTest.updateCronjob(0)
+            val result = underTest.updateCronjob(0,
+                    enabled = false,
+                    command = "echo test",
+                    schedule = CronjobApi.CronjobSchedule(),
+                    user = "test")
             result.fold(success = {
                 println("$it")
             }, failure = {
@@ -63,7 +73,7 @@ class CronjobApiTest : TestBase() {
     @Test
     fun testValidateCronjon() {
         runBlocking {
-            val result = underTest.validateCronjon(0)
+            val result = underTest.validateCronjob(0)
             result.fold(success = {
                 println("$it")
             }, failure = {

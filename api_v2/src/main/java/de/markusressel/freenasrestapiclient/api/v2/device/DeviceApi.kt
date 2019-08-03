@@ -26,7 +26,7 @@ interface DeviceApi {
 
     enum class DeviceInfoType : ApiEnum {
         SERIAL,
-        DEVICE
+        DISK
     }
 
     /**
@@ -35,7 +35,6 @@ interface DeviceApi {
      * Currently only SERIAL is supported.
      *
      * @param type device type to query
-
      */
     suspend fun getDeviceInfo(type: DeviceInfoType): Result<JsonElement, Exception>
 

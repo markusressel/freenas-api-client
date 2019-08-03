@@ -20,15 +20,16 @@ package de.markusressel.freenasrestapiclient.api.v2.bootenv
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface BootEnvApi {
 
     /**
      * Queries a list of boot environments
-     *
-     * TODO: query parameters
      */
-    suspend fun getBootEnvs(): Result<JsonElement, Exception>
+    suspend fun getBootEnvs(queryFilters: List<QueryFilter> = emptyList(),
+                            queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      * Activates a boot environment

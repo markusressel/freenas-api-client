@@ -19,7 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.iscsi.extent
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
 import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
@@ -42,9 +41,9 @@ class IscsiExtentApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiExte
                                            xen: Boolean?,
                                            rpm: ExtentRpm?,
                                            ro: Boolean?): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("iscsi.extent.create", jsonObject(
+        return websocketApiClient.callMethod("iscsi.extent.create", mapOf(
                 "name" to name,
-                "type" to type.toJsonValue(),
+                "type" to type,
                 "disk" to disk,
                 "serial" to serial,
                 "path" to path,
@@ -55,7 +54,7 @@ class IscsiExtentApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiExte
                 "comment" to comment,
                 "insecure_tpc" to insecure_tpc,
                 "xen" to xen,
-                "rpm" to rpm?.toJsonValue(),
+                "rpm" to rpm,
                 "ro" to ro
         ))
     }
@@ -88,9 +87,9 @@ class IscsiExtentApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiExte
                                            xen: Boolean?,
                                            rpm: ExtentRpm?,
                                            ro: Boolean?): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("iscsi.extent.update", id, jsonObject(
+        return websocketApiClient.callMethod("iscsi.extent.update", id, mapOf(
                 "name" to name,
-                "type" to type?.toJsonValue(),
+                "type" to type,
                 "disk" to disk,
                 "serial" to serial,
                 "path" to path,
@@ -101,7 +100,7 @@ class IscsiExtentApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiExte
                 "comment" to comment,
                 "insecure_tpc" to insecure_tpc,
                 "xen" to xen,
-                "rpm" to rpm?.toJsonValue(),
+                "rpm" to rpm,
                 "ro" to ro
         ))
     }

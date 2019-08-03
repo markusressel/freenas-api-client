@@ -20,35 +20,56 @@ package de.markusressel.freenasrestapiclient.api.v2.cronjob
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface CronjobApi {
 
+    data class CronjobSchedule(
+            val minute: String? = null,
+            val hour: String? = null,
+            val dom: String? = null,
+            val month: String? = null,
+            val dow: String? = null
+    )
+
     /**
      * Creates a new cronjob
-     * TODO: many params
      */
-    suspend fun createCronjob(): Result<JsonElement, Exception>
+    suspend fun createCronjob(enabled: Boolean? = null,
+                              stderr: Boolean? = null,
+                              stdout: Boolean? = null,
+                              schedule: CronjobSchedule,
+                              command: String,
+                              description: String? = null,
+                              user: String): Result<JsonElement, Exception>
 
     /**
      * Queries a list of cronjobs
-     *
-     * TODO: many params
      */
-    suspend fun getCronjobs(): Result<JsonElement, Exception>
+    suspend fun getCronjobs(queryFilters: List<QueryFilter> = emptyList(),
+                            queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      * Updates a cronjob
      *
      * @param id id of the cronjob
      */
-    suspend fun updateCronjob(id: Int): Result<JsonElement, Exception>
+    suspend fun updateCronjob(id: Int,
+                              enabled: Boolean? = null,
+                              stderr: Boolean? = null,
+                              stdout: Boolean? = null,
+                              schedule: CronjobSchedule,
+                              command: String,
+                              description: String? = null,
+                              user: String): Result<JsonElement, Exception>
 
     /**
      * Validates a cronjob
      *
      * @param id id of the cronjob
      */
-    suspend fun validateCronjon(id: Int): Result<JsonElement, Exception>
+    suspend fun validateCronjob(id: Int): Result<JsonElement, Exception>
 
     /**
      * Deletes a cronjob

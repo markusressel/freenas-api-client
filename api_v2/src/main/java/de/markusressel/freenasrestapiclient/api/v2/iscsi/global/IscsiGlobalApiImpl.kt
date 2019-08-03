@@ -19,8 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.iscsi.global
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
-import com.github.salomonbrys.kotson.toJsonArray
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
@@ -35,9 +33,9 @@ class IscsiGlobalApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiGlob
                                                  pool_avail_threshold: Int?,
                                                  alua: Boolean?): Result<JsonElement, Exception> {
 
-        return websocketApiClient.callMethod("iscsi.global.update", jsonObject(
+        return websocketApiClient.callMethod("iscsi.global.update", mapOf(
                 "basename" to basename,
-                "isns_servers" to isns_servers?.toJsonArray(),
+                "isns_servers" to isns_servers,
                 "pool_avail_threshold" to pool_avail_threshold,
                 "alua" to alua
         ))

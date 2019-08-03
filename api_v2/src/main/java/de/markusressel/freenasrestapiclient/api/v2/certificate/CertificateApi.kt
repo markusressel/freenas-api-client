@@ -18,18 +18,24 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.certificate
 
+import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface CertificateApi : CertificateAuthorityApi {
 
-    enum class CreateType(private val jsonValue: String) : ApiEnum {
-        INTERNAL("CERTIFICATE_CREATE_INTERNAL"),
-        IMPORTED("CERTIFICATE_CREATE_IMPORTED"),
-        STANDARD("CERTIFICATE_CREATE"),
-        CSR("CERTIFICATE_CREATE_CSR");
-
-        override fun toJsonValue(): String = jsonValue
+    enum class CreateType : ApiEnum {
+        @SerializedName("CERTIFICATE_CREATE_INTERNAL")
+        INTERNAL,
+        @SerializedName("CERTIFICATE_CREATE_IMPORTED")
+        IMPORTED,
+        @SerializedName("CERTIFICATE_CREATE")
+        STANDARD,
+        @SerializedName("CERTIFICATE_CREATE_CSR")
+        CSR;
     }
 
     enum class DigestAlgorithm : ApiEnum {
@@ -63,14 +69,13 @@ interface CertificateApi : CertificateAuthorityApi {
                                   state: String,
                                   createType: CreateType,
                                   digestAlgorithm: DigestAlgorithm,
-                                  san: List<String>)
+                                  san: List<String>): Result<JsonElement, Exception>
 
     /**
      * Queries a list of certificates
-     *
-     * TODO: query params
      */
-    suspend fun getCertificates(): List<JsonElement>
+    suspend fun getCertificates(queryFilters: List<QueryFilter> = emptyList(),
+                                queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      * Updates a certificate
@@ -79,13 +84,13 @@ interface CertificateApi : CertificateAuthorityApi {
      * @param name new name
      * @param certificate
      */
-    suspend fun updateCertificate(id: Int, name: String, certificate: String)
+    suspend fun updateCertificate(id: Int, name: String, certificate: String): Result<JsonElement, Exception>
 
     /**
      * Deletes a certificate
      *
      * @param id id of the certificate
      */
-    suspend fun deleteCertificate(id: Int)
+    suspend fun deleteCertificate(id: Int): Result<JsonElement, Exception>
 
 }

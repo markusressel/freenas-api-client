@@ -19,16 +19,28 @@
 package de.markusressel.freenasrestapiclient.api.v2
 
 import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
-import de.markusressel.freenasrestapiclient.api.v2.device.DeviceApi.DeviceInfoType.SERIAL
+import de.markusressel.freenasrestapiclient.api.v2.device.DeviceApi.DeviceInfoType
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class DeviceApiTest : TestBase() {
 
     @Test
-    fun testDeviceInfo() {
+    fun testDeviceInfoSerial() {
         runBlocking {
-            val result = underTest.getDeviceInfo(SERIAL)
+            val result = underTest.getDeviceInfo(DeviceInfoType.SERIAL)
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testDeviceInfoDisk() {
+        runBlocking {
+            val result = underTest.getDeviceInfo(DeviceInfoType.DISK)
             result.fold(success = {
                 println("$it")
             }, failure = {

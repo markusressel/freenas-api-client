@@ -19,7 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.iscsi.auth
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
 import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
@@ -31,7 +30,7 @@ class IscsiAuthApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiAuthAp
                                          secret: String,
                                          peeruser: String,
                                          peersecret: String): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("iscsi.auth.create", jsonObject(
+        return websocketApiClient.callMethod("iscsi.auth.create", mapOf(
                 "tag" to tag,
                 "user" to user,
                 "secret" to secret,
@@ -55,7 +54,7 @@ class IscsiAuthApiImpl(val websocketApiClient: WebsocketApiClient) : IscsiAuthAp
                                          secret: String,
                                          peeruser: String,
                                          peersecret: String): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("iscsi.auth.update", id, jsonObject(
+        return websocketApiClient.callMethod("iscsi.auth.update", id, mapOf(
                 "tag" to tag,
                 "user" to user,
                 "secret" to secret,

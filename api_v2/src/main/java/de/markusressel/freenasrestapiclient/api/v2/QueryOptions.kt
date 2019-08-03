@@ -18,9 +18,6 @@
 
 package de.markusressel.freenasrestapiclient.api.v2
 
-import com.github.salomonbrys.kotson.jsonObject
-import com.google.gson.JsonElement
-
 data class QueryOptions(
         val order_by: List<Any> = emptyList(),
         val select: List<Any> = emptyList(),
@@ -28,5 +25,5 @@ data class QueryOptions(
         val get: Boolean? = null,
         val prefix: String? = null,
         val extend: String? = null,
-        val extra: JsonElement = jsonObject()
+        val extra: Map<String, Any> = mapOf()
 )

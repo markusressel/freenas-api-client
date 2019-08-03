@@ -19,18 +19,15 @@
 package de.markusressel.freenasrestapiclient.api.v2.update
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.addPropertyIfNotNull
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class UpdateApiImpl(val websocketApiClient: WebsocketApiClient) : UpdateApi {
 
     override suspend fun checkUpdateAvailable(train: String?): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addPropertyIfNotNull("train", train)
-        }
-        return websocketApiClient.callMethod("update.check_available", arguments)
+        return websocketApiClient.callMethod("update.check_available", mapOf(
+                "train" to train
+        ))
     }
 
 }

@@ -20,28 +20,29 @@ package de.markusressel.freenasrestapiclient.api.v2.iscsi.extent
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
 import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface IscsiExtentApi {
 
-    enum class ExtentType(private val jsonValue: String) : ApiEnum {
-        DISK("DISK"),
-        FILE("FILE");
-
-        override fun toJsonValue() = jsonValue
+    enum class ExtentType : ApiEnum {
+        DISK,
+        FILE;
     }
 
-    enum class ExtentRpm(private val jsonValue: String) : ApiEnum {
-        UNKNOWN("UNKNOWN"),
-        SSD("SSD"),
-        _5400("5400"),
-        _7200("7200"),
-        _10000("10000"),
-        _15000("15000");
-
-        override fun toJsonValue() = jsonValue
+    enum class ExtentRpm : ApiEnum {
+        UNKNOWN,
+        SSD,
+        @SerializedName("5400")
+        _5400,
+        @SerializedName("7200")
+        _7200,
+        @SerializedName("10000")
+        _10000,
+        @SerializedName("15000")
+        _15000;
     }
 
     /**

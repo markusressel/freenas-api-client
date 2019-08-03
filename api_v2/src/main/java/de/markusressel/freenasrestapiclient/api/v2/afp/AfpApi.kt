@@ -20,24 +20,27 @@ package de.markusressel.freenasrestapiclient.api.v2.afp
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 
 interface AfpApi {
 
-    enum class MapAcl(private val jsonValue: String) : ApiEnum {
-        RIGHTS("rights"),
-        MODE("mode"),
-        NONE("none");
-
-        override fun toJsonValue(): String = jsonValue
+    enum class MapAcl : ApiEnum {
+        @SerializedName("rights")
+        RIGHTS,
+        @SerializedName("mode")
+        MODE,
+        @SerializedName("none")
+        NONE;
     }
 
-    enum class ChmodRequest(private val jsonValue: String) : ApiEnum {
-        PRESERVE("preserve"),
-        SIMPLE("simple"),
-        IGNORE("ignore");
-
-        override fun toJsonValue(): String = jsonValue
+    enum class ChmodRequest : ApiEnum {
+        @SerializedName("preserve")
+        PRESERVE,
+        @SerializedName("simple")
+        SIMPLE,
+        @SerializedName("ignore")
+        IGNORE;
     }
 
     /**

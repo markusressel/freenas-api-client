@@ -20,30 +20,50 @@ package de.markusressel.freenasrestapiclient.api.v2.disk
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class DiskApiImpl(val websocketApiClient: WebsocketApiClient) : DiskApi {
-    override suspend fun decryptDisk(devices: List<String>, passphrase: String): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun decryptDisk(devices: List<String>, passphrase: String?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("disk.decrypt", devices, passphrase)
     }
 
     override suspend fun getEncryptedDisks(unused: Boolean?): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("disk.get_encrypted", mapOf(
+                "unused" to unused
+        ))
     }
 
     override suspend fun getUnusedDisks(joinPartitions: Boolean): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("disk.get_unused", joinPartitions)
     }
 
-    override suspend fun getDisks(): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("disk.query")
+    override suspend fun getDisks(queryFilters: List<QueryFilter>,
+                                  queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("disk.query", queryFilters, queryOptions)
     }
 
-    override suspend fun updateDisk(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun updateDisk(id: String,
+                                    togglesmart: Boolean?,
+                                    acousticlevel: DiskApi.AcousticLevel?,
+                                    advpowermgmt: DiskApi.AdvancedPowerManagement?,
+                                    description: String?,
+                                    hddstandby: DiskApi.HddStandby?,
+                                    passwd: String?,
+                                    smartoptions: String?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("disk.update", id, mapOf(
+                "togglesmart" to togglesmart,
+                "acousticlevel" to acousticlevel,
+                "advpowermgmt" to advpowermgmt,
+                "description" to description,
+                "hddstandby" to hddstandby,
+                "passwd" to passwd,
+                "smartoptions" to smartoptions
+        ))
     }
 
-    override suspend fun wipeDisk(dev: String, type: DiskApi.WipeType): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun wipeDisk(dev: String, mode: DiskApi.WipeMode, syncCache: Boolean?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("disk.wipe", dev, mode, syncCache)
     }
 }

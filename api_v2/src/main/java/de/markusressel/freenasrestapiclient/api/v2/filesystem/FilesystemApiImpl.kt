@@ -19,7 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.filesystem
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
 import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
@@ -39,7 +38,7 @@ class FilesystemApiImpl(val websocketApiClient: WebsocketApiClient) : Filesystem
     override suspend fun putFilesystemContent(path: String,
                                               append: Boolean?,
                                               mode: Int?): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("filesystem.put", path, jsonObject(
+        return websocketApiClient.callMethod("filesystem.put", path, mapOf(
                 "append" to append,
                 "mode" to mode
         ))

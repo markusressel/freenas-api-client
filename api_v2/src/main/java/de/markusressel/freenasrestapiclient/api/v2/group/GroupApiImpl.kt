@@ -19,8 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.group
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
-import com.github.salomonbrys.kotson.toJsonArray
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
 import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
@@ -32,17 +30,17 @@ class GroupApiImpl(val websocketApiClient: WebsocketApiClient) : GroupApi {
                                      sudo: Boolean,
                                      allowDuplicateGid: Boolean,
                                      users: List<Int>): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("group.create", jsonObject(
+        return websocketApiClient.callMethod("group.create", mapOf(
                 "gid" to gid,
                 "name" to name,
                 "sudo" to sudo,
                 "allow_duplicate_gid" to allowDuplicateGid,
-                "users" to users.toJsonArray()
+                "users" to users
         ))
     }
 
     override suspend fun deleteGroup(id: Int, deleteUsers: Boolean): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("group.delete", id, jsonObject(
+        return websocketApiClient.callMethod("group.delete", id, mapOf(
                 "delete_users" to deleteUsers
         ))
     }
@@ -62,12 +60,12 @@ class GroupApiImpl(val websocketApiClient: WebsocketApiClient) : GroupApi {
                                      sudo: Boolean?,
                                      allowDuplicateGid: Boolean?,
                                      users: List<Int>?): Result<JsonElement, Exception> {
-        return websocketApiClient.callMethod("group.update", id, jsonObject(
+        return websocketApiClient.callMethod("group.update", id, mapOf(
                 "gid" to gid,
                 "name" to name,
                 "sudo" to sudo,
                 "allow_duplicate_gid" to allowDuplicateGid,
-                "users" to users?.toJsonArray()
+                "users" to users
         ))
     }
 }

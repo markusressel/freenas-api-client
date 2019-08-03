@@ -18,43 +18,88 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.certificate
 
+import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class CertificateApiImpl(val websocketApiClient: WebsocketApiClient) : CertificateApi {
-    override suspend fun createCertificate(signedBy: Int, keyLength: Int, type: Int, lifetime: Int, serial: Int, certificate: String, city: String, common: String, country: String, CSR: String, email: String, name: String, organization: String, passphrase: String, privatekey: String, state: String, createType: CertificateApi.CreateType, digestAlgorithm: CertificateApi.DigestAlgorithm, san: List<String>) {
+    override suspend fun createCertificate(signedBy: Int,
+                                           keyLength: Int,
+                                           type: Int,
+                                           lifetime: Int,
+                                           serial: Int,
+                                           certificate: String,
+                                           city: String,
+                                           common: String,
+                                           country: String,
+                                           CSR: String,
+                                           email: String,
+                                           name: String,
+                                           organization: String,
+                                           passphrase: String,
+                                           privatekey: String,
+                                           state: String,
+                                           createType: CertificateApi.CreateType,
+                                           digestAlgorithm: CertificateApi.DigestAlgorithm,
+                                           san: List<String>): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getCertificates(): List<JsonElement> {
+    override suspend fun getCertificates(queryFilters: List<QueryFilter>,
+                                         queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("certificate.query", queryFilters, queryOptions)
+    }
+
+    override suspend fun updateCertificate(id: Int,
+                                           name: String,
+                                           certificate: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateCertificate(id: Int, name: String, certificate: String) {
+    override suspend fun deleteCertificate(id: Int): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("certificate.delete", id)
+    }
+
+    override suspend fun certificateAuthoritySignCsr(caId: Int,
+                                                     csrCertId: Int,
+                                                     name: String): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun deleteCertificate(id: Int) {
+    override suspend fun createCertificateAuthority(signedby: Int,
+                                                    key_length: Int,
+                                                    type: Int,
+                                                    lifetime: Int,
+                                                    serial: Int,
+                                                    certificate: String,
+                                                    city: String,
+                                                    common: String,
+                                                    country: String,
+                                                    CSR: String,
+                                                    email: String,
+                                                    name: String,
+                                                    organization: String,
+                                                    passphrase: String,
+                                                    privatekey: String,
+                                                    state: String,
+                                                    create_type: CertificateAuthorityApi.CreateType,
+                                                    digest_algorithm: CertificateApi.DigestAlgorithm,
+                                                    san: List<String>): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun certificateAuthoritySignCsr(caId: Int, csrCertId: Int, name: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun deleteCertificateAuthority(id: Int): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("certificateauthority.delete", id)
     }
 
-    override suspend fun createCertificateAuthority(signedby: Int, key_length: Int, type: Int, lifetime: Int, serial: Int, certificate: String, city: String, common: String, country: String, CSR: String, email: String, name: String, organization: String, passphrase: String, privatekey: String, state: String, create_type: CertificateAuthorityApi.CreateType, digest_algorithm: CertificateApi.DigestAlgorithm, san: List<String>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getCertificateAuthorities(queryFilters: List<QueryFilter>,
+                                                   queryOptions: QueryOptions): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("certificateauthority.query", queryFilters, queryOptions)
     }
 
-    override suspend fun deleteCertificateAuthority(id: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override suspend fun getCertificateAuthorities() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override suspend fun updateCertificateAuthority(id: Int) {
+    override suspend fun updateCertificateAuthority(id: Int): Result<JsonElement, Exception> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

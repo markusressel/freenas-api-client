@@ -36,4 +36,28 @@ class DiskApiTest : TestBase() {
         }
     }
 
+    @Test
+    fun testGetUnusedDisks() {
+        runBlocking {
+            val result = underTest.getUnusedDisks()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
+    @Test
+    fun testGetEncryptedDisks() {
+        runBlocking {
+            val result = underTest.getEncryptedDisks()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
+
 }

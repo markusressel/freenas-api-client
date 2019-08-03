@@ -19,7 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.backup
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
@@ -47,19 +46,15 @@ class BackupApiImpl(val websocketApiClient: WebsocketApiClient,
         GcsBackupApi by gcsBackupApi,
         S3BackupApi by s3BackupApi {
 
-    enum class BackupDirection(private val jsonValue: String) : ApiEnum {
-        PUSH("PUSH"),
-        PULL("PULL");
-
-        override fun toJsonValue() = jsonValue
+    enum class BackupDirection : ApiEnum {
+        PUSH,
+        PULL;
     }
 
-    enum class BackupTransferMode(private val jsonValue: String) : ApiEnum {
-        SYNC("SYNC"),
-        COPY("COPY"),
-        MOVE("MOVE");
-
-        override fun toJsonValue() = jsonValue
+    enum class BackupTransferMode : ApiEnum {
+        SYNC,
+        COPY,
+        MOVE;
     }
 
     override suspend fun createBackup(description: String?,
@@ -77,9 +72,9 @@ class BackupApiImpl(val websocketApiClient: WebsocketApiClient,
                                       dayweek: String?,
                                       month: String?,
                                       enabled: Boolean?): Result<JsonElement, Exception> {
-        val args = jsonObject(
+        val args = mapOf(
                 "description" to description,
-                "direction" to direction?.toJsonValue(),
+                "direction" to direction,
                 "transfer_mode" to transferMode,
                 "path" to path,
                 "credential" to credential,
@@ -118,9 +113,9 @@ class BackupApiImpl(val websocketApiClient: WebsocketApiClient,
                                       month: String?,
                                       enabled: Boolean?): Result<JsonElement, Exception> {
 
-        val args = jsonObject(
+        val args = mapOf(
                 "description" to description,
-                "direction" to direction?.toJsonValue(),
+                "direction" to direction,
                 "transfer_mode" to transferMode,
                 "path" to path,
                 "credential" to credential,

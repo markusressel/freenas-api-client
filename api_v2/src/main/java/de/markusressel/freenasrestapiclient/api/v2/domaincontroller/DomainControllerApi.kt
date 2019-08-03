@@ -20,6 +20,7 @@ package de.markusressel.freenasrestapiclient.api.v2.domaincontroller
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 
 interface DomainControllerApi {
@@ -35,15 +36,19 @@ interface DomainControllerApi {
         NONE
     }
 
-    enum class ForestLevel(private val jsonValue: String) : ApiEnum {
-        LEVEL_2000("2000"),
-        LEVEL_2003("2003"),
-        LEVEL_2008("2008"),
-        LEVEL_2008_R2("2008_R2"),
-        LEVEL_2012("2012"),
-        LEVEL_2012_R2("2012_R2");
-
-        override fun toJsonValue(): String = jsonValue
+    enum class ForestLevel : ApiEnum {
+        @SerializedName("2000")
+        _2000,
+        @SerializedName("2003")
+        _2003,
+        @SerializedName("2008")
+        _2008,
+        @SerializedName("2008_R2")
+        _2008_R2,
+        @SerializedName("2012")
+        _2012,
+        @SerializedName("2012_R2")
+        _2012_R2;
     }
 
     /**

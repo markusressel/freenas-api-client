@@ -18,7 +18,11 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.certificate
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
+import de.markusressel.freenasrestapiclient.api.v2.QueryFilter
+import de.markusressel.freenasrestapiclient.api.v2.QueryOptions
 
 interface CertificateAuthorityApi {
 
@@ -31,7 +35,7 @@ interface CertificateAuthorityApi {
     /**
      *
      */
-    suspend fun certificateAuthoritySignCsr(caId: Int, csrCertId: Int, name: String)
+    suspend fun certificateAuthoritySignCsr(caId: Int, csrCertId: Int, name: String): Result<JsonElement, Exception>
 
     /**
      * Creates a new certificate authority
@@ -55,27 +59,26 @@ interface CertificateAuthorityApi {
             state: String,
             create_type: CreateType,
             digest_algorithm: CertificateApi.DigestAlgorithm,
-            san: List<String>)
+            san: List<String>): Result<JsonElement, Exception>
 
     /**
      * Deletes a certificate authority
      *
      * @param id id of CA
      */
-    suspend fun deleteCertificateAuthority(id: Int)
+    suspend fun deleteCertificateAuthority(id: Int): Result<JsonElement, Exception>
 
     /**
      * Queries a list of certificate authorities
-     *
-     * TODO: query params
      */
-    suspend fun getCertificateAuthorities()
+    suspend fun getCertificateAuthorities(queryFilters: List<QueryFilter> = emptyList(),
+                                          queryOptions: QueryOptions = QueryOptions()): Result<JsonElement, Exception>
 
     /**
      * Updates a certificate authority
      *
      * @param id id of CA
      */
-    suspend fun updateCertificateAuthority(id: Int)
+    suspend fun updateCertificateAuthority(id: Int): Result<JsonElement, Exception>
 
 }

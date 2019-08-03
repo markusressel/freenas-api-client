@@ -120,6 +120,7 @@ class WebsocketApiClient(
                     try {
                         continuation.resume(Result.error(ConnectException("Error connecting: $t, $response")))
                     } catch (e: IllegalStateException) {
+                        Log.e(TAG, "", e)
                     }
 
                     runOnUiThread {
@@ -260,17 +261,7 @@ class WebsocketApiClient(
                 }
 
                 val jsonElementArgs = argument.map {
-                    if (it is ApiEnum) {
-                        it.toJsonValue()
-                    } else {
-                        it
-                    }
-                }.map {
-                    if (it !is JsonElement) {
-                        GSON.toJsonTree(it)
-                    } else {
-                        it
-                    }
+                    GSON.toJsonTree(it)
                 }
                 val arguments = jsonArray().apply {
                     addAll(jsonElementArgs)
@@ -292,13 +283,17 @@ class WebsocketApiClient(
      * @param arguments method parameters
      */
     private fun sendMethodMessage(messageId: String = generateMessageId(), message: String, method: String, arguments: JsonElement?) {
-        val request = jsonObject().apply {
-            addProperty(PROPERTY_ID, messageId)
-            addProperty(PROPERTY_MSG, message)
-            addProperty("method", method)
-            addPropertyIfNotNull("params", arguments)
-        }
+        val request = mapOf(
+                PROPERTY_ID to messageId,
+                PROPERTY_MSG to message,
+                "method" to method,
+                "params" to arguments
+        )
         send(request)
+    }
+
+    private fun send(any: Any) {
+        send(GSON.toJsonTree(any))
     }
 
     private fun send(json: JsonElement) = send(json.toString())

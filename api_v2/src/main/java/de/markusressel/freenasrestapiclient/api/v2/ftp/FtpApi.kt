@@ -20,23 +20,32 @@ package de.markusressel.freenasrestapiclient.api.v2.ftp
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
 
 interface FtpApi {
 
-    enum class TlsPolicy(private val jsonValue: String) : ApiEnum {
-        ON("on"),
-        OFF("off"),
-        DATA("data"),
-        NO_DATA("!data"),
-        AUTH("auth"),
-        CONTROL("ctrl"),
-        CONTROL_AND_DATA("ctrl+data"),
-        CONTROL_NO_DATA("ctrl+!data"),
-        AUTH_AND_DATA("auth+data"),
-        AUTH_NO_DATA("auth+!data");
-
-        override fun toJsonValue(): String = jsonValue
+    enum class TlsPolicy : ApiEnum {
+        @SerializedName("on")
+        ON,
+        @SerializedName("off")
+        OFF,
+        @SerializedName("data")
+        DATA,
+        @SerializedName("!data")
+        NO_DATA,
+        @SerializedName("auth")
+        AUTH,
+        @SerializedName("ctrl")
+        CONTROL,
+        @SerializedName("ctrl+data")
+        CONTROL_AND_DATA,
+        @SerializedName("ctrl+!data")
+        CONTROL_NO_DATA,
+        @SerializedName("auth+data")
+        AUTH_AND_DATA,
+        @SerializedName("auth+!data")
+        AUTH_NO_DATA;
     }
 
     /**

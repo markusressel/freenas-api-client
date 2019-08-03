@@ -19,16 +19,14 @@
 package de.markusressel.freenasrestapiclient.api.v2.boot
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
 class BootApiImpl(val websocketApiClient: WebsocketApiClient) : BootApi {
     override suspend fun attachBootPool(dev: String, expand: Boolean?): Result<JsonElement, Exception> {
-        val options = jsonObject().apply {
-            addProperty("expand", expand)
-        }
-        return websocketApiClient.callMethod("boot.attach", dev, options)
+        return websocketApiClient.callMethod("boot.attach", dev, mapOf(
+                "expand" to expand
+        ))
     }
 
     override suspend fun detachBootPool(dev: String): Result<JsonElement, Exception> {

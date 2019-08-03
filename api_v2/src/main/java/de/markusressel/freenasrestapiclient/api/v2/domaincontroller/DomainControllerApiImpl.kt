@@ -26,7 +26,7 @@ import de.markusressel.freenasrestapiclient.api.v2.domaincontroller.DomainContro
 
 class DomainControllerApiImpl(val websocketApiClient: WebsocketApiClient) : DomainControllerApi {
     override suspend fun getDomainControllerConfig(): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return websocketApiClient.callMethod("domaincontroller.config")
     }
 
     override suspend fun setDomainControllerConfig(realm: String?,
@@ -35,7 +35,17 @@ class DomainControllerApiImpl(val websocketApiClient: WebsocketApiClient) : Doma
                                                    dnsBackend: DnsBackend?,
                                                    dnsForwarder: String?,
                                                    forestLevel: ForestLevel?,
-                                                   password: String?, kerberosRealm: Int?): Result<JsonElement, Exception> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                                   password: String?,
+                                                   kerberosRealm: Int?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("domaincontroller.update", mapOf(
+                "realm" to realm,
+                "domain" to domain,
+                "role" to role,
+                "dns_backend" to dnsBackend,
+                "dns_forwarder" to dnsForwarder,
+                "forest_level" to forestLevel,
+                "passwd" to password,
+                "kerberos_realm" to kerberosRealm
+        ))
     }
 }

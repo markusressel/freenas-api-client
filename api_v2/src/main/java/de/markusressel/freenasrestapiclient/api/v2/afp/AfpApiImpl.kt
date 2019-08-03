@@ -19,9 +19,6 @@
 package de.markusressel.freenasrestapiclient.api.v2.afp
 
 import com.github.kittinunf.result.Result
-import com.github.salomonbrys.kotson.addProperty
-import com.github.salomonbrys.kotson.jsonObject
-import com.github.salomonbrys.kotson.toJsonArray
 import com.google.gson.JsonElement
 import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
@@ -38,16 +35,15 @@ class AfpApiImpl(val websocketApiClient: WebsocketApiClient) : AfpApi {
                                          bindip: List<String>?,
                                          guest: Boolean?,
                                          guestUser: String?): Result<JsonElement, Exception> {
-        val arguments = jsonObject().apply {
-            addProperty("guest", guest)
-            addProperty("guest_user", guestUser)
-            addProperty("bindip", bindip?.toJsonArray())
-            addProperty("connections_limit", connectionsLimit)
-            addProperty("dbpath", dbpath)
-            addProperty("global_aux", globalAux)
-            addProperty("map_acls", mapAcls?.toJsonValue())
-            addProperty("chmod_request", chmodRequest?.toJsonValue())
-        }
-        return websocketApiClient.callMethod("afp.update", arguments)
+        return websocketApiClient.callMethod("afp.update", mapOf(
+                "guest" to guest,
+                "guest_user" to guestUser,
+                "bindip" to bindip,
+                "connections_limit" to connectionsLimit,
+                "dbpath" to dbpath,
+                "global_aux" to globalAux,
+                "map_acls" to mapAcls,
+                "chmod_request" to chmodRequest
+        ))
     }
 }
