@@ -42,8 +42,25 @@ import kotlin.coroutines.suspendCoroutine
 typealias ApiListener = (Result<JsonElement, Exception>) -> Unit
 
 class WebsocketApiClient(
-        val url: String,
-        val auth: BasicAuthConfig) {
+        url: String,
+        auth: BasicAuthConfig
+) {
+
+    var url: String = url
+        set(value) {
+            if (isConnected) {
+                disconnect(1000, "Changed base url")
+            }
+            field = value
+        }
+
+    var auth: BasicAuthConfig = auth
+        set(value) {
+            if (isConnected) {
+                disconnect(1000, "Changed authentication details")
+            }
+            field = value
+        }
 
     private var listener: WebsocketConnectionListener? = null
 
@@ -52,7 +69,7 @@ class WebsocketApiClient(
             .connectTimeout(3, TimeUnit.SECONDS)
             .pingInterval(30, TimeUnit.SECONDS)
             .authenticator { _, response ->
-                val credentials = Credentials.basic(auth.username, auth.password)
+                val credentials = Credentials.basic(this.auth.username, this.auth.password)
                 response.request().newBuilder()
                         .header("Authorization", credentials)
                         .build()
@@ -91,6 +108,7 @@ class WebsocketApiClient(
             if (isConnected) {
                 Log.w(TAG, "Already connected")
                 continuation.resume(Result.of(true))
+                return@suspendCoroutine
             }
             Log.d(TAG, "Connecting websocket...")
 
@@ -110,7 +128,9 @@ class WebsocketApiClient(
                 override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                     Log.d(TAG, "Connection closed: $code $reason")
                     isConnected = false
-                    this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
+                    runOnUiThread {
+                        this@WebsocketApiClient.listener?.onConnectionChanged(isConnected)
+                    }
                 }
 
                 override fun onFailure(webSocket: WebSocket, t: Throwable?, response: Response?) {
@@ -152,7 +172,9 @@ class WebsocketApiClient(
             }
             "failed" -> {
                 isConnected = false
-                this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, -1, UnknownError(json["msg"].string))
+                runOnUiThread {
+                    this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, -1, UnknownError(json["msg"].string))
+                }
             }
         }
     }
@@ -203,16 +225,18 @@ class WebsocketApiClient(
                 val responseObject = it.asJsonObject
                 if (responseObject["result"].bool) {
                     if (!isConnected) {
-                        this@WebsocketApiClient.listener?.onConnectionChanged(true)
+                        runOnUiThread {
+                            this@WebsocketApiClient.listener?.onConnectionChanged(true)
+                        }
                         isConnected = true
                         resultListener.resume(Result.of(isConnected))
                     }
                 } else {
                     disconnect(1000, responseObject["msg"].string)
-                    resultListener.resume(Result.error(ConnectException("Error logging in: ${responseObject["msg"]}")))
+                    resultListener.resume(Result.error(ConnectException("Error logging in, invalid credentials?")))
                 }
             }, failure = { error ->
-                disconnect(4000, "${error.message}")
+                disconnect(1000, "${error.message}")
                 throw error
             })
         }
@@ -334,7 +358,9 @@ class WebsocketApiClient(
         subscriptionListeners.clear()
         if (isConnected) {
             isConnected = false
-            this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code)
+            runOnUiThread {
+                this@WebsocketApiClient.listener?.onConnectionChanged(isConnected, code)
+            }
         }
     }
 

@@ -17,5 +17,5 @@
   -->
 
 <resources>
-    <string name="app_name">FreeNas REST Api Client</string>
+    <string name="app_name">FreeNas Api Client</string>
 </resources>

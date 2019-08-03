@@ -77,7 +77,7 @@ import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
  * Created by Markus on 06.02.2018.
  */
 open class FreeNasApiV2Client(baseUrl: String, auth: BasicAuthConfig,
-                              val websocketClient: WebsocketApiClient = WebsocketApiClient(baseUrl, auth),
+                              private val websocketClient: WebsocketApiClient = WebsocketApiClient(baseUrl, auth),
                               afpApi: AfpApi = AfpApiImpl(websocketClient),
                               alertApi: AlertApi = AlertApiImpl(websocketClient),
                               authApi: AuthApi = AuthApiImpl(websocketClient),
@@ -128,6 +128,20 @@ open class FreeNasApiV2Client(baseUrl: String, auth: BasicAuthConfig,
         JailApi by jailApi,
         SharingApi by sharingApi,
         UpdateApi by updateApi {
+
+    /**
+     * Set the URL to connect to
+     */
+    fun setBaseUrl(url: String) {
+        websocketClient.url = url
+    }
+
+    /**
+     * Set authentication info
+     */
+    fun setAuth(auth: BasicAuthConfig) {
+        websocketClient.auth = auth
+    }
 
     /**
      * Connect to the websocket api

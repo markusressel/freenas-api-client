@@ -36,6 +36,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.PrintWriter
+import java.io.StringWriter
 
 class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
 
@@ -104,12 +106,16 @@ class MainActivity : LifecycleActivityBase(), WebsocketConnectionListener {
      * Simple function to show result in demo app GUI
      */
     private fun showResult(result: Result<*, Exception>, prefix: String = "Result: ") {
-        result.fold(success = {
-            textView.text = "$prefix$it"
-            checkForUpdates()
-        }, failure = {
-            textView.text = "$prefix${it.stackTrace}"
-        })
+        runOnUiThread {
+            result.fold(success = {
+                textView.text = "$prefix$it"
+                checkForUpdates()
+            }, failure = {
+                val stackTracePrint = StringWriter()
+                it.printStackTrace(PrintWriter(stackTracePrint))
+                textView.text = "$prefix$stackTracePrint"
+            })
+        }
     }
 
     private fun checkForUpdates() {
