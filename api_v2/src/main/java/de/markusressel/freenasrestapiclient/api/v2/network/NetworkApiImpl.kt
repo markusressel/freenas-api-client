@@ -16,19 +16,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.mdnsadvertise
+package de.markusressel.freenasrestapiclient.api.v2.network
 
-import com.github.kittinunf.result.Result
-import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-interface MdnsAdvertiseApi {
-
-    suspend fun getMdnsByHost(host: String): Result<JsonElement, Exception>
-
-    suspend fun getMdnsByService(service: String): Result<JsonElement, Exception>
-
-    suspend fun getMdnsServices(): Result<JsonElement, Exception>
-
-    suspend fun removeMdnsByHost(host: String): Result<JsonElement, Exception>
-
-}
+class NetworkApiImpl(websocketApiClient: WebsocketApiClient,
+                     generalApi: NetworkGeneralApi = NetworkGeneralApiImpl(websocketApiClient),
+                     configApi: NetworkConfigurationApi = NetworkConfigurationApiImpl(websocketApiClient))
+    : NetworkApi,
+        NetworkGeneralApi by generalApi,
+        NetworkConfigurationApi by configApi

@@ -20,15 +20,24 @@ package de.markusressel.freenasrestapiclient.api.v2.mdnsadvertise
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-interface MdnsAdvertiseApi {
+class MdnsAdvertiseApiImpl(val websocketApiClient: WebsocketApiClient) : MdnsAdvertiseApi {
 
-    suspend fun getMdnsByHost(host: String): Result<JsonElement, Exception>
+    override suspend fun getMdnsByHost(host: String): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("mdnsbrowser.get_by_host", host)
+    }
 
-    suspend fun getMdnsByService(service: String): Result<JsonElement, Exception>
+    override suspend fun getMdnsByService(service: String): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("mdnsbrowser.get_by_service", service)
+    }
 
-    suspend fun getMdnsServices(): Result<JsonElement, Exception>
+    override suspend fun getMdnsServices(): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("mdnsbrowser.get_services")
+    }
 
-    suspend fun removeMdnsByHost(host: String): Result<JsonElement, Exception>
+    override suspend fun removeMdnsByHost(host: String): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("mdnsbrowser.remove_by_host", host)
+    }
 
 }

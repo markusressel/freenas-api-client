@@ -16,19 +16,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.mdnsadvertise
+package de.markusressel.freenasrestapiclient.api.v2
 
-import com.github.kittinunf.result.Result
-import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 
-interface MdnsAdvertiseApi {
+class NetworkApiTest : TestBase() {
 
-    suspend fun getMdnsByHost(host: String): Result<JsonElement, Exception>
+    @Test
+    fun testGetNetworkConf() {
+        runBlocking {
+            val result = underTest.getNetworkConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
-    suspend fun getMdnsByService(service: String): Result<JsonElement, Exception>
+    @Test
+    fun testGetNetworkSummary() {
+        runBlocking {
+            val result = underTest.getNetworkSummary()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
-    suspend fun getMdnsServices(): Result<JsonElement, Exception>
-
-    suspend fun removeMdnsByHost(host: String): Result<JsonElement, Exception>
+    @Test
+    fun testValidateGeneralNetworkSettings() {
+        runBlocking {
+            val result = underTest.validateGeneralNetworkSettings("", "")
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
 }

@@ -18,5 +18,30 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.network
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
+
 interface NetworkConfigurationApi {
+
+    suspend fun getNetworkConfig(): Result<JsonElement, Exception>
+
+    suspend fun updateNetworkConfig(
+            hostname: String? = null,
+            hostname_b: String? = null,
+            hostname_virtual: String? = null,
+            domain: String? = null,
+            domains: List<String>? = null,
+            ipv4gateway: String? = null,
+            ipv6gateway: String? = null,
+            nameserver1: String? = null,
+            nameserver2: String? = null,
+            nameserver3: String? = null,
+            httpproxy: String? = null,
+            netwait_enabled: Boolean? = null,
+            netwait_ip: List<String>? = null,
+            hosts: List<String>? = null
+    ): Result<JsonElement, Exception>
+
+    suspend fun validateGeneralNetworkSettings(data: String, schema: String): Result<JsonElement, Exception>
+
 }

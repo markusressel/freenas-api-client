@@ -18,5 +18,11 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.network
 
-interface NetworkGeneralApi : NetworkConfigurationApi {
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
+
+interface NetworkGeneralApi {
+
+    suspend fun getNetworkSummary(): Result<JsonElement, Exception>
+
 }
