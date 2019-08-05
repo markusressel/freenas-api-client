@@ -16,23 +16,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.markusressel.freenasrestapiclient.api.v2.lldp
+package de.markusressel.freenasrestapiclient.api.v2
 
-import com.github.kittinunf.result.Result
-import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.base.TestBase
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 
-interface LldpApi {
+class MailApiTest : TestBase() {
 
-    /**
-     * Get Lldp configuration
-     */
-    suspend fun getLldpConfig(): Result<JsonElement, Exception>
+    @Test
+    fun testGetMailConf() {
+        runBlocking {
+            val result = underTest.getMailConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
-    /**
-     * Update Lldp configuration
-     */
-    suspend fun updateLldpConfig(intdesc: Boolean? = null,
-                                 country: String? = null,
-                                 location: String? = null): Result<JsonElement, Exception>
+    @Test
+    fun testUpdateMailConf() {
+        runBlocking {
+            val result = underTest.updateMailConfig()
+            result.fold(success = {
+                println("$it")
+            }, failure = {
+                throw it
+            })
+        }
+    }
 
 }

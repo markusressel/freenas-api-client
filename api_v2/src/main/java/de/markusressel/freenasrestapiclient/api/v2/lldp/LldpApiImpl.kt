@@ -20,19 +20,22 @@ package de.markusressel.freenasrestapiclient.api.v2.lldp
 
 import com.github.kittinunf.result.Result
 import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.WebsocketApiClient
 
-interface LldpApi {
+class LldpApiImpl(val websocketApiClient: WebsocketApiClient) : LldpApi {
 
-    /**
-     * Get Lldp configuration
-     */
-    suspend fun getLldpConfig(): Result<JsonElement, Exception>
+    override suspend fun getLldpConfig(): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("lldp.config")
+    }
 
-    /**
-     * Update Lldp configuration
-     */
-    suspend fun updateLldpConfig(intdesc: Boolean? = null,
-                                 country: String? = null,
-                                 location: String? = null): Result<JsonElement, Exception>
+    override suspend fun updateLldpConfig(intdesc: Boolean?,
+                                          country: String?,
+                                          location: String?): Result<JsonElement, Exception> {
+        return websocketApiClient.callMethod("lldp.update", mapOf(
+                "intdesc" to intdesc,
+                "country" to country,
+                "location" to location
+        ))
+    }
 
 }

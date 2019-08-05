@@ -65,6 +65,10 @@ import de.markusressel.freenasrestapiclient.api.v2.iscsi.IscsiApi
 import de.markusressel.freenasrestapiclient.api.v2.iscsi.IscsiApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.jail.JailApi
 import de.markusressel.freenasrestapiclient.api.v2.jail.JailApiImpl
+import de.markusressel.freenasrestapiclient.api.v2.lldp.LldpApi
+import de.markusressel.freenasrestapiclient.api.v2.lldp.LldpApiImpl
+import de.markusressel.freenasrestapiclient.api.v2.mail.MailApi
+import de.markusressel.freenasrestapiclient.api.v2.mail.MailApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.sharing.SharingApi
 import de.markusressel.freenasrestapiclient.api.v2.sharing.SharingApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.update.UpdateApi
@@ -101,6 +105,8 @@ open class FreeNasApiV2Client(baseUrl: String, auth: BasicAuthConfig,
                               ipmiApi: IpmiApi = IpmiApiImpl(websocketClient),
                               IscsiApi: IscsiApi = IscsiApiImpl(websocketClient),
                               jailApi: JailApi = JailApiImpl(websocketClient),
+                              lldpApi: LldpApi = LldpApiImpl(websocketClient),
+                              mailApi: MailApi = MailApiImpl(websocketClient),
                               sharingApi: SharingApi = SharingApiImpl(websocketClient),
                               updateApi: UpdateApi = UpdateApiImpl(websocketClient)) :
         AfpApi by afpApi,
@@ -126,6 +132,9 @@ open class FreeNasApiV2Client(baseUrl: String, auth: BasicAuthConfig,
         IpmiApi by ipmiApi,
         IscsiApi by IscsiApi,
         JailApi by jailApi,
+        LldpApi by lldpApi,
+        MailApi by mailApi,
+
         SharingApi by sharingApi,
         UpdateApi by updateApi {
 

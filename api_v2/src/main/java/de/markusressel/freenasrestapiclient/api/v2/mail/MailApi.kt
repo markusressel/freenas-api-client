@@ -18,5 +18,53 @@
 
 package de.markusressel.freenasrestapiclient.api.v2.mail
 
+import com.github.kittinunf.result.Result
+import com.google.gson.JsonElement
+import de.markusressel.freenasrestapiclient.api.v2.ApiEnum
+
 interface MailApi {
+
+    enum class MailSecurity : ApiEnum {
+        PLAIN,
+        SSL,
+        TLS
+    }
+
+    /**
+     * Get Mail configuration
+     */
+    suspend fun getMailConfig(): Result<JsonElement, Exception>
+
+    /**
+     * Sends mail using configured mail settings.
+     *
+     * If attachments is true, a list compromised of the following dict is required via HTTP upload:
+     * - headers(list) - name(str) - value(str) - params(dict) - content (str)
+     * [ { "headers": [ { "name": "Content-Transfer-Encoding", "value": "base64" }, { "name": "Content-Type", "value": "application/octet-stream", "params": { "name": "test.txt" } } ], "content": "dGVzdAo=" } ]
+     */
+    suspend fun sendMailConfig(subject: String? = null,
+                               text: String,
+                               to: List<String>,
+                               cc: List<String> = emptyList(),
+                               interval: Int? = null,
+                               channel: String? = null,
+                               timeout: Int? = null,
+                               attachments: Boolean? = null,
+                               queue: Boolean? = null,
+                               extra_headers: Map<String, String>,
+                               pass: String? = null): Result<JsonElement, Exception>
+
+    /**
+     * Update Mail configuration
+     */
+    suspend fun updateMailConfig(
+            fromemail: String? = null,
+            outgoingserver: String? = null,
+            port: Int? = null,
+            security: MailSecurity? = null,
+            smtp: Boolean? = null,
+            user: String? = null,
+            pass: String? = null
+    ): Result<JsonElement, Exception>
+
 }
