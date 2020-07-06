@@ -21,6 +21,8 @@ package de.markusressel.freenasrestapiclient.api.v2
 import com.github.kittinunf.result.Result
 import de.markusressel.freenasrestapiclient.api.v2.acme.AcmeApi
 import de.markusressel.freenasrestapiclient.api.v2.acme.AcmeApiImpl
+import de.markusressel.freenasrestapiclient.api.v2.activedirectory.ActiveDirectoryApi
+import de.markusressel.freenasrestapiclient.api.v2.activedirectory.ActiveDirectoryApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.afp.AfpApi
 import de.markusressel.freenasrestapiclient.api.v2.afp.AfpApiImpl
 import de.markusressel.freenasrestapiclient.api.v2.alert.AlertApi
@@ -89,6 +91,7 @@ import de.markusressel.freenasrestapiclient.core.BasicAuthConfig
 open class FreeNasApiV2Client(baseUrl: String, auth: BasicAuthConfig,
                               private val websocketClient: WebsocketApiClient = WebsocketApiClient(baseUrl, auth),
                               acmeApi: AcmeApi = AcmeApiImpl(websocketClient),
+                              activeDirectoryApi: ActiveDirectoryApi = ActiveDirectoryApiImpl(websocketClient),
                               afpApi: AfpApi = AfpApiImpl(websocketClient),
                               alertApi: AlertApi = AlertApiImpl(websocketClient),
                               authApi: AuthApi = AuthApiImpl(websocketClient),
@@ -119,6 +122,7 @@ open class FreeNasApiV2Client(baseUrl: String, auth: BasicAuthConfig,
                               sharingApi: SharingApi = SharingApiImpl(websocketClient),
                               updateApi: UpdateApi = UpdateApiImpl(websocketClient)) :
         AcmeApi by acmeApi,
+        ActiveDirectoryApi by activeDirectoryApi,
         AfpApi by afpApi,
         AlertApi by alertApi,
         AuthApi by authApi,
