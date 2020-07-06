@@ -42,12 +42,17 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
     api project(':core')
 
-    implementation "io.reactivex.rxjava2:rxjava:2.2.11"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
 
     //for JVM
     api "com.github.kittinunf.fuel:fuel:${rootProject.ext.fuelVersion}"
